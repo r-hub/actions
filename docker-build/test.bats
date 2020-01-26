@@ -77,21 +77,23 @@ teardown() {
 
     # just the GH tag for devel
     run main
+    output2=$(echo "$output" | grep -v "::set-output")
     exp="
 tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:devel"
-    [ "$output" = "$exp" ]
+    [ "$output2" = "$exp" ]
 
     # plus extra tags, if any
     export INPUT_EXTRA_TAGS="extra1 extra2"
     run main
     echo "$output"
+    output2=$(echo "$output" | grep -v "::set-output")
     exp="
 tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:devel
 tag docker.io/duser/dimage:devel docker.io/duser/dimage:extra1
 tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:extra1
 tag docker.io/duser/dimage:devel docker.io/duser/dimage:extra2
 tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:extra2"
-    [ "$output" = "$exp" ]
+    [ "$output2" = "$exp" ]
 }
 
 @test "all the right tags for a version" {
@@ -109,16 +111,18 @@ tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:extra2
     export INPUT_R_VERSION="3.6.2"
     run main
     echo "$output"
+    output2=$(echo "$output" | grep -v "::set-output")
     exp="
 tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:3.6.2
 tag docker.io/duser/dimage:3.6.2 docker.io/duser/dimage:3.6
 tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:3.6"
-    [ "$output" = "$exp" ]
+    [ "$output2" = "$exp" ]
 
     # plus extra tags, if any
     export INPUT_EXTRA_TAGS="extra1 extra2"
     run main
     echo "$output"
+    output2=$(echo "$output" | grep -v "::set-output")
     exp="
 tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:3.6.2
 tag docker.io/duser/dimage:3.6.2 docker.io/duser/dimage:3.6
@@ -127,7 +131,7 @@ tag docker.io/duser/dimage:3.6.2 docker.io/duser/dimage:extra1
 tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:extra1
 tag docker.io/duser/dimage:3.6.2 docker.io/duser/dimage:extra2
 tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:extra2"
-    [ "$output" = "$exp" ]
+    [ "$output2" = "$exp" ]
 }
 
 @test "all the right tags for patched" {
@@ -148,18 +152,20 @@ tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:extra2
     export INPUT_R_VERSION="patched"
     run main
     echo "$output"
+    output2=$(echo "$output" | grep -v "::set-output")
     exp="
 tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:patched
 tag docker.io/duser/dimage:patched docker.io/duser/dimage:3.6-patched
 tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:3.6-patched
 tag docker.io/duser/dimage:patched docker.io/duser/dimage:3.6.2-patched
 tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:3.6.2-patched"
-    [ "$output" = "$exp" ]
+    [ "$output2" = "$exp" ]
 
     # plus extra tags, if any
     export INPUT_EXTRA_TAGS="extra1 extra2"
     run main
     echo "$output"
+    output2=$(echo "$output" | grep -v "::set-output")
     exp="
 tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:patched
 tag docker.io/duser/dimage:patched docker.io/duser/dimage:3.6-patched
@@ -170,5 +176,29 @@ tag docker.io/duser/dimage:patched docker.io/duser/dimage:extra1
 tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:extra1
 tag docker.io/duser/dimage:patched docker.io/duser/dimage:extra2
 tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:extra2"
+    [ "$output2" = "$exp" ]
+}
+
+@test "outputs" {
+    source entrypoint.sh
+
+    function docker_login() { true; }
+    export -f docker_login
+
+    function docker() {
+        if [ "${1}" = "inspect" ]; then echo "BADCAFE"; fi
+    }
+    export -f docker
+
+    function calculate_tags() { echo ""; }
+    export -f calculate_tags
+
+    export INPUT_R_VERSION="patched"
+    export INPUT_EXTRA_TAGS="extra1 extra2"
+    run main
+    echo "$output"
+    exp="
+::set-output name=tags::patched extra1 extra2
+::set-output name=digest::BADCAFE"
     [ "$output" = "$exp" ]
 }

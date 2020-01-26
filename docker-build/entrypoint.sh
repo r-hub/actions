@@ -48,10 +48,16 @@ function main() {
                "docker.pkg.github.com/${INPUT_GITHUB_NAME}:${tag}"
     done
 
-    for tag in ${INPUT_R_VERSION} $tags $INPUT_EXTRA_TAGS; do
+    alltags="${INPUT_R_VERSION} ${tags} ${INPUT_EXTRA_TAGS}"
+    alltags=$(echo $alltags | tr -s " ")
+    for tag in ${alltags}; do
         docker push "docker.io/${INPUT_DOCKER_NAME}:${tag}"
         docker push "docker.pkg.github.com/${INPUT_GITHUB_NAME}:${tag}"
     done
+
+    echo "::set-output name=tags::${alltags}"
+    digest=$(docker inspect --format='{{index .RepoDigests 0}}' ${default_image})
+    echo "::set-output name=digest::${digest}"
 
     docker logout docker.io
     docker logout docker.pkg.github.com
