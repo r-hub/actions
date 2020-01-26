@@ -1,4 +1,6 @@
 
+![Test the docker-build action](https://github.com/r-hub/actions/workflows/Test%20the%20docker-build%20action/badge.svg)
+
 > Build and publish R Docker Images
 
 ## Example
