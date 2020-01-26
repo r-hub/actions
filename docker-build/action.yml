@@ -1,0 +1,36 @@
+name: 'Publish R Docker Containers to Docker Hub and GitHub Packages'
+author: 'Gábor Csárdi'
+description: 'Tag apply multiple tags, dependending on config and R version'
+inputs:
+  r_version:
+    description: 'R version number, or "devel" or "patched"'
+    required: true
+  docker_name:
+    description: 'The name of the image on Docker Hub'
+    required: true
+  github_name:
+    description: 'The name of the image on GitHub Packages'
+    required: true
+  docker_username:
+    description: 'The login username for Docker Hub'
+    required: true
+  docker_password:
+    description: 'The login password for Docker Hub'
+    required: true
+  github_username:
+    desctiption: 'Username to use for GitHub Packages'
+    required: true
+  github_token:
+    description: 'Token to use for GitHub Packages'
+    required: true
+  extra_tags:
+    description: 'Extra tags to add to the image'
+    required: false
+outputs:
+  digest:
+    description: 'Is the digest of the image, which was pushed'
+  tags:
+    description: 'Space separated tag names for all tags added'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
