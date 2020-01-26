@@ -51,6 +51,11 @@ See the [r-minimal](https://github.com/r-hub/r-minimal) project for a
 * `digest`: Digest of the built image.
 * `tags`: A list of all tags added to the image.
 
+## Related tools and projects
+
+* See https://github.com/elgohr/Publish-Docker-Github-Action for a generic
+action that pushes Docker images to registries.
+
 ## License
 
 MIT @ [R Consortium](https://www.r-consortium.org/)
