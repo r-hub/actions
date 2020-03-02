@@ -37,8 +37,8 @@ teardown() {
     [ "$output" = "3.6" ]
 
     # patched also get <version>-patched and <major>-patched
-    function get_version_number() { echo "3.6.2"; }
-    export -f get_version_number
+    function get_r_version_number() { echo "3.6.2"; }
+    export -f get_r_version_number
 
     run calculate_tags image patched
     [ "$output" = "3.6.2-patched 3.6-patched" ]

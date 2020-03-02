@@ -80,7 +80,7 @@ function calculate_tags() {
     if [ "${r_version}" = "devel" ]; then
         local tags=""
     elif [ "${r_version}" = "patched" ]; then
-        local r_version_number=$(get_version_number "${1}:${r_version}")
+        local r_version_number=$(get_r_version_number "${1}:${r_version}")
         local r_major=$(echo ${r_version_number} | sed 's/[.][0-9][0-9]*$//')
         local tags="${r_version_number}-patched ${r_major}-patched"
     else
