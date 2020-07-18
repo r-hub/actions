@@ -1,4 +1,9 @@
 
+# 1.2.0
+
+* On macOS, `install-rstats` now does not ask for the password, if the
+  user can run `sudo` without one.
+
 # 1.1.0
 
 * install-rstats now supports Windows as well.

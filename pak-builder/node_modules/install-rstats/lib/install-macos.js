@@ -21,25 +21,31 @@ async function install_macos(versions) {
     const script = path.join(__dirname, "/installer.sh");
     const outfile = await tempfile();
 
-    var tail = new Tail(outfile);
-    tail.on('line', function(data) {
-        console.log("→ " + data);
-    });
-
     const spin = ora('Installing R version(s): ' + vs).start();
     spin.info();
 
-    try {
-        await sudo(
-            script + ' ' + filenames.join(" ") + " 2>&1 >> " + outfile,
-            { name: 'installrstats' }
-        )
-    } catch(error) {
+    // Maybe we don't need a password for sudo?
+    const sudo_test = await execa('sudo', ['-n', 'true'], { reject: false });
+    if (sudo_test.failed) {
+        var tail = new Tail(outfile);
+        tail.on('line', function(data) { console.log("→ " + data); });
+        try {
+            await sudo(
+                script + ' ' + filenames.join(" ") + " 2>&1 >> " + outfile,
+                { name: 'installrstats' }
+            )
+        } catch(error) {
+            tail.unwatch()
+            throw error;
+        }
         tail.unwatch()
-        throw error;
+    } else {
+        await execa(
+            'sudo',
+            [script].concat(filenames),
+            { stdout: 'inherit', stderr: 'inherit'}
+        )
     }
-
-    tail.unwatch()
 
     const script2 = path.join(__dirname, "/create-lib.sh");
     const {stdout} = await execa(script2);
