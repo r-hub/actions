@@ -173,6 +173,7 @@ build_binary <- function() {
 }
 
 download_curl <- function() {
+    options(repos = c(CRAN = "https://cloud.r-project.org"))
     pkg <- download.packages("curl", ".")
     utils::untar(pkg[1,2])
 }
