@@ -1,9 +1,9 @@
 
 const execa = require('execa');
 const installer = require('install-rstats');
-const install_libcurl = require('./lib/install-libcurl');
-const clone_pak = require('./lib/clone-pak');
-const build_pak = require('./lib/build-pak');
+const install_libcurl = require('./install-libcurl');
+const clone_pak = require('./clone-pak');
+const build_pak = require('./build-pak');
 
 async function build_macos(rversions) {
     console.log('::group::Installing R versions: ' + rversions.join(', '));
