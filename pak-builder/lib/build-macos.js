@@ -18,11 +18,12 @@ async function build_macos(rversions) {
     await clone_pak();
     console.log('::endgroup::')
 
-    rversions.forEach(async function(ver) {
+    for (i = 0; i < rversions.length; i++) {
+        var ver = rversions[i];
         console.log('::group::Bulding pak for R ' + ver);
         await build_pak(ver);
         console.log('::endgroup::');
-    });
+    }
 }
 
 module.exports = build_macos;
