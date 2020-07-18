@@ -6,7 +6,7 @@ const get_workdir = require('./workdir');
 
 const repo = process.env['GITHUB_REPOSITORY'] || 'r-lib/pak';
 const url = 'https://github.com/' + repo + '.git';
-const sha = process.env['GITHUB_SHA'] || 'master';
+const sha = process.env['GITHUB_SHA'] || 'installer';
 
 async function clone_pak() {
     const wd = process.cwd()
