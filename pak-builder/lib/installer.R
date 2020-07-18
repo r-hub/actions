@@ -12,6 +12,7 @@ mkdirp <- function(x) {
 
 install_pkgdepends <- function() {
     cli::cli_h2("Installing pkgdepends")
+    options(repos = c(CRAN = "https://cloud.r-project.org"))
     source("https://install-github.me/r-lib/pkgdepends")
 }
 
