@@ -1,7 +1,8 @@
 
 const core = require('@actions/core')
 
-const rversions = [ "3.3", "3.4", "3.5", "3.6", "4.0", "devel" ]
+// TODO: 3.3
+const rversions = [ "3.4", "3.5", "3.6", "4.0", "4.1" ]
 
 async function run() {
     try {
