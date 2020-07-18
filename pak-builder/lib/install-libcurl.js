@@ -1,5 +1,6 @@
 
 const execa = require('execa');
+const path = require('path');
 
 const exec = require('./exec');
 const r = require('./r');
