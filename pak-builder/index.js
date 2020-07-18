@@ -7,13 +7,13 @@ async function run() {
     try {
         if (process.platform === 'win32') {
             var build_windows = require('./lib/build-windows');
-            build_windows(rversions);
+            await build_windows(rversions);
         } else if (process.platform === 'darwin') {
             var build_macos = require('./lib/build-macos');
-            build_macos(rversions);
+            await build_macos(rversions);
         } else if (process.platform === 'linux') {
             var build_linux = require('./lib/build-linux');
-            build_linux(rversions);
+            await build_linux(rversions);
         } else {
             throw new Error('Unsupported OS, only Windows, Linux and macOS are supported');
         }
