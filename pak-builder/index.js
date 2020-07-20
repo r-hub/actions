@@ -1,11 +1,16 @@
 
 const core = require('@actions/core')
 
+const checkout_repo = require('./lib/checkout-repo');
+const push_repo     = require('./lib/push-repo');
+
 // TODO: 3.3, devel / 4.1
 const rversions = [ "3.4", "3.5", "3.6", "4.0" ]
 
 async function run() {
     try {
+        await checkout_repo();
+
         if (process.platform === 'win32') {
             var build_windows = require('./lib/build-windows');
             await build_windows(rversions);
@@ -18,7 +23,9 @@ async function run() {
         } else {
             throw new Error('Unsupported OS, only Windows, Linux and macOS are supported');
         }
-        console.log("::endgroup::")
+
+        await push_repo();
+
     } catch (error) {
         console.log(error);
         core.setFailed(error.message);
