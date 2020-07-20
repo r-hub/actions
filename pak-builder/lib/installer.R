@@ -165,18 +165,47 @@ build_binary <- function() {
     rver <- getRversion()
     major <- paste0(rver$major, ".", rver$minor)
 
-    local <- file.path("bin", arch, major, pkg_file)
+    local <- file.path(repo_base_dir(), contrib.url("", "binary"), pkg_file)
     mkdirp(dirname(local))
 
     file.copy(file.path(lib, pkg_file), local, overwrite = TRUE)
 
+    withr::with_dir(dirname(local), {
+      tools::write_PACKAGES(
+        type = "mac.binary",
+        subdirs=TRUE,
+        fields = repo_fields()
+      )
+    })
+
     pkg_file
+}
+
+repo_fields <- function() {
+  c("Package",
+    "Version",
+    "Depends",
+    "Imports",
+    "LinkingTo",
+    "Suggests",
+    "Enhances",
+    "OS_type",
+    "License",
+    "Archs",
+    "Built",
+    "Packaged",
+    "MD5sum"
+  )
 }
 
 download_curl <- function() {
     options(repos = c(CRAN = "https://cloud.r-project.org"))
     pkg <- download.packages("curl", ".")
     utils::untar(pkg[1,2])
+}
+
+repo_base_dir <- function() {
+  "r-lib.github.io/p/pak/dev/"
 }
 
 main <- function() {
