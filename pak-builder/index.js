@@ -8,8 +8,8 @@ if (pat) {
 const checkout_repo = require('./lib/checkout-repo');
 const push_repo     = require('./lib/push-repo');
 
-// TODO: 3.3, devel / 4.1
-const rversions = [ "3.4", "3.5", "3.6", "4.0" ]
+// TODO: 3.3
+const rversions = [ '3.4', '3.5', '3.6', '4.0', 'devel/4.1' ]
 
 async function run() {
     try {

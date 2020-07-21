@@ -7,7 +7,13 @@ const build_pak = require('./build-pak');
 
 async function build_macos(rversions) {
     console.log('::group::Installing R versions: ' + rversions.join(', '));
-    await installer.install(rversions);
+    const sym_versions = rversions.map(function(v) {
+        return v.replace(/\/[0-9.]*$/, '');
+    })
+    const num_versions = rversions.map(function(v) {
+        return v.replace(/^devel\//, '');
+    });
+    await installer.install(sym_versions);
     console.log('::endgroup::')
 
     console.log('::group::Installing static libcurl from brew');
@@ -18,8 +24,8 @@ async function build_macos(rversions) {
     await clone_pak();
     console.log('::endgroup::')
 
-    for (i = 0; i < rversions.length; i++) {
-        var ver = rversions[i];
+    for (i = 0; i < num_versions.length; i++) {
+        var ver = num_versions[i];
         console.log('::group::Bulding pak for R ' + ver);
         await build_pak(ver);
         console.log('::endgroup::');
