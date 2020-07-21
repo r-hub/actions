@@ -1,5 +1,9 @@
 
 const core = require('@actions/core')
+const pat  = core.getInput('token') || process.env['GITHUB_PAT_PAK'];
+if (pat) {
+    process.env['GITHUB_PAT'] = process.env['GITHUB_TOKEN'] = pat;
+}
 
 const checkout_repo = require('./lib/checkout-repo');
 const push_repo     = require('./lib/push-repo');
