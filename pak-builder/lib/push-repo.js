@@ -37,6 +37,7 @@ async function push_repo() {
                 ['config', '--global', 'user.name', 'pak builder']);
         }
 
+        await exec('git', ['pull']);
         await exec('git', ['add', '-A', '.']);
         await exec('git', ['commit', '-m', 'Update pak binaries']);
         await exec('git', ['push']);
