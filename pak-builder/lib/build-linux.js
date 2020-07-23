@@ -2,6 +2,7 @@
 const exec = require('./exec');
 const path = require('path');
 
+const clone_pak = require('./clone-pak');
 const get_workdir = require('./workdir');
 
 async function docker_build(sym, ver) {
@@ -26,6 +27,11 @@ async function docker_build(sym, ver) {
 }
 
 async function build_linux(rversions) {
+
+    console.log('::group::Getting pak from GitHub');
+    await clone_pak();
+    console.log('::endgroup::')
+
     const sym_versions = rversions.map(function(v) {
         return v.replace(/\/[0-9.]*$/, '');
     })
