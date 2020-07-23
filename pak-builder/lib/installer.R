@@ -134,51 +134,112 @@ get_os <- function () {
   }
 }
 
+build_binary_mac <- function() {
+  ver <- as.character(packageVersion("pak"))
+  lib <- dirname(system.file(package = "pak"))
+  pkg_file <- paste0("pak_", ver, ".tgz")
+
+  withr::with_dir(lib, {
+      utils::tar(
+          pkg_file,
+          files = "pak",
+          tar = "internal",
+          compression = "gzip",
+          compression_level = 9
+      )
+  })
+
+  local <- file.path(repo_base_dir(), contrib.url("", "binary"), pkg_file)
+  mkdirp(dirname(local))
+
+  file.copy(file.path(lib, pkg_file), local, overwrite = TRUE)
+
+  withr::with_dir(dirname(local), {
+      tools::write_PACKAGES(
+          type = "mac.binary",
+          subdirs = TRUE,
+          fields = repo_fields(),
+          latestOnly = FALSE
+       )
+  })
+
+  pkg_file
+}
+
+build_binary_linux <- function() {
+  ver <- as.character(packageVersion("pak"))
+  rver <- paste0("R", gsub(".", "-", getRversion()[,1:2], fixed = TRUE))
+  platform <- R.Version()$platform
+  lib <- dirname(system.file(package = "pak"))
+  pkg_file <- paste0("pak_", ver, "_", rver, "_", platform, ".tar.gz")
+
+  withr::with_dir(lib, {
+      utils::tar(
+          pkg_file,
+          files = "pak",
+          tar = "internal",
+          compression = "gzip",
+          compression_level = 9
+      )
+  })
+
+  local <- file.path(repo_base_dir(), contrib.url("", "source"), pkg_file)
+  mkdirp(dirname(local))
+
+  file.copy(file.path(lib, pkg_file), local, overwrite = TRUE)
+
+  withr::with_dir(dirname(local), {
+      tools::write_PACKAGES(
+          type = "source",
+          subdirs = TRUE,
+          fields = repo_fields(),
+          latestOnly = FALSE,
+          addFiles = TRUE
+       )
+  })
+
+  postprocess_source_metadata(dirname(local))
+
+  pkg_file
+}
+
+postprocess_source_metadata <- function(dir) {
+  withr::local_dir(dir)
+  pkgs <- read.dcf("PACKAGES")
+  if (! "Built" %in% colnames(pkgs)) {
+    stop("No 'Built' field, I need binary packages")
+  }
+  rverstr <- vapply(
+    strsplit(pkgs[, "Built"], "; "),
+    FUN.VALUE = character(1),
+    function(x) {
+      sub("^R[ ]*", "", x[[1]])
+    }
+  )
+  rver <- package_version(rverstr)[, 1:2]
+  pkgs[, "Depends"] <- paste0("R (>= ", rver, ")")
+  pkgs <- pkgs[order(rver, decreasing=TRUE), ]
+
+  # Plain
+  write.dcf(pkgs, "PACKAGES")
+  # .gz
+  con <- gzfile("PACKAGES.gz", "wt")
+  write.dcf(pkgs, con)
+  close(con)
+  # .rds
+  saveRDS(pkgs, "PACKAGES.rds", compress = "xz", version = 2)
+}
+
 build_binary <- function() {
     cli::cli_h2("Building binary package")
-
-    ver <- as.character(packageVersion("pak"))
-    lib <- dirname(system.file(package = "pak"))
     os <- get_os()
-
-    withr::with_dir(lib, {
-        if (os == "mac") {
-            pkg_file <- paste0("pak_", ver, ".tgz")
-            utils::tar(
-                pkg_file, files = "pak", tar = "internal",
-                compression = "gzip"
-            )
-        } else if (os == "win") {
-            pkg_file <- paste0("pak_", ver, ".zip")
-            zip::zipr(pkg_file, files = "pak")
-        } else {
-            # curl_4.3_R_x86_64-pc-linux-gnu.tar.gz
-            pkg_file <- paste0("pak_", ver, "_R_x86_64-pc-linux-gnu.tar.gz")
-            utils::tar(
-                pkg_file, files = "pak", tar = "internal",
-                compression = "gzip"
-            )
-        }
-    })
-
-    arch <- R.version$platform
-    rver <- getRversion()
-    major <- paste0(rver$major, ".", rver$minor)
-
-    local <- file.path(repo_base_dir(), contrib.url("", "binary"), pkg_file)
-    mkdirp(dirname(local))
-
-    file.copy(file.path(lib, pkg_file), local, overwrite = TRUE)
-
-    withr::with_dir(dirname(local), {
-      tools::write_PACKAGES(
-        type = "mac.binary",
-        subdirs=TRUE,
-        fields = repo_fields()
-      )
-    })
-
-    pkg_file
+    if (os == "mac") {
+        build_binary_mac()
+    } else if (os == "win") {
+        build_binary_win()
+    } else if (os == "linux") {
+        build_binary_linux()
+    }
 }
 
 repo_fields <- function() {
@@ -209,10 +270,12 @@ repo_base_dir <- function() {
 }
 
 main <- function() {
-    install_pkgdepends()
+    # The image already has it on Linux
+    if (get_os() != "linux") install_pkgdepends()
     install_pak()
     install_pak_deps()
-    install_local_curl()
+    # Only need to patch on macOS
+    if (get_os() == "mac") install_local_curl()
     minimize_library()
     build_binary()
 }
