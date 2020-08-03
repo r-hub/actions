@@ -21,6 +21,7 @@ function installed_r_versions() {
 
 # Install all downloaded pkg files
 function install_pkg() {
+    local pkg=""
     for pkg in "$@"
     do
         echo "Installing ${pkg}"
@@ -85,6 +86,7 @@ function update_quick_links() {
 
 function forget_r_packages() {
     local pkgs=$(pkgutil --pkgs | grep -i r-project | grep -v clang)
+    local pkg=""
     for pkg in $pkgs
     do
         pkgutil --forget "$pkg" || true
