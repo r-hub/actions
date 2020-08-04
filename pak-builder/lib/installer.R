@@ -1,6 +1,4 @@
 
-options(warn = 2)
-
 rimraf <- function(x) {
   if ("~" %in% x) stop("Cowardly refusing to delete `~`")
   unlink(x, recursive = TRUE, force = TRUE)
