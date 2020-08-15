@@ -10,7 +10,8 @@ async function r(rversion, code) {
         cmd = 'R-' + rversion;
     }
     const inst = path.join(__dirname, 'installer.R');
-    const scode = `source("${inst}");${code}`
+    const instx = inst.split('\\').join('/');
+    const scode = `source('${instx}');${code}`
     await exec(cmd, ["-q", "-e", scode]);
 }
 
