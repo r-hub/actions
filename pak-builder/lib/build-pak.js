@@ -2,7 +2,6 @@
 const exec = require('./exec');
 const r = require('./r');
 const { promisify } = require('util');
-const rimraf = promisify(require('rimraf'));
 const get_workdir = require('./workdir');
 
 async function build_in_workdir(rversion) {

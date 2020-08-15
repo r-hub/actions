@@ -1,8 +1,8 @@
 
 const exec = require('./exec');
 const { promisify } = require('util');
-const rimraf = promisify(require('rimraf'));
 const get_workdir = require('./workdir');
+const rimraf = require('./rimraf');
 
 const repo = process.env['GITHUB_REPOSITORY'] || 'r-lib/pak';
 const url = 'https://github.com/' + repo + '.git';
