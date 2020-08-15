@@ -9,7 +9,9 @@ set /a counter=0
 for /l %%x in (1, 1, %argCount%) do (
   set /a counter=!counter!+1
   call echo Running %%!counter!
-  call %%!counter! /VERYSILENT
+  call %%!counter! /VERYSILENT /SUPPRESSMSGBOXES
 )
+
+call shcuts.bat
 
 endlocal

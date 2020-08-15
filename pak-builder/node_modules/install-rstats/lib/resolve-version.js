@@ -1,5 +1,7 @@
 
 const resolve_url = require('./resolve-url');
+const get_major_version = require('./get-major-version');
+const get_minor_version = require('./get-minor-version');
 
 async function resolve_version(version, os = undefined) {
     if (version === undefined) { version = 'release'; }
@@ -30,12 +32,8 @@ async function resolve_version(version, os = undefined) {
         const maj = version.replace(/^([0-9]+)\..*$/, '$1');
         const min = version.replace(/^[0-9]+\.([0-9]+).*$/, '$1');
         const rls = await resolve_url('r-versions');
-        const majors = rls.map(function(x) {
-            return x.version.replace(/^([0-9]+)\..*$/, '$1');
-        })
-        const minors = rls.map(function(x) {
-            return x.version.replace(/^[0-9]+\.([0-9]+).*$/, '$1');
-        })
+        const majors = rls.map(function(x) { return get_major_version(x.version); });
+        const minors = rls.map(function(x) { return get_minor_version(x.version); });
         let i;
         for (i = rls.length - 1; i >= 0; i--) {
             if (majors[i] == maj && minors[i] == min) break;
