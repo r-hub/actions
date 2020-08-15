@@ -6,7 +6,7 @@ async function rimraf(file) {
     options['stdout'] = 'inherit';
     options['stderr'] = 'inherit';
     var cmd, args;
-    if (os.platform == "win32") {
+    if (process.platform == "win32") {
         cmd = "cmd.exe";
         args = [ "/C", path.join(__dirname, 'rimraf.bat'), file ];
     } else {
