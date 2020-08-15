@@ -172,6 +172,35 @@ build_binary_mac <- function() {
   pkg_file
 }
 
+build_binary_win <- function() {
+    ver <- as.character(packageVersion("pak"))
+    lib <- dirname(system.file(package = "pak"))
+    pkg_file <- paste0("pak_", ver, ".zip")
+
+    withr::with_dir(lib, {
+        utils::zip(
+            pkg_file,
+            files = "pak"
+        )
+    })
+
+    local <- file.path(repo_base_dir(), contrib.url("", "binary"), pkg_file)
+    mkdirp(dirname(local))
+
+    file.copy(file.path(lib, pkg_file), local, overwrite = TRUE)
+
+    withr::with_dir(dirname(local), {
+        tools::write_PACKAGES(
+            type = "win.binary",
+            subdirs = TRUE,
+            fields = repo_fields(),
+            latestOnly = FALSE
+        )
+    })
+
+    pkg_file
+}
+
 build_binary_linux <- function() {
   ver <- as.character(packageVersion("pak"))
   rver <- paste0("R", gsub(".", "-", getRversion()[,1:2], fixed = TRUE))
