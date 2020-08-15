@@ -8,6 +8,7 @@ const ora = require('ora');
 const {promisify} = require('util');
 const sudo = promisify(require('sudo-prompt').exec);
 const path = require('path');
+const execa = require('execa');
 
 async function install_win32(versions) {
 
@@ -29,20 +30,28 @@ async function install_win32(versions) {
     const spin = ora(
         'Installing R version(s): ' + vs + rtvs + ". This will take several minutes."
     ).start();
+    spin.info();
 
     const wd = process.cwd()
     process.chdir(__dirname);
 
     const script = path.join(__dirname, "/installer.bat");
     try {
-        await sudo(
-            script + ' ' + allfilenames.join(" "),
-            { name: 'installrstats' }
-        )
+        if (process.env.GITHUB_ACTION !== undefined) {
+            const options = { 'stdout': 'inherit', 'stderr': 'inherit' }
+            await execa(script, allfilenames, options);
+        } else {
+            await sudo(
+                script + ' ' + allfilenames.join(" "),
+                { name: 'installrstats' }
+            )
+        }
         spin.succeed()
+
     } catch(error) {
         spin.fail()
         throw error;
+
     } finally {
         process.chdir(wd);
     }
