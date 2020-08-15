@@ -12,7 +12,15 @@ install_pkgdepends <- function() {
     # No cli just yet
     message("Installing pkgdepends")
     options(repos = c(CRAN = "https://cloud.r-project.org"))
-    source("https://install-github.me/r-lib/pkgdepends")
+    # This is a workaround for a remotes bug, it cannot install pkgdepends
+    # on R 3.3, Windows.
+    tryCatch(
+      source("https://install-github.me/r-lib/pkgdepends"),
+      error = function(err) {
+        install.packages("remotes", type = "source")
+        remotes::install_git("https://github.com/r-lib/pkgdepends.git")
+      }
+    )
 }
 
 install_pak <- function(path = "pak") {
