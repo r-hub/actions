@@ -48,9 +48,9 @@ for /F "delims=" %%L in (
 )
 IF %errorlevel% NEQ 0 EXIT /b %errorlevel%
 
+SET newpath=%linkdir%;%pathvalue%
 if "%cnt%"=="0" (
     echo Adding '%linkdir%' to the system path.
-    SET newpath=%linkdir%;%pathvalue%
     reg add "%keyname%" /v "Path" /t "%pathtype%" /d "%newpath%" /f >nul 2>nul
     IF %errorlevel% NEQ 0 EXIT /b %errorlevel%
 )
