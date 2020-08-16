@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.2.4",
+    "del": "^5.1.0",
     "execa": "^4.0.3",
     "install-rstats": "https://github.com/r-hub/node-install-rstats",
     "mkdirp": "^1.0.4",

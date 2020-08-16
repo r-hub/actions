@@ -2,7 +2,7 @@
 const exec = require('./exec');
 const { promisify } = require('util');
 const get_workdir = require('./workdir');
-const rimraf = require('./rimraf');
+const del = require('del');
 
 const repo = process.env['GITHUB_REPOSITORY'] || 'r-lib/pak';
 const url = 'https://github.com/' + repo + '.git';
@@ -13,7 +13,7 @@ async function clone_pak() {
     try {
         workdir = await get_workdir();
         process.chdir(workdir);
-        await rimraf('pak');
+        await del('pak');
         await exec('git', ['clone', url, 'pak']);
         process.chdir('pak');
         await exec('git', ['checkout', sha]);
