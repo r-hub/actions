@@ -3,6 +3,8 @@
 
 * Do not use sudo on GitHub Actions, on Windows, it gets stuck.
 
+* Fix updating the path on Windows.
+
 # 1.3.0
 
 * Create shortcuts to all installed R versions on Windows as well.
