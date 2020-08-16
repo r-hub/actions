@@ -2,6 +2,7 @@
 const installer = require('install-rstats');
 const clone_pak = require('./clone-pak');
 const build_pak = require('./build-pak');
+const core = require('@actions/core');
 
 async function build_windows(rversions) {
     console.log('::group::Installing R versions: ' + rversions.join(', '));
@@ -12,6 +13,7 @@ async function build_windows(rversions) {
         return v.replace(/^devel\//, '');
     });
     await installer.install(sym_versions);
+    core.addPath('C:\\Program Files\\R\\bin');
     console.log('::endgroup::')
 
     console.log('::group::Getting pak from GitHub');
