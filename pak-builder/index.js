@@ -9,7 +9,7 @@ const checkout_repo = require('./lib/checkout-repo');
 const push_repo     = require('./lib/push-repo');
 
 // const rversions = [ '3.3', '3.4', '3.5', '3.6', '4.0', 'devel/4.1' ]
-const rversions = [ '4.0' ];
+const rversions = [ '3.6' ];
 
 async function run() {
     try {
