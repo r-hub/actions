@@ -1,4 +1,5 @@
 
+const path = require('path');
 const execa = require('execa');
 
 async function rimraf(file) {
