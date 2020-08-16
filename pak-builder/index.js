@@ -8,8 +8,8 @@ if (pat) {
 const checkout_repo = require('./lib/checkout-repo');
 const push_repo     = require('./lib/push-repo');
 
-// const rversions = [ '3.3', '3.4', '3.5', '3.6', '4.0', 'devel/4.1' ]
-const rversions = [ '3.6' ];
+const input_rversions = core.getInput('rversions');
+const rversions = input_rversions.split(/,\s*/);
 
 async function run() {
     try {
