@@ -39,7 +39,7 @@ async function push_repo() {
 
         await exec('git', ['pull']);
         await exec('git', ['add', '-A', '.']);
-        await exec('git', ['commit', '-m', 'Update pak binaries']);
+        await exec('git', ['commit', '--amend', '-m', 'Update pak binaries']);
         await exec('git', ['push']);
 
     } finally {

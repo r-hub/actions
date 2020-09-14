@@ -301,7 +301,7 @@ download_curl <- function() {
 }
 
 repo_base_dir <- function() {
-  "r-lib.github.io/p/pak/dev/"
+  "built"
 }
 
 main <- function() {
