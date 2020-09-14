@@ -40,7 +40,7 @@ async function push_repo() {
         await exec('git', ['pull']);
         await exec('git', ['add', '-A', '.']);
         await exec('git', ['commit', '--amend', '-m', 'Update pak binaries']);
-        await exec('git', ['push']);
+        await exec('git', ['push', '-f']);
 
     } finally {
         process.chdir(wd);
