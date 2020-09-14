@@ -1,0 +1,9 @@
+name: 'pak publisher'
+description: 'Publish pak binary packages in a CRAN-like repo on GitHub Pages'
+runs:
+  using: 'node12'
+  main: 'index.js'
+inputs:
+  token:
+    description: 'GitHub personal access token to publish the binaries'
+    required: false
