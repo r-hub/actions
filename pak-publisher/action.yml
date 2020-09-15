@@ -7,3 +7,6 @@ inputs:
   token:
     description: 'GitHub personal access token to publish the binaries'
     required: false
+  rversions:
+    description: 'R versions to use, comma separated. R-devel must be in the "devel/4.1" form.'
+    required: true

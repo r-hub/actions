@@ -160,15 +160,6 @@ build_binary_mac <- function() {
 
   file.copy(file.path(lib, pkg_file), local, overwrite = TRUE)
 
-  withr::with_dir(dirname(local), {
-      tools::write_PACKAGES(
-          type = "mac.binary",
-          subdirs = TRUE,
-          fields = repo_fields(),
-          latestOnly = FALSE
-       )
-  })
-
   pkg_file
 }
 
@@ -188,15 +179,6 @@ build_binary_win <- function() {
     mkdirp(dirname(local))
 
     file.copy(file.path(lib, pkg_file), local, overwrite = TRUE)
-
-    withr::with_dir(dirname(local), {
-        tools::write_PACKAGES(
-            type = "win.binary",
-            subdirs = TRUE,
-            fields = repo_fields(),
-            latestOnly = FALSE
-        )
-    })
 
     pkg_file
 }
@@ -223,46 +205,7 @@ build_binary_linux <- function() {
 
   file.copy(file.path(lib, pkg_file), local, overwrite = TRUE)
 
-  withr::with_dir(dirname(local), {
-      tools::write_PACKAGES(
-          type = "source",
-          subdirs = TRUE,
-          fields = repo_fields(),
-          latestOnly = FALSE,
-          addFiles = TRUE
-       )
-  })
-
-  postprocess_source_metadata(dirname(local))
-
   pkg_file
-}
-
-postprocess_source_metadata <- function(dir) {
-  withr::local_dir(dir)
-  pkgs <- read.dcf("PACKAGES")
-  if (! "Built" %in% colnames(pkgs)) {
-    stop("No 'Built' field, I need binary packages")
-  }
-  rverstr <- vapply(
-    strsplit(pkgs[, "Built"], "; "),
-    FUN.VALUE = character(1),
-    function(x) {
-      sub("^R[ ]*", "", x[[1]])
-    }
-  )
-  rver <- package_version(rverstr)[, 1:2]
-  pkgs[, "Depends"] <- paste0("R (>= ", rver, ")")
-  pkgs <- pkgs[order(rver, decreasing=TRUE), ]
-
-  # Plain
-  write.dcf(pkgs, "PACKAGES")
-  # .gz
-  con <- gzfile("PACKAGES.gz", "wt")
-  write.dcf(pkgs, con)
-  close(con)
-  # .rds
-  saveRDS(pkgs, "PACKAGES.rds", compress = "xz", version = 2)
 }
 
 build_binary <- function() {
