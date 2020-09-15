@@ -6,7 +6,7 @@ const del = require('del');
 
 const repo = process.env['GITHUB_REPOSITORY'] || 'r-lib/pak';
 const url = 'https://github.com/' + repo + '.git';
-const sha = process.env['GITHUB_SHA'] || 'installer';
+const sha = process.env['GITHUB_SHA'] || 'master';
 
 async function clone_pak() {
     const wd = process.cwd()
