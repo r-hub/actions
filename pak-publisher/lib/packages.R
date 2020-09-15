@@ -60,8 +60,6 @@ copy_package_win <- function() {
     )
   })
 
-  postprocess_source_metadata(dirname(repo))
-
   repo
 }
 
@@ -83,6 +81,9 @@ copy_package_linux <- function() {
       addFiles = TRUE
     )
   })
+
+  postprocess_source_metadata(dirname(repo))
+
   repo
 }
 
