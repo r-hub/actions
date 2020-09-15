@@ -10,7 +10,11 @@ async function update_repo(rversions) {
         for (i = 0; i < rversions.length; i++) {
             var ver = rversions[i];
             console.log("Updating CRAN repo for R " + ver);
-            await r(ver, 'main()');
+            if (process.platform === 'linux') {
+                await r(undefined, 'main()');
+            } else {
+                await r(ver, 'main()');
+            }
         }
     } finally {
         process.chdir(wd);
