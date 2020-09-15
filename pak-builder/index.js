@@ -4,6 +4,11 @@ const core = require('@actions/core')
 const input_rversions = core.getInput('rversions');
 const rversions = input_rversions.split(/,\s*/);
 
+const pat  = core.getInput('token') || process.env['GITHUB_PAT_PAK'];
+if (pat) {
+    process.env['GITHUB_PAT'] = process.env['GITHUB_TOKEN'] = pat;
+}
+
 async function run() {
     try {
         if (process.platform === 'win32') {
