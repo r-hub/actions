@@ -21,7 +21,7 @@ copy_package <- function() {
     tgt <- file.path(repo_base_dir(), dirname(pkg), basename(pkg))
     mkdirp(dirname(tgt))
     file.copy(pkg, tgt, overwrite = TRUE)
-    update_pkgs(file.path(repo_base_dir(), dirname(pkg)))
+    update_pkgs(dirname(tgt))
   }
   pkgs
 }
@@ -46,16 +46,12 @@ update_pkgs <- function(path) {
     addFiles = TRUE
   )
 
-  if (os == "linux") postprocess_source_metadata(path)
+  if (os == "linux") postprocess_source_metadata()
 
   postprocess_rds(path)
 }
 
-postprocess_source_metadata <- function(dir) {
-  oldwd <- getwd()
-  on.exit(setwd(oldwd), add = TRUE)
-  setwd(dir)
-
+postprocess_source_metadata <- function() {
   pkgs <- read.dcf("PACKAGES")
   if (! "Built" %in% colnames(pkgs)) {
     stop("No 'Built' field, I need binary packages")
