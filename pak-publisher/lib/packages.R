@@ -18,9 +18,10 @@ get_os <- function () {
 copy_package <- function() {
   pkgs <- dir(built_base_dir(), recursive=TRUE, pattern = "^pak_")
   for (pkg in pkgs) {
+    src <- file.path(built_base_dir(), pkg)
     tgt <- file.path(repo_base_dir(), dirname(pkg), basename(pkg))
     mkdirp(dirname(tgt))
-    file.copy(pkg, tgt, overwrite = TRUE)
+    file.copy(src, tgt, overwrite = TRUE)
     update_pkgs(dirname(tgt))
   }
   pkgs
