@@ -16,65 +16,28 @@ get_os <- function () {
 }
 
 copy_package <- function() {
-  os <- get_os()
-  if (os == "mac") {
-    copy_package_mac()
-  } else if (os == "win") {
-    copy_package_win()
-  } else if (os == "linux") {
-    copy_package_linux()
+  pkgs <- dir(built_base_dir(), recursive=TRUE, pattern = "^pak_")
+  for (pkg in pkgs) {
+    tgt <- file.path(repo_base_dir(), dirname(pkg), basename(pkg))
+    mkdirp(dirname(tgt))
+    file.copy(pkg, tgt, overwrite = TRUE)
+    update_pkgs(file.path(repo_base_dir(), dirname(pkg)))
   }
+  pkgs
 }
 
-copy_package_mac <- function() {
-  ver <- as.character(packageVersion("pak"))
-  pkg_file <- paste0("pak_", ver, ".tgz")
-  local <- file.path(built_base_dir(), contrib.url("", "binary"), pkg_file)
-  repo <- file.path(repo_base_dir(), contrib.url("", "binary"), pkg_file)
-  mkdirp(dirname(repo))
-  file.copy(local, repo, overwrite = TRUE)
-  withr::with_dir(dirname(repo), {
-    tools::write_PACKAGES(
-      type = "mac.binary",
-      subdirs = TRUE,
-      fields = repo_fields(),
-      latestOnly = FALSE
-    )
-  })
-  repo
-}
+update_pkgs <- function(path) {
+  os <- get_os()
+  type <- switch(
+    os,
+    "mac" = "mac.binary",
+    "win" = "win.binary",
+    "linux" = "source"
+  )
 
-copy_package_win <- function() {
-  ver <- as.character(packageVersion("pak"))
-  pkg_file <- paste0("pak_", ver, ".zip")
-  local <- file.path(built_base_dir(), contrib.url("", "binary"), pkg_file)
-  repo <- file.path(repo_base_dir(), contrib.url("", "binary"), pkg_file)
-  mkdirp(dirname(repo))
-  file.copy(local, repo, overwrite = TRUE)
-  withr::with_dir(dirname(repo), {
+  withr::with_dir(path, {
     tools::write_PACKAGES(
-      type = "win.binary",
-      subdirs = TRUE,
-      fields = repo_fields(),
-      latestOnly = FALSE
-    )
-  })
-
-  repo
-}
-
-copy_package_linux <- function() {
-  ver <- as.character(packageVersion("pak"))
-  rver <- paste0("R", gsub(".", "-", getRversion()[,1:2], fixed = TRUE))
-  platform <- R.Version()$platform
-  pkg_file <- paste0("pak_", ver, "_", rver, "_", platform, ".tar.gz")
-  local <- file.path(built_base_dir(), contrib.url("", "source"), pkg_file)
-  repo <- file.path(repo_base_dir(), contrib.url("", "source"), pkg_file)
-  mkdirp(dirname(repo))
-  file.copy(local, repo, overwrite = TRUE)
-  withr::with_dir(dirname(repo), {
-    tools::write_PACKAGES(
-      type = "source",
+      type = type,
       subdirs = TRUE,
       fields = repo_fields(),
       latestOnly = FALSE,
@@ -82,9 +45,9 @@ copy_package_linux <- function() {
     )
   })
 
-  postprocess_source_metadata(dirname(repo))
+  if (os == "linux") postprocess_source_metadata(path)
 
-  repo
+  postprocess_rds(path)
 }
 
 postprocess_source_metadata <- function(dir) {
@@ -112,6 +75,13 @@ postprocess_source_metadata <- function(dir) {
   close(con)
   # .rds
   saveRDS(pkgs, "PACKAGES.rds", compress = "xz", version = 2)
+}
+
+postprocess_rds <- function(path) {
+  rdsfile <- file.path(path, "PACKAGES.rds")
+  if (!file.exists(rdsfile)) return()
+  mtd <- readRDS(rdsfile)
+  saveRDS(mtd, rdsfile, compress = "xz", version = 2)
 }
 
 repo_fields <- function() {

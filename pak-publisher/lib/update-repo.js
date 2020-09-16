@@ -7,15 +7,8 @@ async function update_repo(rversions) {
     try {
         const workdir = await get_workdir();
         process.chdir(workdir);
-        for (i = 0; i < rversions.length; i++) {
-            var ver = rversions[i];
-            console.log("Updating CRAN repo for R " + ver);
-            if (process.platform === 'linux') {
-                await r(undefined, 'main()');
-            } else {
-                await r(ver, 'main()');
-            }
-        }
+        console.log("Updating CRAN repo")
+        await r(undefined, 'main()');
     } finally {
         process.chdir(wd);
     }
