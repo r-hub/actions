@@ -35,15 +35,16 @@ update_pkgs <- function(path) {
     "linux" = "source"
   )
 
-  withr::with_dir(path, {
-    tools::write_PACKAGES(
-      type = type,
-      subdirs = TRUE,
-      fields = repo_fields(),
-      latestOnly = FALSE,
-      addFiles = TRUE
-    )
-  })
+  oldwd <- getwd()
+  on.exit(setwd(oldwd), add = TRUE)
+  setwd(path)
+  tools::write_PACKAGES(
+    type = type,
+    subdirs = TRUE,
+    fields = repo_fields(),
+    latestOnly = FALSE,
+    addFiles = TRUE
+  )
 
   if (os == "linux") postprocess_source_metadata(path)
 
@@ -51,7 +52,10 @@ update_pkgs <- function(path) {
 }
 
 postprocess_source_metadata <- function(dir) {
-  withr::local_dir(dir)
+  oldwd <- getwd()
+  on.exit(setwd(oldwd), add = TRUE)
+  setwd(dir)
+
   pkgs <- read.dcf("PACKAGES")
   if (! "Built" %in% colnames(pkgs)) {
     stop("No 'Built' field, I need binary packages")
