@@ -25,7 +25,7 @@ async function push_repo() {
         } catch(err) {
             await execa(
                 'git',
-                ['config', '--global', 'user.email', 'csardi.gabor@gmail.com']
+                ['config', '--global', 'user.email', 'actions@github.com']
             );
         }
 
