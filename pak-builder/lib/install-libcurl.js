@@ -19,14 +19,30 @@ async function install_libcurl() {
     try { await exec('brew', ['upgrade', 'curl']);     } catch(err) { }
     try { await exec('brew', ['install', 'brotli']);   } catch(err) { }
     try { await exec('brew', ['upgrade', 'brotli']);   } catch(err) { }
-    try { await exec('brew', ['install', 'c-ares']);   } catch(err) { }
-    try { await exec('brew', ['upgrade', 'c-ares']);   } catch(err) { }
     try { await exec('brew', ['install', 'nghttp2']);  } catch(err) { }
     try { await exec('brew', ['upgrade', 'nghttp2']);  } catch(err) { }
-    await execa('brew', ['list', 'curl', 'brotli', 'c-ares', 'nghttp2', 'libidn2']);
+    await execa('brew', ['list', 'curl', 'brotli', 'nghttp2', 'libidn2']);
+    await patch_cares();
+    await recompile_cares();
     await patch_libcurl();
     await recompile_libcurl();
     await get_curl_package();
+}
+
+async function patch_cares() {
+    console.log('Patching c-ares');
+    const out = await execa('brew', ['edit', 'curl'], { 'env': { 'EDITOR': 'true' }});
+    const formula = out.stdout.replace(/^Editing /, '');
+    const formuladir = path.dirname(formula);
+    const patch = path.join(__dirname, '/c-ares.rb.patch');
+    const wd = process.cwd();
+    try {
+        process.chdir(formuladir);
+        await exec('git', ['checkout', '--', 'c-ares.rb']);
+        await exec('patch', ['-i', patch]);
+    } finally {
+        process.chdir(wd);
+    }
 }
 
 async function patch_libcurl() {
@@ -43,6 +59,10 @@ async function patch_libcurl() {
     } finally {
         process.chdir(wd);
     }
+}
+
+async function recompile_cares() {
+    await exec('brew', ['reinstall', 'c-ares', '-s']);
 }
 
 async function recompile_libcurl () {
