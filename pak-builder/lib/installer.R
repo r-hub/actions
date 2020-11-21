@@ -12,15 +12,30 @@ install_pkgdepends <- function() {
     # No cli just yet
     message("Installing pkgdepends")
     options(repos = c(CRAN = "https://cloud.r-project.org"))
-    # This is a workaround for a remotes bug, it cannot install pkgdepends
-    # on R 3.3, Windows.
-    tryCatch(
-      source("https://install-github.me/r-lib/pkgdepends"),
-      error = function(err) {
+    ok <- FALSE
+
+    # Try installing with pak first
+    tryCatch({
+        install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+        pak::pkg_install("r-lib/pkgdepends")
+        unloadNamespace("pak")
+        ok <- TRUE
+    }, error = function(err) NULL)
+
+    # Remotes cannot install pkgdepends on R 3.3, Windows, so try this first.
+    if (!ok) tryCatch({
+        source("https://install-github.me/r-lib/pkgdepends")
+        ok <- TRUE
+    }, error = function(err) NULL)
+
+    # Omne last try with remotes
+    if (!ok) tryCatch({
         install.packages("remotes", type = "source")
         remotes::install_git("https://github.com/r-lib/pkgdepends.git")
-      }
-    )
+        ok <- TRUE
+    }, error = function(err) NULL)
+
+    if (!ok) stop("Could not install pkgdepends")
 }
 
 install_pak <- function(path = "pak") {
