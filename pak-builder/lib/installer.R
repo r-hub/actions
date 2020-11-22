@@ -17,10 +17,14 @@ install_pkgdepends <- function() {
     # Try installing with pak first
     tryCatch({
         install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
-        pak::pkg_install("r-lib/pkgdepends")
-        unloadNamespace("pak")
+        pak::pkg_install("r-lib/pkgdepends", upgrade = TRUE)
         ok <- TRUE
     }, error = function(err) NULL)
+
+    # Need to unload pak, and also get rid of the subprocess, because it
+    # locks DLLs on Windows, and pkgdepends does not handle this.
+    try(unloadNamespace("pak"))
+    try(lapply(ps::ps_children(), ps::ps_kill))
 
     # Remotes cannot install pkgdepends on R 3.3, Windows, so try this first.
     if (!ok) tryCatch({
