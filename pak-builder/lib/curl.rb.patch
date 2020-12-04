@@ -1,0 +1,38 @@
+diff --git a/Formula/curl.rb b/Formula/curl.rb
+index 6417aa1..6e1ed9c 100644
+--- a/Formula/curl.rb
++++ b/Formula/curl.rb
+@@ -45,21 +45,26 @@ class Curl < Formula
+
+     openssl = Formula["openssl@1.1"]
+     args = %W[
++      --enable-static
++      --disable-shared
+       --disable-debug
+       --disable-dependency-tracking
+       --disable-silent-rules
+       --prefix=#{prefix}
+-      --with-ssl=#{openssl.opt_prefix}
+-      --with-ca-bundle=#{openssl.pkgetc}/cert.pem
+-      --with-ca-path=#{openssl.pkgetc}/certs
++      --without-ssl
+       --with-secure-transport
+-      --with-default-ssl-backend=openssl
+       --with-gssapi
+-      --with-libidn2
+       --with-libmetalink
+-      --with-librtmp
+-      --with-libssh2
+       --without-libpsl
++      --disable-ldap
++      --disable-ldaps
++      --with-nghttp2=/usr/local/opt/nghttp2
++      --with-zlib=/usr/local/opt/zlib
++      --enable-ares
++      --without-zstd
++      --without-librtmp
++      --without-libidn2
++      --without-libssh2
+     ]
+
+     system "./configure", *args
