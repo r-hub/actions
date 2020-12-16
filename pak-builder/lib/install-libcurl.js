@@ -15,6 +15,7 @@ const copy_file = promisify(require('fs').copyFile);
 async function install_libcurl() {
     try { await exec('brew', 'update'); } catch (err) { }
     process.env['HOMEBREW_NO_AUTO_UPDATE'] = '1';
+    try { await exec('brew', ['uninstall', 'php']);    } catch(err) { }
     try { await exec('brew', ['install', 'curl']);     } catch(err) { }
     try { await exec('brew', ['upgrade', 'curl']);     } catch(err) { }
     try { await exec('brew', ['install', 'brotli']);   } catch(err) { }
