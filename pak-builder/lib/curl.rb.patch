@@ -1,10 +1,10 @@
 diff --git a/Formula/curl.rb b/Formula/curl.rb
-index 6417aa1..6e1ed9c 100644
+index e7ee788..2b1bf46 100644
 --- a/Formula/curl.rb
 +++ b/Formula/curl.rb
-@@ -45,21 +45,26 @@ class Curl < Formula
-
-     openssl = Formula["openssl@1.1"]
+@@ -47,22 +47,27 @@ class Curl < Formula
+     system "./buildconf" if build.head?
+ 
      args = %W[
 +      --enable-static
 +      --disable-shared
@@ -12,10 +12,11 @@ index 6417aa1..6e1ed9c 100644
        --disable-dependency-tracking
        --disable-silent-rules
        --prefix=#{prefix}
--      --with-ssl=#{openssl.opt_prefix}
--      --with-ca-bundle=#{openssl.pkgetc}/cert.pem
--      --with-ca-path=#{openssl.pkgetc}/certs
+-      --with-ssl=#{Formula["openssl@1.1"].opt_prefix}
+-      --without-ca-bundle
+-      --without-ca-path
 +      --without-ssl
+       --with-ca-fallback
        --with-secure-transport
 -      --with-default-ssl-backend=openssl
        --with-gssapi
@@ -34,5 +35,5 @@ index 6417aa1..6e1ed9c 100644
 +      --without-libidn2
 +      --without-libssh2
      ]
-
-     system "./configure", *args
+ 
+     on_macos do
