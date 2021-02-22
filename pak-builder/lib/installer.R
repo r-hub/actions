@@ -262,6 +262,11 @@ download_curl <- function() {
     utils::untar(pkg[1,2])
 }
 
+get_ca_certs <- function() {
+    certfile <- file.path(system.file(package = "pak"), "curl-ca-bundle.crt")
+    download.file("https://curl.se/ca/cacert.pem", certfile)
+}
+
 repo_base_dir <- function() {
   "built"
 }
@@ -273,6 +278,7 @@ main <- function() {
     install_pak_deps()
     # Only need to patch on macOS
     if (get_os() == "mac") install_local_curl()
+    if (get_os() == "linux") get_ca_certs()
     minimize_library()
     build_binary()
 }
