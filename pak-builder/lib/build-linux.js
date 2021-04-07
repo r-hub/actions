@@ -20,6 +20,10 @@ async function docker_build(sym, ver) {
     await exec('docker', [
         'run',
         '-e', 'GITHUB_PAT=' + process.env.GITHUB_PAT,
+        '-e', 'GITHUB_WORKFLOW=' + process.env.GITHUB_WORKFLOW,
+        '-e', 'GITHUB_REPOSITORY=' + process.env.GITHUB_REPOSITORY,
+        '-e', 'GITHUB_SHA=' + process.env.GITHUB_SHA,
+        '-e', 'GITHUB_REF=' + process.env.GITHUB_REF,
         '-v', process.cwd() + ':/root/pak',
         '-v', __dirname + '/installer.R:/root/pak/installer.R',
         'rhub/pak-builder:' + ver
