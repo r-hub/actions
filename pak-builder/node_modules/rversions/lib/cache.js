@@ -1,4 +1,6 @@
 
+const lodash = require('lodash');
+
 const cache = { };
 const valid = 5 * 60 * 1000;    // five minutes in ms
 
@@ -10,7 +12,7 @@ function cache_get(key) {
         delete cache[key];
         return undefined;
     }
-    return record.value;
+    return lodash.cloneDeep(record.value);
 }
 
 function cache_set(key, value, now) {

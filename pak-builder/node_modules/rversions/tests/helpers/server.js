@@ -43,6 +43,15 @@ async function srv() {
                 res.send();
             }
         });
+
+        process.env.NODE_RVERSIONS_DEVEL = srv.url + '/devel';
+        process.env.NODE_RVERSIONS_DEVEL_NICK = srv.url + '/devel-nick';
+        srv.get('/devel', async (req, res) => {
+            res.send('4.0.0 Under development (unstable)\n');
+        });
+        srv.get('/devel-nick', async (req, res) => {
+            res.send('Unsuffered Consequences\n');
+        });
     }
 }
 

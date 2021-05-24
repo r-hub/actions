@@ -9,7 +9,7 @@ async function r_release(cache = true) {
     if (cached !== undefined) { return cached; }
 
     const vers = await r_versions_bare(cache);
-    const release = vers.pop();
+    const release = vers[vers.length - 1];
     release.nickname = await get_nick(release.version);
 
     mycache.set('r_release', release);

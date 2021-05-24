@@ -141,6 +141,20 @@ const rversions = require('rversions');
 }
 ```
 
+#### The (current) version number of R-devel
+
+```js
+const rversions = require('rversions');
+
+(async () => {
+	console.log(await rversions.r_devel());
+})();
+```
+
+```
+{ version: '4.0.0', date: null, nickname: 'Unsuffered Consequences' }
+```
+
 ## Caching
 
 All queries are cached for five minutes by default. If you don't want to

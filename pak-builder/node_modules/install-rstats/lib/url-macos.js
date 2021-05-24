@@ -10,6 +10,9 @@ function url_macos(version) {
         return urls.macos_325;
 
     } else if (semver.lt(version, "3.4.0")) {
+        return urls.macos_old2.replace('%s', version);
+
+    } else if (semver.lt(version, "4.0.0")) {
         return urls.macos_old.replace('%s', version);
 
     } else {

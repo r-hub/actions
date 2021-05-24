@@ -109,6 +109,19 @@ function run(dummy = '') {
             t.is(result.nickname, await get_nick(result.version));
         }
     });
+
+    test('r_devel' + dummy, async t => {
+        for (let i = 0; i < 2; i++) {
+            const result = await me.r_devel();
+            t.deepEqual(
+                Object.keys(result).sort(),
+                ['date', 'nickname', 'version']
+            )
+            t.true(/^[0-9]+\.[0-9]+\.[0-9]+$/.test(result.version));
+            t.pass()
+            t.is(typeof result.nickname, 'string');
+        }
+    });
 }
 
 // Test the proper implementation

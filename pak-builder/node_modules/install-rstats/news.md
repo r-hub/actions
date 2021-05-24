@@ -1,4 +1,9 @@
 
+# 1.3.2
+
+* Update dependencies, in particular, use newer rversions package
+  to fix some parallel lookup issuies.
+
 # 1.3.1
 
 * Do not use sudo on GitHub Actions, on Windows, it gets stuck.

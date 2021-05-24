@@ -12,8 +12,9 @@ const me = require('.');
     var mac = me.r_release_macos();
     var tar = me.r_release_tarball();
     var win = me.r_release_win();
+    var dev = me.r_devel();
 
-    var all = await Promise.all([rel, old, mac, tar, win]);
+    var all = await Promise.all([rel, old, mac, tar, win, dev]);
 
     var all2 = {
         "r_versions":        ver,
@@ -21,7 +22,8 @@ const me = require('.');
         "r_oldrel":          all[1],
         "r_release_macos"  : all[2],
         "r_release_tarball": all[3],
-        "r_release_win":     all[4]
+        "r_release_win":     all[4],
+        "r_devel":           all[5]
     };
 
     console.log(all2);

@@ -52,4 +52,8 @@ test('caching', async t => {
     t.is(mycache.get('r_release_win'), undefined);
     await me.r_release_win();
     t.true(mycache.get('r_release_win') !== undefined);
+
+    t.is(mycache.get('r_devel'), undefined);
+    await me.r_devel();
+    t.true(mycache.get('r_devel') !== undefined);
 });

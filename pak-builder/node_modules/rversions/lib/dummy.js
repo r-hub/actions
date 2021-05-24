@@ -645,11 +645,23 @@ async function r_release_win() {
     return win;
 }
 
+const devel =
+      {
+          "version": "4.0.0",
+          "date": null,
+          "nickname": "Unsuffered Consequences"
+      }
+
+async function r_devel() {
+    return devel;
+}
+
 module.exports = {
     r_versions:        r_versions,
     r_release:         r_release,
     r_oldrel:          r_oldrel,
     r_release_macos:   r_release_macos,
     r_release_tarball: r_release_tarball,
-    r_release_win:     r_release_win
+    r_release_win:     r_release_win,
+    r_devel:           r_devel
 };
