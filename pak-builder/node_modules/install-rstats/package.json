@@ -1,6 +1,6 @@
 {
   "name": "install-rstats",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "description": "Install R versions",
   "main": "index.js",
   "repository": "r-hub/node-install-rstats",

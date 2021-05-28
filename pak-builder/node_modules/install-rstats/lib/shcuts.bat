@@ -165,6 +165,9 @@ FOR /F "usebackq skip=2 tokens=1,2*" %%A IN (
 echo Adding shortcut: %linkdir%\R-%minor%.bat -^> %installpath%\bin\R
 echo @"%installpath%\bin\R" %%* > "%linkdir%\R-%minor%.bat"
 
+echo Adding shortcut: %linkdir%\R-%minor%-i386.bat -^> %installpath%\bin\i386\R
+echo @"%installpath%\bin\i386\R" %%* > "%linkdir%\R-%minor%-i386.bat"
+
 REM Create library directory for this version
 REM https://stackoverflow.com/a/4165472/604364
 SET "mylibdir=%myhome%\R\win-library\%minor%"
