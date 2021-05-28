@@ -92,13 +92,17 @@ install_pak_deps <- function(path = "pak") {
 
     cli::cli_h2("Installing pak dependencies")
     privlib <- file.path(system.file(package = "pak"), "library")
+    config <- list(
+        library = privlib,
+        `build-vignettes` = FALSE
+    )
+    if (getRversion() >= "4.2.0" && get_os() == "win") {
+        config$platforms <- "source"
+    }
     deps <- pkgdepends::new_pkg_installation_proposal(
         paste0("deps::", tmp),
         policy = "upgrade",
-        config = list(
-            library = privlib,
-            `build-vignettes` = FALSE
-         )
+        config = config
     )
     deps$resolve()
     deps$solve()
