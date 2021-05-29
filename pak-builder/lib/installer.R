@@ -29,6 +29,7 @@ install_pkgdepends <- function() {
     # Remotes cannot install pkgdepends on R 3.3, Windows, so try this first.
     if (!ok) tryCatch({
         source("https://install-github.me/r-lib/pkgdepends")
+        library(pkgdepends)
         ok <- TRUE
     }, error = function(err) NULL)
 
