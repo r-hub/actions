@@ -32,16 +32,19 @@ install_pkgdepends <- function() {
         ok <- TRUE
     }, error = function(err) NULL)
 
-    # One last try with remotes
+    # Try with remotes, we need to try to load, since `install.packages()
+    # does not fail...
     if (!ok) tryCatch({
         install.packages("remotes", type = "source")
         remotes::install_git("https://github.com/r-lib/pkgdepends.git")
+        library(pkgdepends)
         ok <- TRUE
     }, error = function(err) NULL)
 
     # Also try CRAN pkgdepends, as long as this is binary, it should be good
     if (!ok) tryCatch({
         install.packages("pkgdepends")
+        library(pkgdepends)
         ok <- TRUE
     }, error = function(err) NULL)
 
