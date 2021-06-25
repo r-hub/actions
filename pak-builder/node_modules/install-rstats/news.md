@@ -1,4 +1,8 @@
 
+# 1.3.5
+
+* Fix user library creation on R 4.2.x, on macOS.
+
 # 1.3.4
 
 * Create shortcuts for i386 versions on Windows.
