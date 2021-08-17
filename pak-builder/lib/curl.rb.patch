@@ -1,8 +1,8 @@
 diff --git a/Formula/curl.rb b/Formula/curl.rb
-index 9879271cf9..99a47b7e63 100644
+index caf8fde0d6..788ca794f5 100644
 --- a/Formula/curl.rb
 +++ b/Formula/curl.rb
-@@ -45,21 +45,26 @@ class Curl < Formula
+@@ -45,20 +45,25 @@ class Curl < Formula
      system "./buildconf" if build.head?
  
      args = %W[
@@ -19,7 +19,6 @@ index 9879271cf9..99a47b7e63 100644
        --with-ca-fallback
        --with-secure-transport
 -      --with-default-ssl-backend=openssl
-       --with-gssapi
 -      --with-libidn2
 -      --with-librtmp
 -      --with-libssh2
