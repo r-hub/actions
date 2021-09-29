@@ -1,8 +1,13 @@
 diff --git a/Formula/curl.rb b/Formula/curl.rb
-index caf8fde0d6..788ca794f5 100644
+index 82f624d6559..2ab4bfa29d7 100644
 --- a/Formula/curl.rb
 +++ b/Formula/curl.rb
-@@ -45,20 +45,25 @@ class Curl < Formula
+@@ -42,23 +42,30 @@ class Curl < Formula
+   uses_from_macos "zlib"
+ 
+   def install
++    ENV.append_to_cflags "-mmacosx-version-min=10.13"
++
      system "./buildconf" if build.head?
  
      args = %W[
@@ -34,4 +39,4 @@ index caf8fde0d6..788ca794f5 100644
 +      --without-libssh2
      ]
  
-     on_macos do
+     args << if OS.mac?

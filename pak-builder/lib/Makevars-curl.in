@@ -1,9 +1,9 @@
-PKG_CFLAGS=$(C_VISIBILITY) -mmacosx-version-min=10.9
+PKG_CFLAGS=$(C_VISIBILITY) -mmacosx-version-min=10.13
 
-PKG_CPPFLAGS=-DSTRICT_R_HEADERS -mmacosx-version-min=10.9 \
+PKG_CPPFLAGS=-DSTRICT_R_HEADERS -mmacosx-version-min=10.13 \
 		-I/usr/local/opt/curl/include
 
-PKG_LIBS=-mmacosx-version-min=10.9 \
+PKG_LIBS=-mmacosx-version-min=10.13 \
                 /usr/local/opt/curl/lib/libcurl.a \
 		/usr/local/opt/brotli/lib/libbrotlidec-static.a \
 		/usr/local/opt/brotli/lib/libbrotlicommon-static.a \
