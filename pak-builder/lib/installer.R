@@ -16,7 +16,7 @@ install_pkgdepends <- function() {
 
     # Try installing with pak first
     tryCatch({
-        install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
+        install.packages("pak", repos = "https://r-lib.github.io/p/pak/devel/")
         pak::pkg_install("r-lib/pkgdepends", upgrade = TRUE)
         ok <- TRUE
     }, error = function(err) NULL)

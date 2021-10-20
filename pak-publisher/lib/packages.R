@@ -107,7 +107,7 @@ built_base_dir <- function() {
 }
 
 repo_base_dir <- function() {
-  "r-lib.github.io/p/pak/dev"
+  "r-lib.github.io/p/pak/devel"
 }
 
 main <- function() {
