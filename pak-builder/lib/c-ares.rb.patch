@@ -1,15 +1,14 @@
 diff --git a/Formula/c-ares.rb b/Formula/c-ares.rb
-index 7aa8fb09807..9f1a39cd360 100644
+index 545e47ac210..ee683a400fe 100644
 --- a/Formula/c-ares.rb
 +++ b/Formula/c-ares.rb
-@@ -24,8 +24,9 @@ class CAres < Formula
-   depends_on "ninja" => :build
+@@ -26,7 +26,8 @@ class CAres < Formula
+   depends_on "cmake" => :build
  
    def install
+-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args
 +    ENV.append_to_cflags "-mmacosx-version-min=10.13"
-     mkdir "build" do
--      system "cmake", "..", "-GNinja", *std_cmake_args
-+      system "cmake", "-DCARES_STATIC=ON", "..", "-GNinja", *std_cmake_args
-       system "ninja"
-       system "ninja", "install"
-     end
++    system "cmake", "-DCARES_STATIC=ON", "-S", ".", "-B", "build", *std_cmake_args
+     system "cmake", "--build", "build"
+     system "cmake", "--install", "build"
+   end
