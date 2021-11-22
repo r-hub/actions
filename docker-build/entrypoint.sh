@@ -32,6 +32,8 @@ function main() {
 
     tags=$(calculate_tags "${INPUT_DOCKER_NAME}" "${INPUT_R_VERSION}")
 
+    docker buildx create --use
+
     # We need this for splitting the extra tags
     IFS=" "
 
