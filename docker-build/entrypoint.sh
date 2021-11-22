@@ -35,7 +35,9 @@ function main() {
 
     tags=$(calculate_tags "${INPUT_DOCKER_NAME}" "${INPUT_R_VERSION}")
 
-    docker buildx create --use --driver-opt network=host
+    docker buildx create --use
+    docker buildx ls
+    docker buildx inspect
 
     # We need this for splitting the extra tags
     IFS=" "
