@@ -15,7 +15,6 @@ fi
 
 function main() {
     set -e
-    set -x
 
     echo "" # see https://github.com/actions/toolkit/issues/168
 
@@ -101,5 +100,6 @@ function get_r_version_number() {
 }
 
 if [ "$sourced" = "0" ]; then
+    set -x
     main
 fi
