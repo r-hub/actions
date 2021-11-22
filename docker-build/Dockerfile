@@ -1,4 +1,4 @@
-FROM docker:20.10.11 as runtime
+FROM docker:20.10.11-dind as runtime
 LABEL "repository"="https://github.com/r-hub/actions"
 LABEL "maintainer"="admin@r-hub.io"
 
