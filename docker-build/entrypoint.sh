@@ -14,6 +14,9 @@ else
 fi
 
 function main() {
+    set -e
+    set -x
+
     echo "" # see https://github.com/actions/toolkit/issues/168
 
     sanitize "${INPUT_R_VERSION}"       "r_version"
