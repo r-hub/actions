@@ -13,3 +13,6 @@ ADD test.bats /test.bats
 RUN /test.bats
 
 FROM runtime
+
+COPY --from=docker/buildx-bin /buildx /usr/libexec/docker/cli-plugins/docker-buildx
+RUN docker buildx create --use

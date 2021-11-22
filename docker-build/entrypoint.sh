@@ -30,29 +30,27 @@ function main() {
                  "${INPUT_GITHUB_USERNAME}" "${INPUT_GITHUB_TOKEN}"
     default_image="docker.io/${INPUT_DOCKER_NAME}:${INPUT_R_VERSION}"
 
-    docker build --build-arg R_VERSION="${INPUT_R_VERSION}" \
-           -t "${default_image}" .
-
     tags=$(calculate_tags "${INPUT_DOCKER_NAME}" "${INPUT_R_VERSION}")
-
-    docker tag "${default_image}" \
-           "docker.pkg.github.com/${INPUT_GITHUB_NAME}:$INPUT_R_VERSION"
 
     # We need this for splitting the extra tags
     IFS=" "
 
-    for tag in $tags $INPUT_EXTRA_TAGS; do
-        docker tag "${default_image}" \
-               "docker.io/${INPUT_DOCKER_NAME}:${tag}"
-        docker tag "${default_image}" \
-               "docker.pkg.github.com/${INPUT_GITHUB_NAME}:${tag}"
-    done
+    # We cannot store multi-platform images locally, we need to push them
+    # to the registry right away. We could specify all tags in a single
+    # `docker buildx build`, but this is fine as well, docker will not
+    # rebiuld the image multiple times, of course.
 
     alltags="${INPUT_R_VERSION} ${tags} ${INPUT_EXTRA_TAGS}"
     alltags=$(echo $alltags | tr -s " ")
     for tag in ${alltags}; do
-        docker push "docker.io/${INPUT_DOCKER_NAME}:${tag}"
-        docker push "docker.pkg.github.com/${INPUT_GITHUB_NAME}:${tag}"
+        docker buildx build --push \
+               --platform linux/amd64,linux/arm64 \
+               --build-arg R_VERSION="${INPUT_R_VERSION}" \
+               -t "docker.io/${INPUT_DOCKER_NAME}:${tag}" .
+        docker buildx build --push \
+               --platform linux/amd64,linux/arm64 \
+               --build-arg R_VERSION="${INPUT_R_VERSION}" \
+               -t "docker.pkg.github.com/${INPUT_GITHUB_NAME}:${tag}" .
     done
 
     echo "::set-output name=tags::${alltags}"

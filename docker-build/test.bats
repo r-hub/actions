@@ -71,7 +71,7 @@ teardown() {
     export -f docker_login
 
     function docker() {
-        if [ "${1}" = "tag" ]; then echo "$@"; fi
+        if [ "${1}" = "buildx" ]; then echo "$8 $9"; fi
     }
     export -f docker
 
@@ -79,7 +79,8 @@ teardown() {
     run main
     output2=$(echo "$output" | grep -v "::set-output")
     exp="
-tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:devel"
+-t docker.io/duser/dimage:devel
+-t docker.pkg.github.com/guser/grepo/gimage:devel"
     [ "$output2" = "$exp" ]
 
     # plus extra tags, if any
@@ -88,11 +89,12 @@ tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:devel"
     echo "$output"
     output2=$(echo "$output" | grep -v "::set-output")
     exp="
-tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:devel
-tag docker.io/duser/dimage:devel docker.io/duser/dimage:extra1
-tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:extra1
-tag docker.io/duser/dimage:devel docker.io/duser/dimage:extra2
-tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:extra2"
+-t docker.io/duser/dimage:devel
+-t docker.pkg.github.com/guser/grepo/gimage:devel
+-t docker.io/duser/dimage:extra1
+-t docker.pkg.github.com/guser/grepo/gimage:extra1
+-t docker.io/duser/dimage:extra2
+-t docker.pkg.github.com/guser/grepo/gimage:extra2"
     [ "$output2" = "$exp" ]
 }
 
@@ -103,7 +105,7 @@ tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:extra2
     export -f docker_login
 
     function docker() {
-        if [ "${1}" = "tag" ]; then echo "$@"; fi
+        if [ "${1}" = "buildx" ]; then echo "$8 $9"; fi
     }
     export -f docker
 
@@ -113,9 +115,10 @@ tag docker.io/duser/dimage:devel docker.pkg.github.com/guser/grepo/gimage:extra2
     echo "$output"
     output2=$(echo "$output" | grep -v "::set-output")
     exp="
-tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:3.6.2
-tag docker.io/duser/dimage:3.6.2 docker.io/duser/dimage:3.6
-tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:3.6"
+-t docker.io/duser/dimage:3.6.2
+-t docker.pkg.github.com/guser/grepo/gimage:3.6.2
+-t docker.io/duser/dimage:3.6
+-t docker.pkg.github.com/guser/grepo/gimage:3.6"
     [ "$output2" = "$exp" ]
 
     # plus extra tags, if any
@@ -124,13 +127,14 @@ tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:3.6"
     echo "$output"
     output2=$(echo "$output" | grep -v "::set-output")
     exp="
-tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:3.6.2
-tag docker.io/duser/dimage:3.6.2 docker.io/duser/dimage:3.6
-tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:3.6
-tag docker.io/duser/dimage:3.6.2 docker.io/duser/dimage:extra1
-tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:extra1
-tag docker.io/duser/dimage:3.6.2 docker.io/duser/dimage:extra2
-tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:extra2"
+-t docker.io/duser/dimage:3.6.2
+-t docker.pkg.github.com/guser/grepo/gimage:3.6.2
+-t docker.io/duser/dimage:3.6
+-t docker.pkg.github.com/guser/grepo/gimage:3.6
+-t docker.io/duser/dimage:extra1
+-t docker.pkg.github.com/guser/grepo/gimage:extra1
+-t docker.io/duser/dimage:extra2
+-t docker.pkg.github.com/guser/grepo/gimage:extra2"
     [ "$output2" = "$exp" ]
 }
 
@@ -141,7 +145,7 @@ tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:extra2
     export -f docker_login
 
     function docker() {
-        if [ "${1}" = "tag" ]; then echo "$@"; fi
+        if [ "${1}" = "buildx" ]; then echo "$8 $9"; fi
     }
     export -f docker
 
@@ -154,11 +158,12 @@ tag docker.io/duser/dimage:3.6.2 docker.pkg.github.com/guser/grepo/gimage:extra2
     echo "$output"
     output2=$(echo "$output" | grep -v "::set-output")
     exp="
-tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:patched
-tag docker.io/duser/dimage:patched docker.io/duser/dimage:3.6-patched
-tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:3.6-patched
-tag docker.io/duser/dimage:patched docker.io/duser/dimage:3.6.2-patched
-tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:3.6.2-patched"
+-t docker.io/duser/dimage:patched
+-t docker.pkg.github.com/guser/grepo/gimage:patched
+-t docker.io/duser/dimage:3.6-patched
+-t docker.pkg.github.com/guser/grepo/gimage:3.6-patched
+-t docker.io/duser/dimage:3.6.2-patched
+-t docker.pkg.github.com/guser/grepo/gimage:3.6.2-patched"
     [ "$output2" = "$exp" ]
 
     # plus extra tags, if any
@@ -167,15 +172,16 @@ tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:3.6.
     echo "$output"
     output2=$(echo "$output" | grep -v "::set-output")
     exp="
-tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:patched
-tag docker.io/duser/dimage:patched docker.io/duser/dimage:3.6-patched
-tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:3.6-patched
-tag docker.io/duser/dimage:patched docker.io/duser/dimage:3.6.2-patched
-tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:3.6.2-patched
-tag docker.io/duser/dimage:patched docker.io/duser/dimage:extra1
-tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:extra1
-tag docker.io/duser/dimage:patched docker.io/duser/dimage:extra2
-tag docker.io/duser/dimage:patched docker.pkg.github.com/guser/grepo/gimage:extra2"
+-t docker.io/duser/dimage:patched
+-t docker.pkg.github.com/guser/grepo/gimage:patched
+-t docker.io/duser/dimage:3.6-patched
+-t docker.pkg.github.com/guser/grepo/gimage:3.6-patched
+-t docker.io/duser/dimage:3.6.2-patched
+-t docker.pkg.github.com/guser/grepo/gimage:3.6.2-patched
+-t docker.io/duser/dimage:extra1
+-t docker.pkg.github.com/guser/grepo/gimage:extra1
+-t docker.io/duser/dimage:extra2
+-t docker.pkg.github.com/guser/grepo/gimage:extra2"
     [ "$output2" = "$exp" ]
 }
 
