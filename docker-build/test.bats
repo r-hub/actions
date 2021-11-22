@@ -71,7 +71,7 @@ teardown() {
     export -f docker_login
 
     function docker() {
-        if [ "${1}" = "buildx" ]; then echo "$8 $9"; fi
+        if [ "${1}" = "buildx" -a "${2}" = "build" ]; then echo "$8 $9"; fi
     }
     export -f docker
 
@@ -105,7 +105,7 @@ teardown() {
     export -f docker_login
 
     function docker() {
-        if [ "${1}" = "buildx" ]; then echo "$8 $9"; fi
+        if [ "${1}" = "buildx" -a "${2}" = "build" ]; then echo "$8 $9"; fi
     }
     export -f docker
 
@@ -145,7 +145,7 @@ teardown() {
     export -f docker_login
 
     function docker() {
-        if [ "${1}" = "buildx" ]; then echo "$8 $9"; fi
+        if [ "${1}" = "buildx" -a "${2}" = "build" ]; then echo "$8 $9"; fi
     }
     export -f docker
 
