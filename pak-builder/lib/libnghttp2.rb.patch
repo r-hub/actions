@@ -1,0 +1,13 @@
+diff --git a/Formula/libnghttp2.rb b/Formula/libnghttp2.rb
+index 3a958bb8d03..cde1a1620fb 100644
+--- a/Formula/libnghttp2.rb
++++ b/Formula/libnghttp2.rb
+@@ -42,7 +42,7 @@ class Libnghttp2 < Formula
+ 
+   def install
+     system "autoreconf", "-ivf" if build.head?
+-    system "./configure", *std_configure_args, "--enable-lib-only"
++    system "./configure", "CFLAGS=-mmacosx-version-min=10.13", *std_configure_args, "--enable-lib-only"
+     system "make", "-C", "lib"
+     system "make", "-C", "lib", "install"
+   end

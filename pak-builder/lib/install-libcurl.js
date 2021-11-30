@@ -20,9 +20,9 @@ async function install_libcurl() {
     try { await exec('brew', ['upgrade', 'curl']);     } catch(err) { }
     try { await exec('brew', ['install', 'brotli']);   } catch(err) { }
     try { await exec('brew', ['upgrade', 'brotli']);   } catch(err) { }
-    try { await exec('brew', ['install', 'nghttp2']);  } catch(err) { }
-    try { await exec('brew', ['upgrade', 'nghttp2']);  } catch(err) { }
-    await execa('brew', ['list', 'curl', 'brotli', 'nghttp2', 'libidn2']);
+    try { await exec('brew', ['install', 'libnghttp2']);  } catch(err) { }
+    try { await exec('brew', ['upgrade', 'libnghttp2']);  } catch(err) { }
+    await execa('brew', ['list', 'curl', 'brotli', 'libnghttp2', 'libidn2']);
     await patch_cares();
     await recompile_cares();
     await patch_brotli();
@@ -83,15 +83,15 @@ async function patch_brotli() {
 }
 
 async function patch_nghttp2() {
-    console.log('Patching nghttp2');
-    const out = await execa('brew', ['edit', 'nghttp2'], { 'env': { 'EDITOR': 'true' }});
+    console.log('Patching libnghttp2');
+    const out = await execa('brew', ['edit', 'libnghttp2'], { 'env': { 'EDITOR': 'true' }});
     const formula = out.stdout.replace(/^Editing /, '');
     const formuladir = path.dirname(formula);
-    const patch = path.join(__dirname, '/nghttp2.rb.patch');
+    const patch = path.join(__dirname, '/libnghttp2.rb.patch');
     const wd = process.cwd()
     try {
         process.chdir(formuladir);
-        await exec('git', ['checkout', '--', 'nghttp2.rb']);
+        await exec('git', ['checkout', '--', 'libnghttp2.rb']);
         await exec('patch', ['-i', patch]);
     } finally {
         process.chdir(wd);
@@ -111,7 +111,7 @@ async function recompile_brotli() {
 }
 
 async function recompile_nghttp2() {
-    await exec('brew', ['reinstall', 'nghttp2', '-s', '-v']);
+    await exec('brew', ['reinstall', 'libnghttp2', '-s', '-v']);
 }
 
 async function get_curl_package () {
