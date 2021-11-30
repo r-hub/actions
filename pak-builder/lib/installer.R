@@ -286,6 +286,7 @@ repo_base_dir <- function() {
 }
 
 main <- function() {
+    options(warn = 2)
     # The image already has it on Linux
     if (get_os() != "linux") install_pkgdepends()
     install_pak()
