@@ -42,6 +42,15 @@ install_pkgdepends <- function() {
         ok <- TRUE
     }, error = function(err) NULL)
 
+    # Try from source as well, on macOS R-devel there are some binaries now, and he source + binary
+    # mix fails.
+    if (!ok) tryCatch({
+        install.packages("remotes", type = "source")
+        remotes::install_git("https://github.com/r-lib/pkgdepends.git", type = "source")
+        library(pkgdepends)
+        ok <- TRUE
+    }, error = function(err) NULL)
+
     # Also try CRAN pkgdepends, as long as this is binary, it should be good
     if (!ok) tryCatch({
         install.packages("pkgdepends")
