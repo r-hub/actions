@@ -16,7 +16,7 @@ fi
 function installed_r_versions() {
     ls  /Library/Frameworks/R.framework/Versions |
         tr -d / |
-        grep '^[0-9][0-9]*\.[0-9][0-9]*$'
+        grep '^[0-9][0-9]*\.[0-9][0-9]*'
 }
 
 # Install all downloaded pkg files
@@ -69,7 +69,7 @@ function update_quick_links() {
     done
 
     # Check for dangling links
-    local links=$(find /usr/local/bin -regex '^R-[0-9][0-9]*\.[0-9][0-9]*$')
+    local links=$(find /usr/local/bin -regex '^R-[0-9][0-9]*\.[0-9][0-9]*')
     for link in $links
     do
         if [[ ! -L "$link" ]]; then

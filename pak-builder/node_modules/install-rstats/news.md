@@ -1,4 +1,8 @@
 
+# 1.3.6
+
+* Fix setting the path on R 4.2.x and Rtools40 on Windows.
+
 # 1.3.5
 
 * Fix user library creation on R 4.2.x, on macOS.

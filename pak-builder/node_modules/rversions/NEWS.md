@@ -1,4 +1,9 @@
 
+# 1.3.0
+
+* Older oldrel versions: e.g. the release before `r_oldrel()` is
+  `r_oldrel(2)`.
+
 # 1.2.0
 
 * Fix detection of the macOS installer version.

@@ -181,7 +181,7 @@ SET "renv=%installpath%\etc\Renviron.site"
 IF "%minor:~0,1%" == "3" (
     echo PATH="C:\Rtools\bin;${PATH}" > "%renv%"
 ) ELSE (
-    echo PATH="${RTOOLS40_HOME}\usr\bin;${PATH}" > "%renv%"
+    echo PATH="${RTOOLS40_HOME}\ucrt64\bin;${RTOOLS40_HOME}\usr\bin;${PATH}" > "%renv%"
 )
 
 goto :eof

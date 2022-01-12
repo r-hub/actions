@@ -3,29 +3,35 @@ const mycache = require('./cache');
 const r_versions_bare = require('./r-versions-bare');
 const get_nick = require('./get-nick');
 
-async function r_oldrel(cache = true) {
+async function r_oldrel(which = 1, cache = true) {
     let cached = undefined;
-    if (cache) { cached = mycache.get('r_oldrel'); }
+    const key = 'r_oldrel/' + which;
+    if (cache) { cached = mycache.get(key); }
     if (cached !== undefined) { return cached; }
 
     const versions = await r_versions_bare(cache);
-    const oldrel = get_oldrel(versions);
+    const oldrel = get_oldrel(versions, which);
     oldrel.nickname = await get_nick(oldrel.version);
 
-    mycache.set('r_oldrel', oldrel);
+    mycache.set(key, oldrel);
     return oldrel;
 }
 
-function get_oldrel(versions) {
+function get_oldrel(versions, which = 1) {
     const minors = versions.map(function(x) {
         return x.version.replace(/^([0-9]+\.[0-9]+).*$/, '$1');
     })
 
-    // The first older version that has a different majot.minor version
+    // The first older version that has a different major.minor version
     // is r-oldrel
-    const rlsminor = Number(minors.pop());
+    var which2 = which;
+    var rlsminor = Number(minors.pop());
     for (let i = versions.length - 2; i > 0; i--) {
-        if (Number(minors[i]) != rlsminor) return(versions[i]);
+        if (Number(minors[i]) != rlsminor) {
+            which2--;
+            rlsminor = Number(minors[i]);
+        }
+        if (which2 == 0) return(versions[i]);
     }
     throw new Error("Cannot decude r-oldrel version");
 }

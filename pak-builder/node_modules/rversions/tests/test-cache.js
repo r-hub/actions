@@ -24,7 +24,7 @@ test('cache', async t => {
 test('caching', async t => {
     mycache.del('r_versions');
     mycache.del('r_release');
-    mycache.del('r_oldrel');
+    mycache.del('r_oldrel/1');
     mycache.del('r_release_macos');
     mycache.del('r_release_tarball');
     mycache.del('r_release_win');
@@ -37,9 +37,9 @@ test('caching', async t => {
     await me.r_release();
     t.true(mycache.get('r_release') !== undefined);
     
-    t.is(mycache.get('r_oldrel'), undefined);
+    t.is(mycache.get('r_oldrel/1'), undefined);
     await me.r_oldrel();
-    t.true(mycache.get('r_oldrel') !== undefined);
+    t.true(mycache.get('r_oldrel/1') !== undefined);
 
     t.is(mycache.get('r_release_macos'), undefined);
     await me.r_release_macos();
