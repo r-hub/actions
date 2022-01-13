@@ -28,10 +28,6 @@ teardown() {
 @test "calculate_tags" {
     source entrypoint.sh
 
-    # devel does not get extra tags
-    run calculate_tags image devel
-    [ "$output" = "" ]
-
     # version number gets the major version as well
     run calculate_tags image 3.6.2
     [ "$output" = "3.6" ]
@@ -42,6 +38,10 @@ teardown() {
 
     run calculate_tags image patched
     [ "$output" = "3.6.2-patched 3.6-patched" ]
+
+    # devel gets the version numbers as well
+    run calculate_tags image devel
+    [ "$output" = "3.6.2 3.6" ]
 }
 
 @test "checks for empty arguments" {
