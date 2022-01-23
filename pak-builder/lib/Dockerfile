@@ -17,7 +17,7 @@ RUN installr -c -a "linux-headers bash"
 # zlib --------------------------------------------
 
 RUN wget https://www.zlib.net/zlib-1.2.11.tar.gz
-RUN tar xzf zlib-*.tar.gz
+RUN tar xzf zlib-*.tar.gz && rm zlib-*.tar.gz
 RUN cd zlib-* &&                                    \
     CFLAGS=-fPIC ./configure --static &&            \
     make &&                                         \
@@ -26,7 +26,7 @@ RUN cd zlib-* &&                                    \
 # openssl -----------------------------------------
 
 RUN wget https://www.openssl.org/source/openssl-1.1.1d.tar.gz
-RUN tar xzf openssl-*.tar.gz
+RUN tar xzf openssl-*.tar.gz && rm openssl-*.tar.gz
 RUN apk add perl linux-headers
 RUN cd openssl-* &&                                 \
     ./config no-shared &&                           \
@@ -36,7 +36,7 @@ RUN cd openssl-* &&                                 \
 # libnghttp2 --------------------------------------
 
 RUN wget https://github.com/nghttp2/nghttp2/releases/download/v1.40.0/nghttp2-1.40.0.tar.gz
-RUN tar xzf nghttp2-*.tar.gz
+RUN tar xzf nghttp2-*.tar.gz && rm nghttp2-*.tar.gz
 RUN cd nghttp2-* &&                                 \
     ./configure --enable-static --disable-shared && \
     make &&                                         \
@@ -45,7 +45,7 @@ RUN cd nghttp2-* &&                                 \
 # libcurl now -------------------------------------
 
 RUN wget https://curl.haxx.se/download/curl-7.68.0.tar.gz
-RUN tar xzf curl-*.tar.gz
+RUN tar xzf curl-*.tar.gz && rm curl-*.tar.gz
 RUN apk add pkgconfig
 RUN cd curl-* && \
     ./configure --enable-static --disable-shared   \
