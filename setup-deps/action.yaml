@@ -1,0 +1,57 @@
+name: r-hub/actions/setup-deps
+description: |
+  Set up dependencies for R-hub checks.
+author: 'Gábor Csárdi'
+
+inputs:
+  token:
+    description: |
+      Custom GitHub personal access token. Useful to allow access to
+      private repositories or other resources.
+  job-config:
+    description: |
+      The matrix config, as set up by the `setup` action.
+  extra-packages:
+    description: |
+      Any extra packages to install outside of the packages listed in the
+      dependencies.
+    default: any::rcmdcheck
+  needs:
+    description: |
+      Any extra Config/Needs fields which need to be included when
+      installing dependencies.
+    default: check
+  pak-version:
+    description: |
+      Which pak version to use. Possible values are "stable", "rc" and
+      "devel".
+    default: stable
+  dependencies:
+    description: |
+      Types of dependencies to install. Must be an R expression. Note that
+      it often needs to be quoted in YAML, see the README for details.
+    default: '"all"'
+
+runs:
+  using: "composite"
+  steps:
+  - name: Set user library location
+    run: |
+      # Set user library location
+      cat("::group::Set user library location\n")
+      dir.create(lib <- Sys.getenv("R_LIBS_USER"), showWarnings = FALSE, recursive = TRUE)
+      writeLines(paste0("R_LIBS_USER=", Sys.getenv("R_LIBS_USER")), Sys.getenv("GITHUB_ENV"))
+      cat("::endgroup::\n")
+    shell: Rscript {0}
+
+  # TODO: need to improve the cache key for R builds/packages that
+  # - link to libc++ on Linux
+  # - don't have an R shared library
+  - uses: r-lib/actions/setup-r-dependencies@v2
+    with:
+      extra-packages: ${{ inputs.extra-packages }}
+      needs: ${{ inputs.needs }}
+      pak-version: ${{ inputs.pak-version }}
+      dependencies: ${{ inputs.dependencies }}
+    env:
+      R_KEEP_PKG_SOURCE: yes

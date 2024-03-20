@@ -1,0 +1,34 @@
+name: 'r-hub/actions/setup'
+description: |
+  Set up platform matrices to run R-hub jobs.
+author: 'Gábor Csárdi'
+
+inputs:
+  config:
+    description: |
+      R-hub configuration. A JSON string, see documentation for details.
+
+outputs:
+  containers:
+    description: 'Container platforms.'
+    value: ${{ steps.config.outputs.containers }}
+  platforms:
+    description: 'Other R-hub platforms.'
+    value: ${{ steps.config.outputs.platforms }}
+
+runs:
+  using: "composite"
+  steps:
+  - name: Configure R-hub platforms
+    id: config
+    run: |
+      cd ${{github.action_path}}
+      cnt=$(R -s -f platforms.R --args --containers '${{ inputs.config }}')
+      echo "Containers:"
+      echo "$cnt" | jq
+      echo "containers=$cnt" >> $GITHUB_OUTPUT
+      plt=$(R -s -f platforms.R --args --not-containers '${{ inputs.config }}')
+      echo "Other platforms:"
+      echo "$plt" | jq
+      echo "platforms=$plt" >> $GITHUB_OUTPUT
+    shell: bash

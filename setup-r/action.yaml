@@ -1,0 +1,28 @@
+name: 'r-hub/actions/setup-r'
+description: |
+  Install and setup R for R-hub jobs.
+author: 'Gábor Csárdi'
+
+inputs:
+  job-config:
+    description: |
+      The matrix config, as set up by the r-hub-setup action.
+  token:
+    description: |
+      Custom GitHub personal access token. Useful to allow access to
+      private repositories or other resources.
+
+runs:
+  using: "composite"
+  steps:
+  - uses: r-lib/actions/setup-r@v2
+    with:
+      r-version: ${{ fromJson(inputs.job-config).r-version }}
+      use-public-rspm: true
+  - name: Set up R-hub repository
+    run: |
+      #
+      source("set-rhub-repos.R")
+      main()
+    shell: Rscript {0}
+    working-directory: ${{github.action_path}}
