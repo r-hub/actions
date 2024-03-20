@@ -1,9 +1,0 @@
-name: Test the docker-build action
-on: [push]
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Build the Docker image
-      run: cd docker-build; docker build .
