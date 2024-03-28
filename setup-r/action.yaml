@@ -6,7 +6,7 @@ author: 'Gábor Csárdi'
 inputs:
   job-config:
     description: |
-      The matrix config, as set up by the r-hub-setup action.
+      The matrix config, as set up by the `setup` action.
   token:
     description: |
       Custom GitHub personal access token. Useful to allow access to
