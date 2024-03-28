@@ -54,23 +54,36 @@ set_repos_linux <- function() {
     return(no_repos())
   }
   rver <- getRversion()
-  if (rver < "4.4.0" || rver >= "4.5.0") {
+  # We have 4.4.x and 4.5.x currently
+  if (rver < "4.4.0" || rver >= "4.6.0") {
     return(no_repos())
   }
 
-  add_repo(c(RHUB = "https://raw.githubusercontent.com/r-hub/repos/main/ubuntu-22.04/4.4"))
+  rminor <- rver[,1:2]
+  add_repo(c(RHUB = paste0(
+    "https://raw.githubusercontent.com/r-hub/repos/main/ubuntu-22.04/",
+    rminor
+  )))
 }
 
 set_repos_macos <- function() {
   rver <- getRversion()
-  if (rver < "4.4.0" || rver >= "4.5.0") {
+  rminor <- rver[,1:2]
+  # CRAN has 4.4, so no need for that, only add repos for 4.5.x
+  if (rminor != "4.5") {
     return(no_repos())
   }
   arch <- Sys.info()[["machine"]]
   if (arch == "x86_64") {
-    add_repo(c(RHUB = "https://raw.githubusercontent.com/r-hub/repos/main/macos-x86_64/4.4/"))
+    add_repo(c(RHUB = paste0(
+      "https://raw.githubusercontent.com/r-hub/repos/main/macos-x86_64/",
+      rminor
+    )))
   } else {
-    add_repo(c(RHUB = "https://raw.githubusercontent.com/r-hub/repos/main/macos-arm64/4.4/"))
+    add_repo(c(RHUB = paste0(
+      "https://raw.githubusercontent.com/r-hub/repos/main/macos-arm64/",
+      rminor
+    )))
   }
 }
 
