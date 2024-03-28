@@ -25,7 +25,7 @@ inputs:
     description: |
       Which pak version to use. Possible values are "stable", "rc" and
       "devel".
-    default: stable
+    default: devel
   dependencies:
     description: |
       Types of dependencies to install. Must be an R expression. Note that
