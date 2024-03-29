@@ -55,6 +55,13 @@ bundle <- function(path, arch) {
   system2("tar", c("cJf", outfile, opts, path))
 }
 
+add_system_pc <- function(path) {
+  pc <- dir("pc", full.names = TRUE)
+  pcdir <- file.path(path, "lib/pkgconfig")
+  # do not overwrite existing ones that come from CRAN
+  file.copy(pc, pcdir)
+}
+
 create_bundle <- function(os = "darwin20", arch = c("arm64", "x86_64")) {
   os <- match.arg(os)
   arch <- match.arg(arch)
@@ -80,6 +87,7 @@ create_bundle <- function(os = "darwin20", arch = c("arm64", "x86_64")) {
   }
 
   strip(out)
+  add_system_pc(out)
   bundle(out, arch)
 }
 
