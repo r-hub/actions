@@ -27,7 +27,7 @@ runs:
       unlink(".github", force = TRUE, recursive = TRUE)
     shell: Rscript {0}
 
-  - uses: r-lib/actions/check-r-package@v2-branch
+  - uses: r-lib/actions/check-r-package@v2
     with:
       args: "c('--no-manual', if (!grepl('(^| )[-][-]extra[-]arch( |$)', Sys.getenv('CHECK_ARGS'))) '--as-cran', '--install-args=--build', strsplit(Sys.getenv('CHECK_ARGS'), '[ ]+')[[1]])"
       build_args: "c('--no-manual', strsplit(Sys.getenv('BUILD_ARGS'), '[ ]+')[[1]])"
