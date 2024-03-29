@@ -1,0 +1,54 @@
+name: 'r-hub/actions/setup-r-sysreqs'
+description: |
+  Install system dependencies of R packages on macOS. It does nothing
+  on other operating systems.
+author: 'Gábor Csárdi'
+
+inputs:
+  type:
+    description: |
+      Which system package bundle to download. Possible values are
+      `full` and `minimal`.
+    default: full
+
+runs:
+  using: "composite"
+  steps:
+  - name: Downlaod system packages on macOS
+    if: ${{ runner.os == 'macOS' }}
+    run: |
+      #
+
+      echo "::group::Download"
+      cd ${{ runner.temp }}
+      if [[ "${{runner.arch}}" == "ARM64" ]]; then
+        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions/releases/download/sysreqs0/r-macos-sysreqs-arm64-${{ inputs.type }}.tar.xz";
+      else
+        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions/releases/download/sysreqs0/r-macos-sysreqs-x86_64-${{ inputs.type }}.tar.xz";
+      fi
+      echo "::endgroup::"
+
+      echo "::group::Uncompress"
+      sudo tar xf sysreqs.tar.xz -C /
+      echo "::endgroup::"
+
+      # minimal bundle does not have a package list
+      if [[ "${{inputs.type}}" != "minimal" ]]; then
+        echo "::group::List packages"
+        if [[ "${{runner.arch}}" == "ARM64" ]]; then
+          ls /opt/R/arm64/pkg | sed 's/[.]list$//' | sort -f
+        else
+          ls /opt/R/x86_64/pkg | sed 's/[.]list$//' | sort -f
+        fi
+        echo "::endgroup::"
+      fi
+
+      echo "::group::Adding R tools to path"
+      if [[ "${{runner.arch}}" == "ARM64" ]]; then
+        echo /opt/R/arm64/bin >> ${GITHUB_PATH}
+      else
+        echo /opt/R/x86_64/bin >> ${GITHUB_PATH}
+      fi
+      echo "::endgroup::"
+
+    shell: bash

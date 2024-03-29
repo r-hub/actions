@@ -1,0 +1,28 @@
+name: Setup macOS system packages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (${{ matrix.config.type }})
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - { os: macos-13, type: minimal }
+          - { os: macos-13, type: full    }
+          - { os: macos-14, type: minimal }
+          - { os: macos-14, type: full    }
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./setup-r-sysreqs
+        with:
+          type: ${{ matrix.config.type }}
+      - uses: r-lib/actions/setup-r@v2
+      - name: Compiling R package
+        run: |
+          R -e 'options(warn = 2); install.packages("tiff", repos = "https://cran.rstudio.com", type = "source")'
+        shell: bash
