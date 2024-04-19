@@ -7,6 +7,14 @@ A wrapper of [`r-lib/actions/setup-r-dependencies`](https://github.com/r-lib/act
 It mainly exists to keep control over the dependency installation to
 avoid updates to the R-hub workflow file.
 
+## Example
+
+```yaml
+      - uses: r-hub/actions/setup-deps@v1
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+```
+
 ## Inputs
 
 * `token`: Custom GitHub personal access token. Useful to allow access

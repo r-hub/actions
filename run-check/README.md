@@ -13,6 +13,14 @@ Differences:
   `valgrind` container.
 * Builds a binary package and uploads it as an artifact.
 
+## Example
+
+```yaml
+      - uses: r-hub/actions/run-check@v1
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+```
+
 ## Inputs
 
 * `token`: Custom GitHub personal access token. Useful to allow access

@@ -12,6 +12,15 @@ Difference:
 * Sets up the appropriate R-hub repository from
   https://github.com/r-hub/repos, if any.
 
+## Example
+
+```yaml
+      - uses: r-hub/actions/setup-r@v1
+        with:
+          job-config: ${{ matrix.config.job-config }}
+          token: ${{ secrets.RHUB_TOKEN }}
+```
+
 ## Inputs
 
 * `token`: Custom GitHub personal access token. Useful to allow access

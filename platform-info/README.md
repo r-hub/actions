@@ -2,6 +2,13 @@
 
 > R platform information.
 
+## Example
+
+```yaml
+      - uses: r-hub/actions/platform-info@v1
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+```
 ## Inputs
 
 * `token`: Custom GitHub personal access token. Potentially useful to

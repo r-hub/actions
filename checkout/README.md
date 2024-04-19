@@ -6,6 +6,13 @@ This action exists to avoid having to update the R-hub workflow file
 when the `actions/checkout` action has a new tag, and to have complete
 control over the R-hub workflow in general.
 
+## Example
+
+```yaml
+    steps:
+      - uses: r-hub/actions/checkout@v1
+```
+
 ## Inputs
 
 * `repository`: Repository name with owner. For example,

@@ -4,6 +4,14 @@
 
 Must run on `ubuntu-latest`.
 
+## Example
+
+```yaml
+    - uses: r-hub/actions/setup@v1
+      with:
+        config: ${{ github.event.inputs.config }}
+```
+
 ## Inputs
 
 * `config`: R-hub configuration. A comma separated list of platforms
