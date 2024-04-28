@@ -176,7 +176,7 @@
         ],
         "type": "os",
         "os-type": "macOS",
-        "os": "macos-latest",
+        "os": "macos-13",
         "arch": "x86_64",
         "r-version": "*"
     },
@@ -190,7 +190,7 @@
         "aliases": [],
         "type": "os",
         "os-type": "macOS",
-        "os": "macos-14",
+        "os": "macos-latest",
         "arch": "arm64",
         "r-version": "*"
     },
