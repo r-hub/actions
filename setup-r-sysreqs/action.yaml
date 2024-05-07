@@ -22,9 +22,9 @@ runs:
       echo "::group::Download"
       cd ${{ runner.temp }}
       if [[ "${{runner.arch}}" == "ARM64" ]]; then
-        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions/releases/download/sysreqs0/r-macos-sysreqs-arm64-${{ inputs.type }}.tar.xz";
+        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions-files/releases/download/v1.0.0/r-macos-sysreqs-arm64-${{ inputs.type }}.tar.xz";
       else
-        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions/releases/download/sysreqs0/r-macos-sysreqs-x86_64-${{ inputs.type }}.tar.xz";
+        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions-files/releases/download/v1.0.0/r-macos-sysreqs-x86_64-${{ inputs.type }}.tar.xz";
       fi
       echo "::endgroup::"
 
