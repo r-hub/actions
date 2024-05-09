@@ -54,12 +54,13 @@ runs:
         cv <- sub(
           "https://raw.githubusercontent.com/r-hub/repos/main/",
           "",
-          repo
+          repo,
+          fixed = TRUE
         )
       } else {
         cv <- "1"
       }
-      ev <- paste0("cache-version=", repo)
+      ev <- paste0("cache-version=", cv)
       cat(ev, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
     shell: Rscript {0}
 
