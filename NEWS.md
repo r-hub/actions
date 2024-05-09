@@ -1,6 +1,6 @@
-# Development version
+# `v1.1.6` (2024-05-09)
 
-* `r-hub/setup-deps@main` always installs Pandoc now.
+* `r-hub/setup-deps@v1` always installs Pandoc now.
 
 # `v1.1.5` (2024-05-09)
 
