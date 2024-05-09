@@ -44,11 +44,31 @@ runs:
       cat("::endgroup::\n")
     shell: Rscript {0}
 
+  - name: Calculate cache key
+    id: cache-version
+    run: |
+      # If there is an RHUB repo, then we use that as the cach version.
+      # PAckages using the same repo are compatible by default.
+      repo <- getOption("repos")["RHUB"]
+      if (!is.na(repo)) {
+        cv <- sub(
+          "https://raw.githubusercontent.com/r-hub/repos/main/",
+          "",
+          repo
+        )
+      } else {
+        cv <- "1"
+      }
+      ev <- paste0("cache-version=", repo)
+      cat(ev, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
+    shell: Rscript {0}
+
   # TODO: need to improve the cache key for R builds/packages that
   # - link to libc++ on Linux
   # - don't have an R shared library
   - uses: r-lib/actions/setup-r-dependencies@v2
     with:
+      cache-version: ${{ steps.cache-version.outputs.cache-version}}
       extra-packages: ${{ inputs.extra-packages }}
       needs: ${{ inputs.needs }}
       pak-version: ${{ inputs.pak-version }}
