@@ -10,6 +10,11 @@ inputs:
       Which system package bundle to download. Possible values are
       `full` and `minimal`.
     default: full
+  xquartz:
+    description: |
+      Whether to install XQuartz on macOS. Default is `true`. Set to
+      `false` to omit installing XQuartz via Homebrew.
+    default: true
 
 runs:
   using: "composite"
@@ -51,4 +56,10 @@ runs:
       fi
       echo "::endgroup::"
 
+    shell: bash
+
+  - name: Install XQuartz
+    if: ${{ runner.os == 'macOS' && inputs.xquartz == 'true' }}
+    run: |
+      brew install --cask xquartz
     shell: bash
