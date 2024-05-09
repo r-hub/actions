@@ -1,3 +1,9 @@
+# `v1.1.7` (2024-05-09)
+
+* `r-hub/setup-deps@v1` now uses a better cache key, so builds don't use
+  packages from incompatible R builds
+  (https://github.com/r-hub/rhub/issues/602).
+
 # `v1.1.6` (2024-05-09)
 
 * `r-hub/setup-deps@v1` always installs Pandoc now.
