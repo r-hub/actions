@@ -1,3 +1,7 @@
+# Development version
+
+* `r-hub/setup-deps@main` always installs Pandoc now.
+
 # `v1.1.5` (2024-05-09)
 
 * `r-hub/setup-r-sysreqs@v1` now installs XQuartz on macOS by default.

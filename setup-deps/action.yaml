@@ -53,5 +53,6 @@ runs:
       needs: ${{ inputs.needs }}
       pak-version: ${{ inputs.pak-version }}
       dependencies: ${{ inputs.dependencies }}
+      install-pandoc: true
     env:
       R_KEEP_PKG_SOURCE: yes
