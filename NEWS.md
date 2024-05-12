@@ -1,3 +1,8 @@
+# `v1.1.8` (2024-05-12)
+
+* `r-hub/checkout@v1` forwards the `token` and `submodules` parameters to
+  `actions/checkout` (#15).
+
 # `v1.1.7` (2024-05-09)
 
 * `r-hub/setup-deps@v1` now uses a better cache key, so builds don't use
