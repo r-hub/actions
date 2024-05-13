@@ -1,3 +1,8 @@
+# `v1.1.9` (2024-05-13)
+
+* `r-hub/checkout@v1` now does not forward `token`, it breaks the build
+  if it is missing.
+
 # `v1.1.8` (2024-05-12)
 
 * `r-hub/checkout@v1` forwards the `token` and `submodules` parameters to
