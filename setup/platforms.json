@@ -90,6 +90,15 @@
     },
 
     {
+        "name": "gcc14",
+        "cran-names": ["gcc14"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/gcc14:latest"
+    },
+
+    {
         "name": "nold",
         "cran-names": ["noLD"],
         "aliases": [],
