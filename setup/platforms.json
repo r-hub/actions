@@ -162,6 +162,15 @@
     },
 
     {
+        "name": "rchk",
+        "cran-names": ["rchk"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/rchk:latest"
+    },
+
+    {
         "name": "windows",
         "cran-names": [
             "r-devel-windows-x86_64",
