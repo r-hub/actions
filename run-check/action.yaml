@@ -96,6 +96,7 @@ runs:
   - name: Custom check script
     if: ${{ steps.check-script.outputs.check-script }}
     run: ${{ steps.check-script.outputs.check-script }}
+    shell: bash
 
   - name: Save binary package
     if: ${{ always() }}
