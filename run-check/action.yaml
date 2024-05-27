@@ -94,7 +94,7 @@ runs:
     shell: Rscript {0}
 
   - name: Check for UBSAN errors
-    if: ${{ always() && matrix.config.label = "clang-asan" }}
+    if: ${{ always() && matrix.config.label == 'clang-asan' }}
     run: |
       # Fail for UBSAN errors
       cat("::group::Fail for valgrind errors\n")
