@@ -97,12 +97,12 @@ runs:
     if: ${{ always() && matrix.config.label == 'clang-asan' }}
     run: |
       # Fail for UBSAN errors
-      cat("::group::Fail for valgrind errors\n")
+      cat("::group::Fail for UBSAN errors\n")
       out <- dir("check", recursive=TRUE, pattern = "[.]Rout", full.names = TRUE)
       fail <- 0
       for (of in out) {
         l <- readLines(of, warn = FALSE)
-        if (grepl("SUMMARY: UndefinedBehaviorSanitizer:", l, fixed = TRUE)) {
+        if (any(grepl("SUMMARY: UndefinedBehaviorSanitizer:", l, fixed = TRUE))) {
           fail <- 1
           break
         }
