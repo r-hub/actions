@@ -101,8 +101,9 @@ runs:
   - name: Check for rchk errors
     if: ${{ always() && matrix.config.label == 'rchk' }}
     run: |
-      # Fail for rchk errors. Unfortunately not all errors are fatal, some
-      # are allowed, but CRAN does not tell us which ones, on purpose... :(
+      # Fail for rchk errors.
+      # Unfortunately not all errors are fatal, some are allowed,
+      # but CRAN does not tell us which ones, on purpose... :(
       cat("::group::Fail for rchk errors\n")
       writeLines("-- Checking for rchk errors ---------------------------------------------")
       pkg <- read.dcf("DESCRIPTION", "Package")[[1]]
