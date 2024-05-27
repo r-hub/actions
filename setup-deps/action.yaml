@@ -72,22 +72,27 @@ runs:
       # Otherwise '"all"'.
       inp <- "${{ inputs.dependencies }}"
       ev <- Sys.getenv("RHUB_ACTIONS_DEPS_DEPENDENCIES")
-      dt <- if (inp != "") {
-        inp
+      if (inp != "") {
+        dt <- inp
+        ns <- "${{ inputs.needs }}"
       } else if (ev != "") {
-        ev
+        dt <- ev
+        ns <- ""
       } else {
-        '"all"'
+        dt <- '"all"'
+        ns <- "${{ inputs.needs }}"
       }
-      ev <- paste0("dep-types=", dt)
-      cat(ev, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
+      ev1 <- paste0("dep-types=", dt)
+      cat(ev1, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
+      ev2 <- paste0("needs=", ns)
+      cat(ev2, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
     shell: Rscript {0}
 
   - uses: r-lib/actions/setup-r-dependencies@v2
     with:
       cache-version: ${{ steps.cache-version.outputs.cache-version }}
       extra-packages: ${{ inputs.extra-packages }}
-      needs: ${{ inputs.needs }}
+      needs: ${{ steps.dep-types.outputs.needs }}
       pak-version: ${{ inputs.pak-version }}
       dependencies: ${{ steps.dep-types.outputs.dep-types }}
       install-pandoc: true
