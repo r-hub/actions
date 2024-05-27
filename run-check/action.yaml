@@ -89,14 +89,41 @@ runs:
         }
       }
       writeLines("-------------------------------------------------------------------------")
-      q(save = "no", status = fail)
       cat("::endgroup::\n")
+      q(save = "no", status = fail)
     shell: Rscript {0}
 
   - name: Custom check script
     if: ${{ steps.check-script.outputs.check-script }}
     run: ${{ steps.check-script.outputs.check-script }}
     shell: bash
+
+  - name: Check for rchk errors
+    if: ${{ always() && matrix.config.label == 'rchk' }}
+    run: |
+      # Fail for rchk errors. Unfortunately not all errors are fatal, some
+      # are allowed, but CRAN does not tell us which ones, on purpose... :(
+      cat("::group::Fail for rchk errors\n")
+      writeLines("-- Checking for rchk errors ---------------------------------------------")
+      pkg <- read.dcf("DESCRIPTION", "Package")[[1]]
+      bcheck <- file.path("/opt/R/devel-rchk/packages/lib", pkg, "libs", paste0(pkg, ".so.bcheck"))
+      if (!file.exists(bcheck)) {
+        stop("bcheck output file does not exist")
+      }
+      l <- readLines(bcheck)
+      errs <- grep("^  \\[[A-Z][A-Z]\\] ", l, value = TRUE)
+      ignored <- c(
+        "unsupported form of unprotect",
+        "has address taken, results will be incomplete"
+      )
+      for (ign in ignored) {
+        errs <- grep(ign, errs, fixed = TRUE, invert = TRUE, value = TRUE)
+      }
+      fail <- if (length(errs)) 1 else 0
+      writeLines("-------------------------------------------------------------------------")
+      cat("::endgroup::\n")
+      q(save = "no", status = fail)
+    shell: Rscript {0}
 
   - name: Save binary package
     if: ${{ always() }}
