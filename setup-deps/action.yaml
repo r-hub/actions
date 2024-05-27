@@ -30,7 +30,8 @@ inputs:
     description: |
       Types of dependencies to install. Must be an R expression. Note that
       it often needs to be quoted in YAML, see the README for details.
-    default: '"all"'
+      It uses the `RHUB_ACTIONS_DEPS_DEPENDENCIES` environment variable by
+      default, and if that's not set, it uses '"all"'.
 
 runs:
   using: "composite"
@@ -64,16 +65,31 @@ runs:
       cat(ev, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
     shell: Rscript {0}
 
-  # TODO: need to improve the cache key for R builds/packages that
-  # - link to libc++ on Linux
-  # - don't have an R shared library
+  - name: Caldulate dependency types
+    id: dep-types
+    run: |
+      # If input is set, we use that. Otherwise if env var is set, we use that.
+      # Otherwise '"all"'.
+      inp <- "${{ inputs.dependencies }}"
+      ev <- Sys.getenv("RHUB_ACTIONS_DEPS_DEPENDENCIES")
+      dt <- if (inp != "") {
+        inp
+      } else if (ev != "") {
+        ev
+      } else {
+        '"all"'
+      }
+      ev <- paste0("dep-types=", dt)
+      cat(ev, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
+    shell: Rscript {0}
+
   - uses: r-lib/actions/setup-r-dependencies@v2
     with:
-      cache-version: ${{ steps.cache-version.outputs.cache-version}}
+      cache-version: ${{ steps.cache-version.outputs.cache-version }}
       extra-packages: ${{ inputs.extra-packages }}
       needs: ${{ inputs.needs }}
       pak-version: ${{ inputs.pak-version }}
-      dependencies: ${{ inputs.dependencies }}
+      dependencies: ${{ steps.dep-types.outputs.dep-types }}
       install-pandoc: true
     env:
       R_KEEP_PKG_SOURCE: yes
