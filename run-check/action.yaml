@@ -93,6 +93,24 @@ runs:
       q(save = "no", status = fail)
     shell: Rscript {0}
 
+  - name: Check for UBSAN errors
+    if: ${{ always() && matrix.config.label = "clang-asan" }}
+    run: |
+      # Fail for UBSAN errors
+      cat("::group::Fail for valgrind errors\n")
+      out <- dir("check", recursive=TRUE, pattern = "[.]Rout", full.names = TRUE)
+      fail <- 0
+      for (of in out) {
+        l <- readLines(of, warn = FALSE)
+        if (grepl("SUMMARY: UndefinedBehaviorSanitizer:", l, fixed = TRUE)) {
+          fail <- 1
+          break
+        }
+      }
+      cat("::endgroup::\n")
+      q(save = "no", status = fail)
+    shell: Rscript {0}
+
   - name: Custom check script
     if: ${{ steps.check-script.outputs.check-script }}
     run: ${{ steps.check-script.outputs.check-script }}
