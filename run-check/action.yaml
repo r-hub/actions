@@ -27,7 +27,20 @@ runs:
       unlink(".github", force = TRUE, recursive = TRUE)
     shell: Rscript {0}
 
+  - name: Configure check script
+    id: check-script
+    run: |
+      # If env var is not set, we run R CMD CHECK, otherwise the
+      # custom check
+      cs <- Sys.getenv("RHUB_ACTIONS_CHECK_SCRIPT")
+      if (cs != "") {
+        ev <- paste0("check-script=", cs)
+        cat(ev, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
+      }
+    shell: Rscript {0}
+
   - uses: r-lib/actions/check-r-package@v2
+    if: ${{ ! steps.check-script.outputs.check-script }}
     with:
       args: "c('--no-manual', if (!grepl('(^| )[-][-]extra[-]arch( |$)', Sys.getenv('CHECK_ARGS'))) '--as-cran', '--install-args=--build', strsplit(Sys.getenv('CHECK_ARGS'), '[ ]+')[[1]])"
       build_args: "c('--no-manual', strsplit(Sys.getenv('BUILD_ARGS'), '[ ]+')[[1]])"
@@ -37,7 +50,7 @@ runs:
       R_KEEP_PKG_SOURCE: yes
 
   - name: Output
-    if: ${{ always() }}
+    if: ${{ always() && ! steps.check-script.outputs.check-script }}
     run: |
       # Show output of installation, examples and tests
       cat("::group::Show installation output\n")
@@ -79,6 +92,10 @@ runs:
       q(save = "no", status = fail)
       cat("::endgroup::\n")
     shell: Rscript {0}
+
+  - name: Custom check script
+    if: ${{ steps.check-script.outputs.check-script }}
+    run: ${{ steps.check-script.outputs.check-script }}
 
   - name: Save binary package
     if: ${{ always() }}
