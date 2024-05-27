@@ -90,6 +90,15 @@
     },
 
     {
+        "name": "clang19",
+        "cran-names": ["clang19"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/clang19:latest"
+    },
+
+    {
         "name": "gcc13",
         "cran-names": ["gcc13"],
         "aliases": [],
