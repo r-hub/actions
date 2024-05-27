@@ -1,3 +1,19 @@
+# `v1.2.1` (2024-05-27)
+
+* Fail job for UBSAN errors (#16).
+
+# `v1.2.0` (2024-05-27)
+
+* New `rchk` and `clang19` containers.
+
+# `v1.1.11` (2024-05-25)
+
+* New `c23` container.
+
+# `v1.1.10` (2024-05-24)
+
+* New `gcc14` container.
+
 # `v1.1.9` (2024-05-13)
 
 * `r-hub/checkout@v1` now does not forward `token`, it breaks the build
