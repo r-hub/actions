@@ -65,7 +65,7 @@ runs:
       cat(ev, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
     shell: Rscript {0}
 
-  - name: Caldulate dependency types
+  - name: Calculate dependency types
     id: dep-types
     run: |
       # If input is set, we use that. Otherwise if env var is set, we use that.
