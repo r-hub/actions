@@ -17,6 +17,8 @@ docker exec -i -w /root -e"R_LIB_FOR_PAK=/usr/lib/R/library" \
   -e"GITHUB_OUTPUT=/tmp/${out_file}" \
   -e"R_PKG_CACHE_DIR=/tmp/${cch_dir}" \
   -e"XDG_CACHE_HOME=/tmp/${cch_dir}" \
+  -e"NOT_CRAN=${NOT_CRAN}" \
+  -e"CI=${CI}" \
   ${CTR} < $1 R --no-save -q
 status=$?
 
