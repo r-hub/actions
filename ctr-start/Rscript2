@@ -1,6 +1,7 @@
 #! /bin/bash
 env_file=$(basename `mktemp`)
 out_file=$(basename `mktemp`)
+cch_dir=$(basename `mktemp`)
 
 CTR=${CTR_NAME}
 
@@ -14,6 +15,8 @@ docker exec ${CTR} touch "/tmp/${env_file}" "/tmp/${out_file}"
 docker exec -i -w /root -e"R_LIB_FOR_PAK=/usr/lib/R/library" \
   -e"GITHUB_ENV=/tmp/${env_file}" \
   -e"GITHUB_OUTPUT=/tmp/${out_file}" \
+  -e"R_PKG_CACHE_DIR=/tmp/${cch_dir}" \
+  -e"XDG_CACHE_HOME=/tmp/${cch_dir}" \
   ${CTR} < $1 R --no-save -q
 status=$?
 
