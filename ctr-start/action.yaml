@@ -1,0 +1,59 @@
+name: 'r-hub/actions/ctr-start'
+description: |
+  Start a container in the background.
+author: 'Gábor Csárdi'
+
+inputs:
+  image:
+    description: |
+      Container image name or address in the registry.
+  platform:
+    description: |
+      Docker platform to use, in case the image is multi-arch.
+  ctr-name:
+    description: |
+      Container name. Use this to refer to the container in subsequent
+      `r-hub/ctr-run` steps.
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Install Qemu
+    uses: docker/setup-qemu-action@v3
+    with:
+      image: tonistiigi/binfmt:qemu-v8.1.5
+
+  - name: Pull and start image
+    run: |
+      R_LIBS_USER=${RUNNER_TEMP}/Library
+      echo "R_LIBS_USER=${R_LIBS_USER}" >> ${GITHUB_ENV}
+      mkdir -p "${R_LIBS_USER}"
+      if [ "${{ inputs.platform }}" == "" ]; then
+        PLT=""
+      else
+        PLT="--platform ${{ inputs.platform }}"
+      fi
+      docker pull $PLT ${{ inputs.image }}
+      docker run -d $PLT --name ${{ inputs.ctr-name }} \
+        -v`pwd`:/root \
+        -v"$R_LIBS_USER:/usr/local/lib/R/site-library" \
+        ${{ inputs.image }} \
+        bash -c 'while true; do sleep 10000; done'
+    shell: bash
+
+  - name: Setup up remote shell
+    run: |
+      gcc ${{ github.action_path }}/Rscript.c \
+        -o /usr/local/bin/Rscript
+      cp ${{ github.action_path }}/Rscript2 \
+        /usr/local/bin/Rscript2
+      chmod 775 /usr/local/bin/Rscript2
+      echo "CTR_NAME=${{ inputs.ctr-name }}" >> "$GITHUB_ENV"
+    shell: bash
+
+  - name: Test R in container
+    run: |
+      getRversion()
+      R.version[["platform"]]
+    shell: Rscript {0}

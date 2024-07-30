@@ -1,0 +1,30 @@
+#! /bin/bash
+env_file=$(basename `mktemp`)
+out_file=$(basename `mktemp`)
+
+CTR=${CTR_NAME}
+
+if [ "$CTR" == "" ]; then
+  echo "Could not find container :("
+  exit 2;
+fi
+
+docker exec ${CTR} touch "/tmp/${env_file}" "/tmp/${out_file}"
+
+docker exec -i -w /root -e"R_LIB_FOR_PAK=/usr/lib/R/library" \
+  -e"GITHUB_ENV=/tmp/${env_file}" \
+  -e"GITHUB_OUTPUT=/tmp/${out_file}" \
+  ${CTR} < $1 R --no-save -q
+status=$?
+
+docker cp ${CTR}:/tmp/${env_file} /tmp/${env_file} || true
+docker cp ${CTR}:/tmp/${out_file} /tmp/${out_file} || true
+touch /tmp/${env_file} /tmp/${out_file}
+cat /tmp/${env_file} >> $GITHUB_ENV
+cat /tmp/${out_file} >> $GITHUB_OUTPUT
+
+if [ "$status" != "0" ]; then
+  echo "::error ::Command failed in container."
+fi
+
+exit $status
