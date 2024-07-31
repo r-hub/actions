@@ -19,6 +19,8 @@ docker exec -i -w /root -e"R_LIB_FOR_PAK=/usr/lib/R/library" \
   -e"XDG_CACHE_HOME=/tmp/${cch_dir}" \
   -e"NOT_CRAN=${NOT_CRAN}" \
   -e"CI=${CI}" \
+  -e"GITHUB_PAT=${GITHUB_PAT}" \
+  -e"GITHUB_TOKEN=${GITHUB_TOKEN}" \
   ${CTR} < $1 R --no-save -q
 status=$?
 
