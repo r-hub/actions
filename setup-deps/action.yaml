@@ -49,7 +49,7 @@ runs:
     id: cache-version
     run: |
       # If there is an RHUB repo, then we use that as the cache version.
-      # PAckages using the same repo are compatible by default.
+      # Packages using the same repo are compatible by default.
       repo <- getOption("repos")["RHUB"]
       if (!is.na(repo)) {
         cv <- sub(
