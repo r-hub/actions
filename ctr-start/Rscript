@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 env_file=$(basename `mktemp`)
 out_file=$(basename `mktemp`)
 cch_dir=$(basename `mktemp`)

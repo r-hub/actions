@@ -44,11 +44,9 @@ runs:
 
   - name: Setup up remote shell
     run: |
-      gcc ${{ github.action_path }}/Rscript.c \
-        -o /usr/local/bin/Rscript
-      cp ${{ github.action_path }}/Rscript2 \
-        /usr/local/bin/Rscript2
-      chmod 775 /usr/local/bin/Rscript2
+      cp ${{ github.action_path }}/Rscript \
+        /usr/local/bin/Rscript
+      chmod 775 /usr/local/bin/Rscript
       echo "CTR_NAME=${{ inputs.ctr-name }}" >> "$GITHUB_ENV"
     shell: bash
 
