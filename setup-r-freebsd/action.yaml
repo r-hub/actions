@@ -27,6 +27,7 @@ runs:
       ncpu=`(sysctl dev.cpu | grep location | wc -l) || echo 4`
       echo "options(Ncpus=${ncpu})" >> ~/.Rprofile
       R -q -e 'install.packages("pak", repos = "https://cran.rstudio.com")'
+    shell: freebsd {0}
 
   - name: Setup up remote shell
     run: |
