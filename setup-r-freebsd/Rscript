@@ -11,6 +11,7 @@ EOF
 ssh -T -o SendEnv=NOT_CRAN -o SendEnv=CI freebsd \
   GITHUB_ENV="/tmp/${env_file}" GITHUB_OUTPUT="/tmp/${out_file}" \
   R_PKG_CACHE_DIR="/tmp/${cch_dir}" XDG_CACHE_HOME="/tmp/${cch_dir}" \
+  R_LIB_FOR_PAK=/usr/local/lib/R/library \
   R --no-save -q < $1
 status=$?
 
