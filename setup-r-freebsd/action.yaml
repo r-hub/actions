@@ -29,13 +29,19 @@ runs:
       mkdir -p "${R_LIBS_USER}"
     shell: bash
 
-  - name: Install R and pak
-    run: |
+  - run: |
+      # Install R and pak
+      echo "::group::Install R"
       pkg install -y R
+      echo "::endgroup::"
+      echo "::group::Configure R"
       ncpu=`(sysctl dev.cpu | grep location | wc -l) || echo 4`
       echo "options(Ncpus=${ncpu})" >> ~/.Rprofile
       R -q -e 'dir.create(Sys.getenv("R_LIBS_SITE"), showWarnings = FALSE, recursive = TRUE)'
+      echo "::endgroup::"
+      echo "::group::Install pak"
       R -q -e 'install.packages("pak", lib = Sys.getenv("R_LIBS_SITE"), repos = "https://cran.rstudio.com")'
+      echo "::endgroup::"
     shell: freebsd {0}
 
   - name: Set up remote shell
@@ -49,4 +55,9 @@ runs:
     run: |
       getRversion()
       R.version[["platform"]]
+      .libPaths()
+      .Library
+      Sys.getenv("R_LIBS_SITE")
+      Sys.getenv("R_LIBS_USER")
+      find.package("pak")
     shell: Rscript {0}
