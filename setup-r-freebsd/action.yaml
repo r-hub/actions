@@ -1,0 +1,42 @@
+name: 'r-hub/actions/setup-r-freebsd'
+description: |
+  Setup a FreeBSD VM with R. Run this action on `ubuntu-latest`.
+  Based on https://github.com/vmactions/freebsd-vm.
+author: 'Gábor Csárdi'
+
+inputs:
+  release:
+    description: 'The release version of FreeBSD VM.'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Start FreeBSD VM. This might take 2-3 minutes.
+    uses: vmactions/freebsd-vm@v1
+    with:
+      sync: sshfs
+      run: |
+        freebsd-version
+        ln -s /usr/share/zoneinfo/Europe/Madrid  /etc/localtime
+
+  - name: Install R and pak
+    run: |
+      pkg install -y R
+      ncpu=`(sysctl dev.cpu | grep location | wc -l) || echo 4`
+      echo "options(Ncpus=${ncpu})" >> ~/.Rprofile
+      R -q -e 'install.packages("pak", repos = "https://cran.rstudio.com")'
+
+  - name: Setup up remote shell
+    run: |
+      cp ${{ github.action_path }}/Rscript \
+        /usr/local/bin/Rscript
+      chmod 775 /usr/local/bin/Rscript
+    shell: bash
+
+  - name: Test R in FreeBSD VM
+    run: |
+      getRversion()
+      R.version[["platform"]]
+    shell: Rscript {0}
