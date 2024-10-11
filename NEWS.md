@@ -1,3 +1,8 @@
+# `v1.2.2` (2024-10-11)
+
+* Automatic quarto installation is now disabled because it does
+  not work on many containers (#25, @pawelru).
+
 # `v1.2.1` (2024-05-27)
 
 * Fail job for UBSAN errors (#16).
