@@ -114,6 +114,7 @@ runs:
       extra-packages: any::rcmdcheck
       pak-version: devel
       needs: check
+      install-quarto: false
     env:
       R_KEEP_PKG_SOURCE: yes
 

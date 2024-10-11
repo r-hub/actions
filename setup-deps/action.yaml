@@ -96,5 +96,6 @@ runs:
       pak-version: ${{ inputs.pak-version }}
       dependencies: ${{ steps.dep-types.outputs.dep-types }}
       install-pandoc: true
+      install-quarto: false
     env:
       R_KEEP_PKG_SOURCE: yes
