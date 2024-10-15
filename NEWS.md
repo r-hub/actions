@@ -1,3 +1,8 @@
+# `v1.2.3` (2024-10-15)
+
+* Fixed `setup` action so it works without R being installed on the VM.
+  It is not pre-installed on the new `ubuntu-latest` any more.
+
 # `v1.2.2` (2024-10-11)
 
 * Automatic quarto installation is now disabled because it does
