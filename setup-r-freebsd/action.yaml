@@ -40,7 +40,12 @@ runs:
       R -q -e 'dir.create(Sys.getenv("R_LIBS_SITE"), showWarnings = FALSE, recursive = TRUE)'
       echo "::endgroup::"
       echo "::group::Install pak"
-      R -q -e 'install.packages("pak", lib = Sys.getenv("R_LIBS_SITE"), repos = "https://cran.rstudio.com")'
+      R -q -e 'install.packages("pak", lib = Sys.getenv("R_LIBS_SITE"), repos = sprintf(
+                 "https://r-lib.github.io/p/pak/devel/%s/%s/%s",
+                 .Platform$pkgType,
+                 R.Version()$os,
+                 R.Version()$arch
+               ))'
       echo "::endgroup::"
     shell: freebsd {0}
 
