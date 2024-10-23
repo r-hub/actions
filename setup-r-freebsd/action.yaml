@@ -34,12 +34,14 @@ runs:
   - run: |
       # Install R and pak
       echo "::group::Install R"
-      pkg install -y R
+      pkg install -y R checkbashisms
       echo "::endgroup::"
       echo "::group::Configure R"
       ncpu=`(sysctl dev.cpu | grep location | wc -l) || echo 4`
       echo "options(Ncpus=${ncpu})" >> ~/.Rprofile
       R -q -e 'dir.create(Sys.getenv("R_LIBS_SITE"), showWarnings = FALSE, recursive = TRUE)'
+      echo 'export TZ=UTC' > /etc/profile.d/tz.sh
+      chmod +x /etc/profile.d/tz.sh
       echo "::endgroup::"
       echo "::group::Install pak"
       R -q -e 'install.packages("pak", lib = Sys.getenv("R_LIBS_SITE"), repos = sprintf(
