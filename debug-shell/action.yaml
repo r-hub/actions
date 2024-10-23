@@ -1,15 +1,24 @@
 name: 'r-hub/actions/debug-shell'
 description: |
   Start a debug shell via tmate, if the run is a re-run in debug mode.
+  Uses the mxschmitt/action-tmate action internally.
 author: 'Gábor Csárdi'
+
+inputs:
+  connect-timeout-seconds:
+    description: |
+      How long in seconds to wait for a connection to be established.
+    required: false
+    default: '600'
 
 runs:
   using: "composite"
   steps:
 
   - name: Start debug shell, if this is a debug re-run.
-    uses: mxschmitt/action-tmate@v3
+    uses: mxschmitt/action-tmate@v3.19
     if: ${{ runner.debug == '1' && github.run_attempt != '1' }}
     with:
       limit-access-to-actor: true
       detached: true
+      connect-timeout-seconds: ${{ inputs.connect-timeout-seconds || '600' }}
