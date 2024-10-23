@@ -21,8 +21,7 @@ runs:
       envs: 'RUNNER_TEMP'
       sync: sshfs
       run: |
-        openbsd-version
-        ln -s /usr/share/zoneinfo/Europe/Madrid  /etc/localtime
+        uname -a
 
   - name: Set up R library for caching
     run: |
