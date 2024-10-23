@@ -1,0 +1,29 @@
+#! /usr/bin/env bash
+env_file=$(basename `mktemp`)
+out_file=$(basename `mktemp`)
+cch_dir=$(basename `mktemp`)
+
+ssh -T openbsd <<EOF
+  touch "/tmp/${env_file}" "/tmp/${out_file}"
+EOF
+
+# GITHUB_* is automatically forwarded, as is LC_* (!)
+ssh -T -o SendEnv=NOT_CRAN -o SendEnv=CI -o SendEnv=R_LIBS_USER openbsd \
+  "cd $GITHUB_WORKSPACE ; " \
+  GITHUB_ENV="/tmp/${env_file}" GITHUB_OUTPUT="/tmp/${out_file}" \
+  R_PKG_CACHE_DIR="/tmp/${cch_dir}" XDG_CACHE_HOME="/tmp/${cch_dir}" \
+  R_LIB_FOR_PAK=/usr/local/lib/R/site-library \
+  R --no-save -q < $1
+status=$?
+
+scp openbsd:/tmp/${env_file} /tmp/${env_file} || true
+scp openbsd:/tmp/${out_file} /tmp/${out_file} || true
+touch /tmp/${env_file} /tmp/${out_file}
+cat /tmp/${env_file} >> $GITHUB_ENV
+cat /tmp/${out_file} >> $GITHUB_OUTPUT
+
+if [ "$status" != "0" ]; then
+  echo "::error ::Command failed."
+fi
+
+exit $status
