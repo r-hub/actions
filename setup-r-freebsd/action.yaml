@@ -8,6 +8,7 @@ inputs:
   release:
     description: 'The release version of FreeBSD VM.'
     required: false
+    default: '14.1'
 
 runs:
   using: "composite"
@@ -16,6 +17,7 @@ runs:
   - name: Start FreeBSD VM. This might take 2-3 minutes.
     uses: vmactions/freebsd-vm@v1
     with:
+      release: ${{ inputs.release || '14.1' }}
       envs: 'RUNNER_TEMP'
       sync: sshfs
       run: |

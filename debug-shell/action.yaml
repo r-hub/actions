@@ -9,7 +9,7 @@ runs:
 
   - name: Start debug shell, if this is a debug re-run.
     uses: mxschmitt/action-tmate@v3
-    if: ${{ runner.debug == "1" && github.run_attempt != "1" }}
+    if: ${{ runner.debug == '1' && github.run_attempt != '1' }}
     with:
       limit-access-to-actor: true
       detached: true
