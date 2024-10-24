@@ -32,7 +32,7 @@ all the heavy lifting.
 
 ## Inputs
 
-* `relase`: OpenBSD release to use. Default is '7.6'. See
+* `release`: OpenBSD release to use. Default is '7.6'. See
   https://github.com/vmactions/openbsd-vm#5-select-release for the list
   of supported releases.
 

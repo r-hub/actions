@@ -32,7 +32,7 @@ all the heavy lifting.
 
 ## Inputs
 
-* `relase`: FreeBSD release to use. Default is '14.1'. See
+* `release`: FreeBSD release to use. Default is '14.1'. See
   https://github.com/vmactions/freebsd-vm#5-select-release for the list
   of supported releases.
 
