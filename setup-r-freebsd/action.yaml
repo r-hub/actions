@@ -34,7 +34,8 @@ runs:
   - run: |
       # Install R and pak
       echo "::group::Install R"
-      pkg install -y R checkbashisms
+      # Install some system packages, so we can install tidyverse, devtools
+      pkg install -y R checkbashisms libxml2 pkgconf libgit2
       echo "::endgroup::"
       echo "::group::Configure R"
       ncpu=`(sysctl dev.cpu | grep location | wc -l) || echo 4`
