@@ -1,3 +1,7 @@
+# `v1.3.0` (3024-10-24)
+
+* New actions: `setup-r-freebsd`, `setup-r-openbsd` and `debug-shell`.
+
 # `v1.2.3` (2024-10-15)
 
 * Fixed `setup` action so it works without R being installed on the VM.
