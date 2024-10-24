@@ -33,6 +33,8 @@ runs:
   - run: |
       # Install R and pak
       echo "::group::Install R"
+      # Missing locales (?) cause crashes otherwise
+      unset LANG
       # Install some system packages, so we can install tidyverse, devtools
       pkg_add R gmake libxml2 libgit2
       echo "::endgroup::"
