@@ -18,7 +18,7 @@ runs:
     uses: vmactions/freebsd-vm@v1
     with:
       release: ${{ inputs.release || '14.1' }}
-      envs: 'RUNNER_TEMP'
+      envs: 'RUNNER_TEMP R_LIBS_USER'
       sync: sshfs
       run: |
         freebsd-version
