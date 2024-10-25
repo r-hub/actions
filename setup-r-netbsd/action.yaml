@@ -41,6 +41,7 @@ runs:
       ncpu=`(grep -c ^processor /proc/cpuinfo) || echo 4`
       echo "options(Ncpus=${ncpu})" >> ~/.Rprofile
       R -q -e 'dir.create(Sys.getenv("R_LIBS_SITE"), showWarnings = FALSE, recursive = TRUE)'
+      R -q -e 'dir.create(Sys.getenv("R_LIBS_USER"), showWarnings = FALSE, recursive = TRUE)'
       echo 'export LC_COLLATE=C' >> /etc/profile
       echo 'unset LANG' >> /etc/profile
       echo 'export MAKE=gmake' >> /etc/profile
