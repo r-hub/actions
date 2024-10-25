@@ -42,8 +42,9 @@ runs:
       ncpu=`(sysctl dev.cpu | grep location | wc -l) || echo 4`
       echo "options(Ncpus=${ncpu})" >> ~/.Rprofile
       R -q -e 'dir.create(Sys.getenv("R_LIBS_SITE"), showWarnings = FALSE, recursive = TRUE)'
-      echo 'export TZ=UTC' > /etc/profile.d/tz.sh
-      chmod +x /etc/profile.d/tz.sh
+      echo 'export TZ=UTC' >> /usr/local/etc/profile
+      echo 'export LANG=en_US.UTF-8' >> /usr/local/etc/profile
+      ln -s /usr/share/zoneinfo/Europe/Madrid  /etc/localtime
       echo "::endgroup::"
       echo "::group::Install pak"
       R -q -e 'install.packages("pak", lib = Sys.getenv("R_LIBS_SITE"), repos = sprintf(
