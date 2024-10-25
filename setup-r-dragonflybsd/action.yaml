@@ -30,7 +30,6 @@ runs:
   - run: |
       # Install R and pak
       echo "::group::Upgrage system"
-      exit 0
       pkg upgrade -y
       echo "::endgroup::"
       echo "::group::Install R"
@@ -60,15 +59,3 @@ runs:
         /usr/local/bin/Rscript
       chmod 775 /usr/local/bin/Rscript
     shell: bash
-
-  - name: Test R in DragonflyBSD VM
-    if: false
-    run: |
-      getRversion()
-      R.version[["platform"]]
-      .libPaths()
-      .Library
-      Sys.getenv("R_LIBS_SITE")
-      Sys.getenv("R_LIBS_USER")
-      find.package("pak")
-    shell: Rscript {0}
