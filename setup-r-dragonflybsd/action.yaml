@@ -29,8 +29,10 @@ runs:
 
   - run: |
       # Install R and pak
-      echo "::group::Upgrage system"
+      echo "::group::Upgrade system, set up bash shell"
       pkg upgrade -y
+      pkg install -y bash
+      chsh -s bash root
       echo "::endgroup::"
       echo "::group::Install R"
       # Install some system packages, so we can install tidyverse, devtools
@@ -59,3 +61,15 @@ runs:
         /usr/local/bin/Rscript
       chmod 775 /usr/local/bin/Rscript
     shell: bash
+
+  - name: Test R in DragonflyBSD VM
+    if: false
+    run: |
+      getRversion()
+      R.version[["platform"]]
+      .libPaths()
+      .Library
+      Sys.getenv("R_LIBS_SITE")
+      Sys.getenv("R_LIBS_USER")
+      find.package("pak")
+    shell: Rscript {0}
