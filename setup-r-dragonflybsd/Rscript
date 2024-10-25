@@ -13,6 +13,7 @@ ssh -o SendEnv=NOT_CRAN -o SendEnv=CI -o SendEnv=R_LIBS_USER dragonflybsd \
   GITHUB_ENV="/tmp/${env_file}" GITHUB_OUTPUT="/tmp/${out_file}" \
   R_PKG_CACHE_DIR="/tmp/${cch_dir}" XDG_CACHE_HOME="/tmp/${cch_dir}" \
   R_LIB_FOR_PAK=/usr/local/lib/R/site-library \
+  TZ=UTC LANG=en_US.UTF-8 \
   R --no-save -q < $1
 status=$?
 
