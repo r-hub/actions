@@ -1,0 +1,73 @@
+name: 'r-hub/actions/setup-r-dragonflybsd'
+description: |
+  Setup a DragonflyBSD VM with R. Run this action on `ubuntu-latest`.
+  Based on https://github.com/vmactions/dragonflybsd-vm.
+author: 'Gábor Csárdi'
+
+inputs:
+  release:
+    description: 'The release version of DragonflyBSD VM.'
+    required: false
+    default: '14.1'
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Start DragonflyBSD VM. This might take 2-3 minutes.
+    uses: vmactions/dragonflybsd-vm@v1
+    with:
+      release: ${{ inputs.release || '14.1' }}
+      envs: 'RUNNER_TEMP R_LIBS_USER'
+      sync: sshfs
+      run: |
+        uname -a
+        pkg upgrade
+
+  - name: Set up R library for caching
+    run: |
+      R_LIBS_USER=${RUNNER_TEMP}/Library
+      echo "R_LIBS_USER=${R_LIBS_USER}" >> ${GITHUB_ENV}
+      mkdir -p "${R_LIBS_USER}"
+    shell: bash
+
+  - run: |
+      # Install R and pak
+      echo "::group::Install R"
+      # Install some system packages, so we can install tidyverse, devtools
+      pkg install -y R checkbashisms libxml2 pkgconf libgit2
+      echo "::endgroup::"
+      echo "::group::Configure R"
+      ncpu=`(sysctl dev.cpu | grep location | wc -l) || echo 4`
+      echo "options(Ncpus=${ncpu})" >> ~/.Rprofile
+      R -q -e 'dir.create(Sys.getenv("R_LIBS_SITE"), showWarnings = FALSE, recursive = TRUE)'
+      echo 'export TZ=UTC' > /etc/profile.d/tz.sh
+      chmod +x /etc/profile.d/tz.sh
+      echo "::endgroup::"
+      echo "::group::Install pak"
+      R -q -e 'install.packages("pak", lib = Sys.getenv("R_LIBS_SITE"), repos = sprintf(
+                 "https://r-lib.github.io/p/pak/devel/%s/%s/%s",
+                 .Platform$pkgType,
+                 R.Version()$os,
+                 R.Version()$arch
+               ))'
+      echo "::endgroup::"
+    shell: dragonflybsd {0}
+
+  - name: Set up remote shell
+    run: |
+      cp ${{ github.action_path }}/Rscript \
+        /usr/local/bin/Rscript
+      chmod 775 /usr/local/bin/Rscript
+    shell: bash
+
+  - name: Test R in DragonflyBSD VM
+    run: |
+      getRversion()
+      R.version[["platform"]]
+      .libPaths()
+      .Library
+      Sys.getenv("R_LIBS_SITE")
+      Sys.getenv("R_LIBS_USER")
+      find.package("pak")
+    shell: Rscript {0}
