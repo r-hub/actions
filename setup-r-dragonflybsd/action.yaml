@@ -19,8 +19,6 @@ runs:
     with:
       release: ${{ inputs.release || '6.4.0' }}
       envs: 'RUNNER_TEMP R_LIBS_USER'
-      run: |
-        uname -a
       sync: no
 
   - name: Set up R library for caching
