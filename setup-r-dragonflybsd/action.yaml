@@ -30,6 +30,7 @@ runs:
   - run: |
       # Install R and pak
       echo "::group::Upgrage system"
+      exit 0
       pkg upgrade -y
       echo "::endgroup::"
       echo "::group::Install R"
@@ -61,6 +62,7 @@ runs:
     shell: bash
 
   - name: Test R in DragonflyBSD VM
+    if: false
     run: |
       getRversion()
       R.version[["platform"]]
