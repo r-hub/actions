@@ -19,7 +19,6 @@ runs:
     with:
       release: ${{ inputs.release || '10.0' }}
       envs: 'RUNNER_TEMP R_LIBS_USER'
-      sync: sshfs
       run: |
         uname -a
 
