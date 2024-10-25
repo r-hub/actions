@@ -21,7 +21,6 @@ runs:
       envs: 'RUNNER_TEMP R_LIBS_USER'
       run: |
         uname -a
-        pkg upgrade -y
 
   - name: Set up R library for caching
     run: |
@@ -32,6 +31,9 @@ runs:
 
   - run: |
       # Install R and pak
+      echo "::group::Upgrage system"
+      pkg upgrade -y
+      echo "::endgroup::"
       echo "::group::Install R"
       # Install some system packages, so we can install tidyverse, devtools
       pkg install -y R checkbashisms libxml2 pkgconf libgit2
