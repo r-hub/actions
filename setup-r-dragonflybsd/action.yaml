@@ -8,7 +8,7 @@ inputs:
   release:
     description: 'The release version of DragonflyBSD VM.'
     required: false
-    default: '14.1'
+    default: '6.4.0'
 
 runs:
   using: "composite"
@@ -17,10 +17,11 @@ runs:
   - name: Start DragonflyBSD VM. This might take 2-3 minutes.
     uses: vmactions/dragonflybsd-vm@v1
     with:
-      release: ${{ inputs.release || '14.1' }}
+      release: ${{ inputs.release || '6.4.0' }}
       envs: 'RUNNER_TEMP R_LIBS_USER'
       run: |
         uname -a
+      sync: no
 
   - name: Set up R library for caching
     run: |
