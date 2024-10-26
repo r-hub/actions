@@ -34,7 +34,7 @@ runs:
       # Install R and pak
       echo "::group::Install R"
       # Install some system packages, so we can install tidyverse, devtools
-      pkg_add -I R checkbashisms pkgconf libxml libgit2
+      pkg_add -I R checkbashisms pkgconf libxml libgit2 qpdf
       echo "::endgroup::"
       echo "::group::Configure R"
       ncpu=`(sysctl -n hw.ncpu) || echo 4`
