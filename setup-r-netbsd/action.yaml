@@ -35,7 +35,7 @@ runs:
       # Missing locales (?) cause crashes otherwise
       unset LANG
       # Install some system packages, so we can install tidyverse, devtools
-      pkg_add R gmake libxml2 libgit2
+      pkg_add R gmake libxml2 libgit2 qpdf
       echo "::endgroup::"
       echo "::group::Configure R"
       ncpu=`(grep -c ^processor /proc/cpuinfo) || echo 4`
