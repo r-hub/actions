@@ -19,7 +19,6 @@ runs:
     with:
       release: ${{ inputs.release || '14.1' }}
       envs: 'RUNNER_TEMP R_LIBS_USER'
-      sync: sshfs
       run: |
         freebsd-version
         ln -s /usr/share/zoneinfo/Europe/Madrid  /etc/localtime
