@@ -7,6 +7,11 @@ ssh -T dragonflybsd <<EOF
   touch "/tmp/${env_file}" "/tmp/${out_file}"
 EOF
 
+# copy files to VM
+echo "::group::Copy workspace to VM"
+bash /home/runner/work/_actions/vmactions/dragonflybsd-vm/v1/run.sh rsyncToVM
+echo "::endgroup::"
+
 # GITHUB_* is automatically forwarded, as is LC_* (!)
 ssh -o SendEnv=NOT_CRAN -o SendEnv=CI -o SendEnv=R_LIBS_USER dragonflybsd \
   "cd $GITHUB_WORKSPACE ; " \
@@ -16,6 +21,11 @@ ssh -o SendEnv=NOT_CRAN -o SendEnv=CI -o SendEnv=R_LIBS_USER dragonflybsd \
   TZ=UTC LANG=en_US.UTF-8 \
   R --no-save -q < $1
 status=$?
+
+# copy files back from VM
+echo "::group::Copy workspace from from VM"
+bash /home/runner/work/_actions/vmactions/dragonflybsd-vm/v1/run.sh rsyncBackFromVM
+echo "::endgroup::"
 
 scp dragonflybsd:/tmp/${env_file} /tmp/${env_file} || true
 scp dragonflybsd:/tmp/${out_file} /tmp/${out_file} || true
