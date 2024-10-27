@@ -7,6 +7,9 @@ ssh -T openbsd <<EOF
   touch "/tmp/${env_file}" "/tmp/${out_file}"
 EOF
 
+# copy files to VM
+bash /home/runner/work/_actions/vmactions/openbsd-vm/v1/run.sh rsyncToVM
+
 # GITHUB_* is automatically forwarded, as is LC_* (!)
 ssh -T -o SendEnv=NOT_CRAN -o SendEnv=CI -o SendEnv=R_LIBS_USER openbsd \
   "cd $GITHUB_WORKSPACE ; " \
@@ -15,6 +18,9 @@ ssh -T -o SendEnv=NOT_CRAN -o SendEnv=CI -o SendEnv=R_LIBS_USER openbsd \
   R_LIB_FOR_PAK=/usr/local/lib/R/site-library \
   sh -l -c '"R --no-save -q"' < $1
 status=$?
+
+# copy files back from VM
+bash /home/runner/work/_actions/vmactions/openbsd-vm/v1/run.sh rsyncBackFromVM
 
 scp openbsd:/tmp/${env_file} /tmp/${env_file} || true
 scp openbsd:/tmp/${out_file} /tmp/${out_file} || true
