@@ -19,6 +19,8 @@ runs:
     with:
       r-version: ${{ fromJson(inputs.job-config).r-version }}
       use-public-rspm: true
+    env:
+      NOT_CRAN: false
   - name: Set up R-hub repository
     run: |
       #
