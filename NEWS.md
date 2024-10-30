@@ -1,3 +1,16 @@
+# `v1.4.0` (2024-10-30)
+
+* New actions: `setup-r-netbsd`, `setup-r-dragonflybsd`.
+
+* Improved `setup-r-freebsd` and `setup-r-openbsd` actions:
+  - Fix package caching.
+  - Install qpdf.
+  - Do not use sshfs, it causes issues.
+  - Copy `$GITHUB_WORKFLOW` files to VM before `Rscript`,
+    copy then back after.
+	
+* Do not set `NOT_CRAN=true` on VMs.
+
 # `v1.3.0` (3024-10-24)
 
 * New actions: `setup-r-freebsd`, `setup-r-openbsd` and `debug-shell`.
