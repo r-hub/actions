@@ -8,7 +8,7 @@ inputs:
   release:
     description: 'The release version of OpenBSD VM.'
     required: false
-    default: '14.1'
+    default: '7.6'
 
 runs:
   using: "composite"
@@ -17,7 +17,7 @@ runs:
   - name: Start OpenBSD VM. This might take 2-3 minutes.
     uses: vmactions/openbsd-vm@v1
     with:
-      release: ${{ inputs.release || '14.1' }}
+      release: ${{ inputs.release || '7.6' }}
       envs: 'RUNNER_TEMP R_LIBS_USER'
       run: |
         uname -a
