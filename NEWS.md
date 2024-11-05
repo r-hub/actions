@@ -1,3 +1,7 @@
+# `v1.4.1` (2024-11-05)
+
+* New platforms: `clang20` and `noremap`.
+
 # `v1.4.0` (2024-10-30)
 
 * New actions: `setup-r-netbsd`, `setup-r-dragonflybsd`.

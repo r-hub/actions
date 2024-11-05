@@ -99,6 +99,15 @@
     },
 
     {
+        "name": "clang20",
+        "cran-names": ["clang20"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/clang20:latest"
+    },
+
+    {
         "name": "gcc13",
         "cran-names": ["gcc13"],
         "aliases": [],
@@ -123,6 +132,15 @@
         "type": "container",
         "os-type": "Linux",
         "container": "ghcr.io/r-hub/containers/nold:latest"
+    },
+
+    {
+        "name": "noremap",
+        "cran-names": ["noRemap"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/noremap:latest"
     },
 
     {
