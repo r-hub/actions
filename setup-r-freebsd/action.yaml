@@ -22,6 +22,7 @@ runs:
       run: |
         freebsd-version
         ln -s /usr/share/zoneinfo/Europe/Madrid  /etc/localtime
+        chsh -s /bin/sh root
 
   - name: Set up R library for caching
     run: |
