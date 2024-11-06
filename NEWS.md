@@ -1,3 +1,8 @@
+# development version
+
+* The `setup-r-*bsd` actions set `NOT_CRAN=true`, unless it is already set,
+  similarly to the `r-lib/actions/setup-r` action.
+
 # `v1.4.2` (2024-11-06)
 
 * The `setup-r-freebsd` action now uses the `/bin/sh` shell on older
