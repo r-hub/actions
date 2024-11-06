@@ -1,9 +1,12 @@
-# development version
+
+# `v1.4.3` (2024-11-06)
 
 * The `setup-r-*bsd` actions set `NOT_CRAN=true`, unless it is already set,
   similarly to the `r-lib/actions/setup-r` action.
 
 * The `setup-r-netbsd` action now installs the X11 libraries.
+
+* The workflows for the `setup-r-*bsd` actions are simpler now.
 
 # `v1.4.2` (2024-11-06)
 
