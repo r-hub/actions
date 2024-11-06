@@ -3,6 +3,8 @@
 * The `setup-r-*bsd` actions set `NOT_CRAN=true`, unless it is already set,
   similarly to the `r-lib/actions/setup-r` action.
 
+* The `setup-r-netbsd` action now installs the X11 libraries.
+
 # `v1.4.2` (2024-11-06)
 
 * The `setup-r-freebsd` action now uses the `/bin/sh` shell on older
