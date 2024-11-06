@@ -1,3 +1,16 @@
+# `v1.4.2` (2024-11-06)
+
+* The `setup-r-freebsd` action now uses the `/bin/sh` shell on older
+  FreeBSD releases as well.
+
+* The default release of the `setup-r-openbsd` action is now '7.6', which
+  is the latest release, instead of '14.1' which does not make sense and
+  was a copy-paste error.
+
+* The `platform-info` action now always uses the
+  `r-hub/actions/debug-shell@v1` action, so all workflows that use it
+  create an interactive shell now on debug re-runs.
+
 # `v1.4.1` (2024-11-05)
 
 * New platforms: `clang20` and `noremap`.
@@ -12,7 +25,7 @@
   - Do not use sshfs, it causes issues.
   - Copy `$GITHUB_WORKFLOW` files to VM before `Rscript`,
     copy then back after.
-	
+
 * Do not set `NOT_CRAN=true` on VMs.
 
 # `v1.3.0` (3024-10-24)
