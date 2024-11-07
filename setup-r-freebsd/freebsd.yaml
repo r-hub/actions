@@ -9,6 +9,8 @@ on:
         required: true
         type: choice
         options:
+        - '15.0'
+        - '14.2-pre'
         - '14.1'
         - '14.0'
         - '13.4'
