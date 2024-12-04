@@ -1,4 +1,4 @@
-# r-hub/actions/debug-shell.yaml
+# r-hub/actions/debug-shell
 
 > Start a tmate shell for debug re-runs
 

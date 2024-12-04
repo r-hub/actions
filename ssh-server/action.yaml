@@ -1,0 +1,37 @@
+name: 'r-hub/actions/ssh-server'
+descriptio: |
+  Start an ssh server and a Cloudflare tunnel.
+author: 'Gábor Csárdi'
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Install and start ssh server
+    run: |
+      apt-get update && \
+        apt-get install -y openssh-server jq curl
+      echo PermitRootLogin yes >> /etc/ssh/sshd_config && \
+      echo PasswordAuthentication no >> /etc/ssh/sshd_config && \
+      echo Port 2222 >> /etc/ssh/sshd_config && \
+      service ssh start
+
+  - name: Get ssh public key
+    run: |
+      mkdir -p /root/.ssh
+      mkdir -p ~/.ssh
+      curl -s "${{ github.api_url }}/users/${{ github.user }}/keys" -H "Authorization: Bearer ${{ github.token}}" |
+        jq -r '.[].key' >> /root/.ssh/authorized_keys
+      cp /root/.ssh/authorized_keys ~/.ssh/
+
+  - uses: actions/checkout@v4
+  - name: Create a cf tunnel
+    id: test
+    uses: gaborcsardi/cf-tunnel@main
+    with:
+      protocol: tcp
+      port: 2222
+
+  - name: Wait
+    run: |
+      sleep infinity
