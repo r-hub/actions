@@ -21,7 +21,7 @@ runs:
     run: |
       mkdir -p /root/.ssh
       mkdir -p ~/.ssh
-      curl -s "${{ github.api_url }}/users/${{ github.user }}/keys" -H "Authorization: Bearer ${{ github.token}}" |
+      curl -s "${{ github.api_url }}/users/${{ github.actor }}/keys" -H "Authorization: Bearer ${{ github.token }}" |
         jq -r '.[].key' >> /root/.ssh/authorized_keys
       cp /root/.ssh/authorized_keys ~/.ssh/
     shell: bash
