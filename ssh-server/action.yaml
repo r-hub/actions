@@ -7,34 +7,54 @@ runs:
   using: "composite"
   steps:
 
-  - name: Install and start ssh server
-    run: |
+  - run: |
+      : Install and start ssh server -----------------------------
+      echo "::group::Install and start ssh server"
       apt-get update && \
         apt-get install -y openssh-server jq curl
       echo PermitRootLogin yes >> /etc/ssh/sshd_config && \
       echo PasswordAuthentication no >> /etc/ssh/sshd_config && \
       echo Port 2222 >> /etc/ssh/sshd_config && \
       service ssh start
+      echo "::endgroup::"
     shell: bash
 
   - name: Get ssh public key
     run: |
+      : Get ssh public key ----------------------------------------
+      echo "::group::Get ssh public key"
       mkdir -p /root/.ssh
       mkdir -p ~/.ssh
       curl -s "${{ github.api_url }}/users/${{ github.actor }}/keys" -H "Authorization: Bearer ${{ github.token }}" |
         jq -r '.[].key' >> /root/.ssh/authorized_keys
       cp /root/.ssh/authorized_keys ~/.ssh/
+      echo "::endgroup::"
     shell: bash
 
   - uses: actions/checkout@v4
   - name: Create a cf tunnel
-    id: test
+    id: tunnel
     uses: gaborcsardi/cf-tunnel@main
     with:
       protocol: tcp
       port: 2222
 
-  - name: Wait
-    run: |
+  - run: |
+      echo "--------------------------------------------------------------"
+      echo " "
+      echo " ____ ____  _   _ "
+      echo "/ ___/ ___|| | | |"
+      echo "\___ \___ \| |_| |"
+      echo " ___) |__) |  _  |"
+      echo "|____/____/|_| |_|"
+      echo " "
+      echo "brew install cloudflared"
+      echo "cloudflared access tcp --url localhost:9210 --hostname ${{ steps.tunnel.outputs.server }}"
+      echo "ssh root@localhost -p 9210"
+      echo " "
+      echo "Positron ssh: root@localhost:9210"
+      echo " "
+      echo "--------------------------------------------------------------"
+      echo "Cancel the workflow run when you are done."
       sleep infinity
     shell: bash
