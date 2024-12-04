@@ -15,6 +15,7 @@ runs:
       echo PasswordAuthentication no >> /etc/ssh/sshd_config && \
       echo Port 2222 >> /etc/ssh/sshd_config && \
       service ssh start
+    shell: bash
 
   - name: Get ssh public key
     run: |
@@ -23,6 +24,7 @@ runs:
       curl -s "${{ github.api_url }}/users/${{ github.user }}/keys" -H "Authorization: Bearer ${{ github.token}}" |
         jq -r '.[].key' >> /root/.ssh/authorized_keys
       cp /root/.ssh/authorized_keys ~/.ssh/
+    shell: bash
 
   - uses: actions/checkout@v4
   - name: Create a cf tunnel
@@ -35,3 +37,4 @@ runs:
   - name: Wait
     run: |
       sleep infinity
+    shell: bash
