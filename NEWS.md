@@ -1,3 +1,6 @@
+# `v1.5.0` (2024-12-05)
+
+* New (experimental) `ssh-server` action.
 
 # `v1.4.3` (2024-11-06)
 
