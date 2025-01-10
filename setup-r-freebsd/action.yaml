@@ -52,6 +52,9 @@ runs:
                  R.Version()$os,
                  R.Version()$arch
                ))'
+      # if that fails, try to install the released version from source
+      R -q -e 'library(pak)' ||
+        R -q -e 'install.packages("pak", lib = Sys.getenv("R_LIBS_SITE"), repos = "https://cloud.r-project.org")'
       echo "::endgroup::"
     shell: freebsd {0}
 
