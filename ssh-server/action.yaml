@@ -10,12 +10,13 @@ runs:
   - run: |
       : Install and start ssh server -----------------------------
       echo "::group::Install and start ssh server"
-      `which sudo` apt-get update
-      `which sudo` apt-get install -y openssh-server jq curl
-      `which sudo` sh -c 'echo PermitRootLogin yes >> /etc/ssh/sshd_config'
-      `which sudo` sh -c 'echo PasswordAuthentication no >> /etc/ssh/sshd_config'
-      `which sudo` sh -c 'echo Port 2222 >> /etc/ssh/sshd_config'
-      `which sudo` service ssh start
+      if which sudo >/dev/null; then SUDO="sudo -E --preserve-env=PATH env"; else SUDO=""; fi
+      $SUDO apt-get update
+      $SUDO apt-get install -y openssh-server jq curl
+      $SUDO sh -c 'echo PermitRootLogin yes >> /etc/ssh/sshd_config'
+      $SUDO sh -c 'echo PasswordAuthentication no >> /etc/ssh/sshd_config'
+      $SUDO sh -c 'echo Port 2222 >> /etc/ssh/sshd_config'
+      $SUDO service ssh start
       echo "::endgroup::"
     shell: bash
 
@@ -23,11 +24,11 @@ runs:
     run: |
       : Get ssh public key ----------------------------------------
       echo "::group::Get ssh public key"
-      `which sudo` mkdir -p /root/.ssh
-      `which sudo` mkdir -p ~/.ssh
-      `which sudo` sh -c 'curl -s "${{ github.api_url }}/users/${{ github.actor }}/keys" -H "Authorization: Bearer ${{ github.token }}" |
-        jq -r ".[].key" >> /root/.ssh/authorized_keys'
-      `which sudo` cp /root/.ssh/authorized_keys ~/.ssh/
+      if which sudo >/dev/null; then SUDO="sudo -E --preserve-env=PATH env"; else SUDO=""; fi
+      $SUDO mkdir -p /root/.ssh
+      $SUDO mkdir -p ~/.ssh
+      $SUDO sh -c 'curl -s "${{ github.api_url }}/users/${{ github.actor }}/keys" -H "Authorization: Bearer ${{ github.token }}" | jq -r ".[].key" >> /root/.ssh/authorized_keys'
+      $SUDO cp /root/.ssh/authorized_keys ~/.ssh/      
       echo "::endgroup::"
     shell: bash
 
