@@ -10,12 +10,12 @@ runs:
   - run: |
       : Install and start ssh server -----------------------------
       echo "::group::Install and start ssh server"
-      apt-get update && \
-        apt-get install -y openssh-server jq curl
-      echo PermitRootLogin yes >> /etc/ssh/sshd_config && \
-      echo PasswordAuthentication no >> /etc/ssh/sshd_config && \
-      echo Port 2222 >> /etc/ssh/sshd_config && \
-      service ssh start
+      `which sudo` apt-get update
+      `which sudo` apt-get install -y openssh-server jq curl
+      `which sudo` sh -c 'echo PermitRootLogin yes >> /etc/ssh/sshd_config'
+      `which sudo` sh -c 'echo PasswordAuthentication no >> /etc/ssh/sshd_config'
+      `which sudo` sh -c 'echo Port 2222 >> /etc/ssh/sshd_config'
+      `which sudo` service ssh start
       echo "::endgroup::"
     shell: bash
 
@@ -23,11 +23,11 @@ runs:
     run: |
       : Get ssh public key ----------------------------------------
       echo "::group::Get ssh public key"
-      mkdir -p /root/.ssh
-      mkdir -p ~/.ssh
-      curl -s "${{ github.api_url }}/users/${{ github.actor }}/keys" -H "Authorization: Bearer ${{ github.token }}" |
-        jq -r '.[].key' >> /root/.ssh/authorized_keys
-      cp /root/.ssh/authorized_keys ~/.ssh/
+      `which sudo` mkdir -p /root/.ssh
+      `which sudo` mkdir -p ~/.ssh
+      `which sudo` sh -c 'curl -s "${{ github.api_url }}/users/${{ github.actor }}/keys" -H "Authorization: Bearer ${{ github.token }}" |
+        jq -r '.[].key' >> /root/.ssh/authorized_keys'
+      `which sudo` cp /root/.ssh/authorized_keys ~/.ssh/
       echo "::endgroup::"
     shell: bash
 
