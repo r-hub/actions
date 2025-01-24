@@ -26,7 +26,7 @@ runs:
       `which sudo` mkdir -p /root/.ssh
       `which sudo` mkdir -p ~/.ssh
       `which sudo` sh -c 'curl -s "${{ github.api_url }}/users/${{ github.actor }}/keys" -H "Authorization: Bearer ${{ github.token }}" |
-        jq -r '.[].key' >> /root/.ssh/authorized_keys'
+        jq -r ".[].key" >> /root/.ssh/authorized_keys'
       `which sudo` cp /root/.ssh/authorized_keys ~/.ssh/
       echo "::endgroup::"
     shell: bash
