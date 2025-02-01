@@ -1,7 +1,8 @@
 #! /bin/bash
 
 # Use XCode 16.2 ------------------------------------------------
-sudo ln -sf /Applications/Xcode_16.2.app /Applications/Xcode.app
+sudo rm -f /Applications/Xcode.app
+sudo ln -sfF /Applications/Xcode_16.2.app /Applications/Xcode.app
 
 # Compile with sanitizers ---------------------------------------
 mkdir -p ~/.R
