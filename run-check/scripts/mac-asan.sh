@@ -20,7 +20,7 @@ EOF
 
 # Need to patch the shell script, because these env vars --------
 # do not go through a shell because of Apple security.
-R=$(which R)
+R=$(readlink `which R`)
 head -1 ${R} >> /tmp/R
 cat >> /tmp/R <<EOF
 export DYLD_FORCE_FLAT_NAMESPACE=1
