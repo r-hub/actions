@@ -25,6 +25,16 @@ runs:
       cat("::endgroup::\n")
     shell: Rscript {0}
 
+  - name: pre-check scripts
+    if: ${{ toJson(fromJson(inputs.job-config.platform).pre-check || null) != 'null' }}
+    run: |
+      source("json.R")
+      scripts <- json[["parse"]](toJson(fromJson(inputs.job-config.platform).pre-check))
+      for (scr in scripts) {
+        message("Running pre-check script: ", scr)
+        system(file.path("scripts", scr))
+      }
+    
   - name: OS information
     run: |
       #
