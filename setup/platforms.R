@@ -79,18 +79,13 @@ match_platforms <- function(config) {
           np[["r-version"]] <- match_r_version(p)
           np[["label"]] <- paste0(np[["label"]], " (R-", np[["r-version"]], ")")
         }
-        pjs <- to_json(np)
+        cjs <- to_json(np)
+        np[["job-config"]] <- cjs
         if (np[["type"]] == "container") {
-          np <- np[c("label", "name", "container")]
-          cjs <- to_json(np)
-          np[["platform"]] <- pjs
-          np[["job-config"]] <- cjs
+          np <- np[c("label", "name", "container", "job-config")]
           cnt <- c(cnt, list(np))
         } else {
-          np <- np[c("label", "name", "os", "r-version")]
-          cjs <- to_json(np)
-          np[["platform"]] <- pjs
-          np[["job-config"]] <- cjs
+          np <- np[c("label", "name", "os", "r-version", "job-config")]
           plt <- c(plt, list(np))
         }
       }
