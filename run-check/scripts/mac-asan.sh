@@ -3,6 +3,7 @@
 # Use XCode 16.2 ------------------------------------------------
 sudo rm -f /Applications/Xcode.app
 sudo ln -sfF /Applications/Xcode_16.2.app /Applications/Xcode.app
+sudo xcode-select -s /Applications/Xcode.app
 
 # Compile with sanitizers ---------------------------------------
 mkdir -p ~/.R
