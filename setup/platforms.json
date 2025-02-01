@@ -262,6 +262,7 @@
 
     {
         "name": "m1-san",
+        "description": "ASAN + UBSAN on macOS",
         "cran-names": ["M1-SAN"],
         "aliases": [],
         "type": "os",
