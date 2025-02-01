@@ -25,6 +25,7 @@ export DYLD_FORCE_FLAT_NAMESPACE=1
 export DYLD_INSERT_LIBRARIES=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/lib/darwin/libclang_rt.asan_osx_dynamic.dylib
 EOF
 tail -1 ${R} >> /tmp/R
+chmod +x /tmp/R
 sudo mv /tmp/R ${R}
 
 # For debugging -------------------------------------------------
