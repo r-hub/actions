@@ -19,14 +19,13 @@ EOF
 # Need to patch the shell script, because these env vars --------
 # do not go through a shell because of Apple security.
 R=$(which R)
-R2=${R}2
-head -1 ${R} >> ${R2}
-cat >> ${R2} <<EOF
+head -1 ${R} >> /tmp/R
+cat >> /tmp/R <<EOF
 export DYLD_FORCE_FLAT_NAMESPACE=1
 export DYLD_INSERT_LIBRARIES=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/lib/darwin/libclang_rt.asan_osx_dynamic.dylib
 EOF
-tail -1 ${R} >> ${R2}
-mv ${R2} ${R}
+tail -1 ${R} >> /tmp/R
+sudo mv /tmp/R ${R}
 
 # For debugging -------------------------------------------------
 echo '#' mac-asan setup -------------------------------------------
