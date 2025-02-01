@@ -32,10 +32,11 @@ runs:
     run: |
       cat("::group::Pre-check scripts\n")
       source("${{ github.action_path }}/json.R")
-      scripts <- json[["parse"]](${{ toJson(fromJson(inputs.job-config).pre-check) }})
-      for (scr in scripts) {
+      config <- json[["parse"]](${{ toJSON(inputs.job-config) }})
+      print(config)
+      for (scr in config[["pre-check"]]) {
         message("Running pre-check script: ", scr)
-        system(file.path("scripts", scr))
+        system(file.path("${{ github.action_path }}/scripts", scr))
       }
       cat("::endgroup::\n")
     shell: Rscript {0}
