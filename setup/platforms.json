@@ -258,5 +258,18 @@
         "os": "ubuntu-latest",
         "arch": "x86_64",
         "r-version": "*"
+    },
+
+    {
+        "name": "m1-san",
+        "description": "ASAN + UBSAN on macOS",
+        "cran-names": ["M1-SAN"],
+        "aliases": [],
+        "type": "os",
+        "os-type": "macOS",
+        "os": "macos-latest",
+        "arch": "arm64",
+        "r-version": "*",
+        "pre-check": ["mac-asan.sh"]
     }
 ]

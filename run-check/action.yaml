@@ -27,6 +27,21 @@ runs:
       unlink(".github", force = TRUE, recursive = TRUE)
     shell: Rscript {0}
 
+  - name: pre-check scripts
+    if: ${{ toJson(fromJson(inputs.job-config).pre-check || null) != 'null' }}
+    run: |
+      cat("::group::Pre-check scripts\n")
+      source("${{ github.action_path }}/json.R")
+      config <- json[["parse"]](${{ toJSON(inputs.job-config) }})
+      for (scr in config[["pre-check"]]) {
+        message("Running pre-check script: ", scr)
+        # error on warning, because system() does not error (!)
+        options(warn = 2)
+        system(file.path("${{ github.action_path }}/scripts", scr))
+      }
+      cat("::endgroup::\n")
+    shell: Rscript {0}
+
   - name: Configure check script
     id: check-script
     run: |
@@ -94,7 +109,7 @@ runs:
     shell: Rscript {0}
 
   - name: Check for UBSAN errors
-    if: ${{ always() && matrix.config.label == 'clang-asan' }}
+    if: ${{ always() && (matrix.config.label == 'clang-asan' || startsWith(matrix.config.label,'m1-san')) }}
     run: |
       # Fail for UBSAN errors
       cat("::group::Fail for UBSAN errors\n")
