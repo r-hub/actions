@@ -55,11 +55,20 @@
 
     {
         "name": "clang-asan",
-        "cran-names": ["clang-ASAN", "clang-UBSAN"],
-        "aliases": ["asan", "ubsan"],
+        "cran-names": ["clang-ASAN"],
+        "aliases": ["asan"],
         "type": "container",
         "os-type": "Linux",
         "container": "ghcr.io/r-hub/containers/clang-asan:latest"
+    },
+
+    {
+        "name": "clang-uban",
+        "cran-names": ["clang-UBSAN"],
+        "aliases": ["ubsan"],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/clang-ubsan:latest"
     },
 
     {
