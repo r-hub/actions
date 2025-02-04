@@ -1,3 +1,16 @@
+# `v1.6.0` (2025-02-04)
+
+* New platform: `m1-san`, arm64 macOS with a recent Xcode and
+  sanitizers.
+  
+* New platform: `clang-ubsan`, clang 19 with undefined behavior
+  sanitizer.
+
+* [setup-r-netbsd]: now works if `PATH` does not include `/usr/sbin/`.
+
+* [setup-r-freebsd]: now installs pak from source if there is no
+  binary pak build available.
+
 # `v1.5.0` (2024-12-05)
 
 * New (experimental) `ssh-server` action.
