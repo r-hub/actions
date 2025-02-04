@@ -63,7 +63,7 @@
     },
 
     {
-        "name": "clang-uban",
+        "name": "clang-ubsan",
         "cran-names": ["clang-UBSAN"],
         "aliases": ["ubsan"],
         "type": "container",
