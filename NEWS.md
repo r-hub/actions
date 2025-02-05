@@ -1,3 +1,7 @@
+# Development version
+
+* `clang-ubsan` now correctly fails on undefined sanitizer errors.
+
 # `v1.6.0` (2025-02-04)
 
 * New platform: `m1-san`, arm64 macOS with a recent Xcode and
