@@ -1,4 +1,4 @@
-# Development version
+# `v1.6.1` (2025-02-05)
 
 * `clang-ubsan` now correctly fails on undefined sanitizer errors.
 
