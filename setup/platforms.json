@@ -144,6 +144,15 @@
     },
 
     {
+        "name": "gcc-asan",
+        "cran-names": ["gcc-ASAN", "gcc-UBSAN"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/gcc-asan:latest"
+    },
+
+    {
         "name": "nold",
         "cran-names": ["noLD"],
         "aliases": [],
