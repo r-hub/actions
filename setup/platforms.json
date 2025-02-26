@@ -135,6 +135,15 @@
     },
 
     {
+        "name": "gcc15",
+        "cran-names": ["gcc15"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/gcc15:latest"
+    },
+
+    {
         "name": "nold",
         "cran-names": ["noLD"],
         "aliases": [],
