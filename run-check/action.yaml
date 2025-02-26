@@ -121,6 +121,10 @@ runs:
           fail <- 1
           break
         }
+        if (any(grepl("runtime error:", l, fixed = TRUE))) {
+          fail <- 1
+          break
+        }
       }
       cat("::endgroup::\n")
       q(save = "no", status = fail)
