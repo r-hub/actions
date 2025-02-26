@@ -1,4 +1,4 @@
-# development version
+# `v1.6.2` (2025-02-26)
 
 * New container: `gcc15`.
 
