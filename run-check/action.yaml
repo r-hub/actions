@@ -109,7 +109,7 @@ runs:
     shell: Rscript {0}
 
   - name: Check for UBSAN errors
-    if: ${{ always() && (matrix.config.label == 'clang-asan' || matrix.config.label == 'clang-ubsan' || startsWith(matrix.config.label,'m1-san')) }}
+    if: ${{ always() && (matrix.config.label == 'clang-asan' || matrix.config.label == 'clang-ubsan' || matrix.config.label == 'gcc-asan' || startsWith(matrix.config.label,'m1-san')) }}
     run: |
       # Fail for UBSAN errors
       cat("::group::Fail for UBSAN errors\n")
