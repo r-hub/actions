@@ -1,3 +1,7 @@
+# `v1.6.3` (2025-03-26)
+
+* New container: `gcc-asan`.
+
 # `v1.6.2` (2025-02-26)
 
 * New container: `gcc15`.
