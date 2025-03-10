@@ -1,4 +1,9 @@
-# `v1.6.3` (2025-03-26)
+# `v1.6.4` (2025-03-10)
+
+* [setup-r-sysreqs]: update system packages from CRAN and
+  R-universe.
+
+# `v1.6.3` (2025-02-26)
 
 * New container: `gcc-asan`.
 
