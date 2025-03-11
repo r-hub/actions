@@ -8,8 +8,13 @@ inputs:
   type:
     description: |
       Which system package bundle to download. Possible values are
-      `full` and `minimal`.
+      `full` and `minimal`. The default is `full`.
     default: full
+  arch:
+    description: |
+      Architecture to download system packages for. Possible values are
+      `arm64` and `x86_64`. The default is the native architecture.
+    default: ''
   xquartz:
     description: |
       Whether to install XQuartz on macOS. Default is `true`. Set to
@@ -26,7 +31,8 @@ runs:
 
       echo "::group::Download"
       cd ${{ runner.temp }}
-      if [[ "${{runner.arch}}" == "ARM64" ]]; then
+      arch="`echo ${{ inputs.arch || runner.arch }} | tr '[A-Z]' '[a-z]'`"
+      if [[ "$arch" == "arm64" ]]; then
         curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions-files/releases/latest/download/r-macos-sysreqs-arm64-${{ inputs.type }}.tar.xz";
       else
         curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions-files/releases/latest/download/r-macos-sysreqs-x86_64-${{ inputs.type }}.tar.xz";
@@ -40,7 +46,7 @@ runs:
       # minimal bundle does not have a package list
       if [[ "${{inputs.type}}" != "minimal" ]]; then
         echo "::group::List packages"
-        if [[ "${{runner.arch}}" == "ARM64" ]]; then
+        if [[ "$arch" == "arm64" ]]; then
           ls /opt/R/arm64/pkg | sed 's/[.]list$//' | sort -f
         else
           ls /opt/R/x86_64/pkg | sed 's/[.]list$//' | sort -f
@@ -49,7 +55,7 @@ runs:
       fi
 
       echo "::group::Adding R tools to path"
-      if [[ "${{runner.arch}}" == "ARM64" ]]; then
+      if [[ "$arch" == "arm64" ]]; then
         echo /opt/R/arm64/bin >> ${GITHUB_PATH}
       else
         echo /opt/R/x86_64/bin >> ${GITHUB_PATH}

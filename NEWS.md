@@ -1,3 +1,8 @@
+# `main` (not released yet)
+
+* [setup-r-sysreqs]: new `arch` input parameter, to be able
+  to install `x86_64` packages on `arm64` runners.
+
 # `v1.6.4` (2025-03-10)
 
 * [setup-r-sysreqs]: update system packages from CRAN and
