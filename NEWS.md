@@ -1,4 +1,4 @@
-# `main` (not released yet)
+# `v1.6.5` (2025-03-11)
 
 * [setup-r-sysreqs]: new `arch` input parameter, to be able
   to install `x86_64` packages on `arm64` runners.
