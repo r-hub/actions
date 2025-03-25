@@ -23,12 +23,12 @@ Differences:
 
 ## Inputs
 
-* `token`: Custom GitHub personal access token. Useful to allow access
-  to private repositories or other resources. Not used currently.
 * `job-config`: The matrix config, as set up by the `setup` action.
 * `remove-dot-github`: Whether to delete `.github` directory before the
   check. This is usually not a good idea, but R-hub needs to do it when
   running on a package submitted to the RC cluster. (Default: `false`.)
+* `token`: Custom GitHub personal access token. Useful to allow access
+  to private repositories or other resources. Not used currently.
 
 ## License
 
