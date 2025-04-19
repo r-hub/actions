@@ -1,8 +1,8 @@
 #! /bin/bash
 
-# Use XCode 16.2 ------------------------------------------------
+# Use XCode 16.3 ------------------------------------------------
 sudo rm -f /Applications/Xcode.app
-sudo ln -sfF /Applications/Xcode_16.2.app /Applications/Xcode.app
+sudo ln -sfF /Applications/Xcode_16.3.app /Applications/Xcode.app
 sudo xcode-select -s /Applications/Xcode.app
 
 # Compile with sanitizers ---------------------------------------
@@ -24,7 +24,7 @@ R=$(readlink `which R`)
 head -1 ${R} >> /tmp/R
 cat >> /tmp/R <<EOF
 export DYLD_FORCE_FLAT_NAMESPACE=1
-export DYLD_INSERT_LIBRARIES=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/lib/darwin/libclang_rt.asan_osx_dynamic.dylib
+export DYLD_INSERT_LIBRARIES=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.asan_osx_dynamic.dylib
 EOF
 cat ${R} >> /tmp/R
 chmod +x /tmp/R

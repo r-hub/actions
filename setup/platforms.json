@@ -294,7 +294,7 @@
         "aliases": [],
         "type": "os",
         "os-type": "macOS",
-        "os": "macos-latest",
+        "os": "macos-15",
         "arch": "arm64",
         "r-version": "*",
         "pre-check": ["mac-asan.sh"]
