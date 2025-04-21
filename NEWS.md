@@ -1,3 +1,8 @@
+# `v1.6.6` (2025-04-21)
+
+* [run-check]: Use macos-15 to more closely resemble CRAN's machine
+  (@jonkeane, #34).
+
 # `v1.6.5` (2025-03-11)
 
 * [setup-r-sysreqs]: new `arch` input parameter, to be able
