@@ -176,7 +176,8 @@
         "aliases": [],
         "type": "container",
         "os-type": "Linux",
-        "container": "ghcr.io/r-hub/containers/valgrind:latest"
+        "container": "ghcr.io/r-hub/containers/valgrind:latest",
+        "pre-check": ["valgrind-suppressions.sh"]
     },
 
     {

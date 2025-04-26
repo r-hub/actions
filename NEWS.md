@@ -1,3 +1,8 @@
+# development version
+
+* [run-check]: use `tools/valgrind.supp` and `inst/valgrind.supp`
+  as additional Valgrind suppressions in the `valgrind` container.
+
 # `v1.6.6` (2025-04-21)
 
 * [run-check]: Use macos-15 to more closely resemble CRAN's machine
