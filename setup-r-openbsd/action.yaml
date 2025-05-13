@@ -21,6 +21,8 @@ runs:
       envs: 'RUNNER_TEMP R_LIBS_USER NOT_CRAN'
       run: |
         uname -a
+        # set mirror, default does not work
+        echo 'https://ftp.openbsd.org/pub/OpenBSD' > /etc/installurl
 
   - name: Set up R library for caching, NOT_CRAN
     run: |
