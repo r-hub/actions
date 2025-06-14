@@ -1,0 +1,20 @@
+---
+name: "r-hub/actions/format-r-code"
+description: |
+  Format R code using Air from Posit.
+author: 'Gábor Csárdi'
+
+inputs:
+  working-directory:
+    description: 'Working directory.'
+    required: true
+    default: '.'
+
+runs:
+  using: "docker"
+  image: "docker://ghcr.io/r-hub/actions/format-r-code:latest"
+  args:
+  - ${{ inputs.working-directory || '.' }}
+branding:
+  icon: "check-square"
+  color: "white"
