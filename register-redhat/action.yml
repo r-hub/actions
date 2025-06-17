@@ -1,0 +1,8 @@
+name: Register a RHEL system
+
+description: 'Register and automatically unregister Redhat activation keys'
+
+runs:
+  using: 'node20'
+  main: 'main.js'
+  post: 'post.js'
