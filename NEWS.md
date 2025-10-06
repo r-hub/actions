@@ -1,7 +1,22 @@
-# development version
+# `v1.7.0` (2025-10-06)
+
+* [register-redhat]: the is a new action to register a RetHat
+  system with `subscription-manager`, and unregister it at the
+  end of the workflow (@jeroen, #35).
+
+* New container: `lto`.
 
 * [run-check]: use `tools/valgrind.supp` and `inst/valgrind.supp`
   as additional Valgrind suppressions in the `valgrind` container.
+
+* [run-check]: `pre-checks` scripts work correctly now for
+  containers, this fixes checks on the `valgrind` container.
+
+* [setup-r-openbsd]: now works with older OpenBSD versions, they
+  need a different OpenBSD mirror.
+
+* [debug-shell]: has improvements on Window, it uses the latest
+  tmate and also installs MSYS2.
 
 # `v1.6.6` (2025-04-21)
 
@@ -34,7 +49,7 @@
 
 * New platform: `m1-san`, arm64 macOS with a recent Xcode and
   sanitizers.
-  
+
 * New platform: `clang-ubsan`, clang 19 with undefined behavior
   sanitizer.
 
