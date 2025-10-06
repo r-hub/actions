@@ -30,6 +30,13 @@ Differences:
 * `token`: Custom GitHub personal access token. Useful to allow access
   to private repositories or other resources. Not used currently.
 
+## Configuration
+
+### Valgrind suppressions
+
+The `valgrind` container uses the `tools/valgrind.supp` and 
+`inst/valgrind.supp` files as additional Valgrind suppressions.
+
 ## License
 
 MIT @ [R Consortium](https://www.r-consortium.org/)
