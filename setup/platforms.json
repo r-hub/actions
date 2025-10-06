@@ -153,6 +153,15 @@
     },
 
     {
+        "name": "lto",
+        "cran-names": ["LTO"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/lto:latest"
+    },
+
+    {
         "name": "nold",
         "cran-names": ["noLD"],
         "aliases": [],
