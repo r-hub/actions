@@ -36,7 +36,7 @@ runs:
       # Missing locales (?) cause crashes otherwise
       unset LANG
       # Install some system packages, so we can install tidyverse, devtools
-      /usr/sbin/pkg_add R gmake libxml2 libgit2 qpdf
+      /usr/sbin/pkg_add -u R gmake libxml2 libgit2 qpdf
       # Install X11 libs
       curl -s -L https://ftp.netbsd.org/pub/NetBSD/NetBSD-10.0/amd64/binary/sets/xbase.tar.xz | tar xzf - -C /
       echo "::endgroup::"
