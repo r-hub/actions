@@ -1,3 +1,8 @@
+# `v1.7.1` (2026-01-07)
+
+* [setup-r-openbsd, setup-r-freebsd, setup-r-netbsd, setup-r-dragonflybsd]
+  Fix `Rscript` shell after vmactions infrastructure changes.
+
 # `v1.7.0` (2025-10-06)
 
 * [register-redhat]: the is a new action to register a RetHat
