@@ -3,13 +3,30 @@ env_file=$(basename `mktemp`)
 out_file=$(basename `mktemp`)
 cch_dir=$(basename `mktemp`)
 
+_oldPWD="$PWD"
+osname=freebsd
+
 ssh -T freebsd <<EOF
   touch "/tmp/${env_file}" "/tmp/${out_file}"
 EOF
 
+rsyncToVM() {
+  _pwd="$PWD"
+  cd "$_oldPWD"
+  rsync -avrtopg -e 'ssh -o MACs=umac-64-etm@openssh.com' --exclude _actions --exclude _PipelineMapping  $HOME/work/ $osname:work
+  cd "$_pwd"
+}
+
+rsyncBackFromVM() {
+  _pwd="$PWD"
+  cd "$_oldPWD"
+  rsync -vrtopg -e 'ssh -o MACs=umac-64-etm@openssh.com' $osname:work/ $HOME/work
+  cd "$_pwd"
+}
+
 # copy files to VM
 echo "::group::Copy workspace to VM"
-bash /home/runner/work/_actions/vmactions/freebsd-vm/v1/run.sh rsyncToVM
+rsyncToVM
 echo "::endgroup::"
 
 # GITHUB_* is automatically forwarded, as is LC_* (!)
@@ -23,7 +40,7 @@ status=$?
 
 # copy files back from VM
 echo "::group::Copy workspace from from VM"
-bash /home/runner/work/_actions/vmactions/freebsd-vm/v1/run.sh rsyncBackFromVM
+rsyncBackFromVM
 echo "::endgroup::"
 
 scp freebsd:/tmp/${env_file} /tmp/${env_file} || true
