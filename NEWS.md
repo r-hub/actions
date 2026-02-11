@@ -1,6 +1,9 @@
-# `main`
+# `v1.7.2` (2026-02-11)
 
 * [setup-r-freebsd] Fix R installation on FreeBSD 13.4 & 14.2.
+
+* [setup-r-sysreqs] Use the Sonoma build of the CRAN system
+  libraries, on arm64 macOS.
 
 # `v1.7.1` (2026-01-07)
 
