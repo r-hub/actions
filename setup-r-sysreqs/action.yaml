@@ -8,7 +8,8 @@ inputs:
   type:
     description: |
       Which system package bundle to download. Possible values are
-      `full` and `minimal`. The default is `full`.
+      `full` and `minimal`. This input is deprecated and the action
+      always uses `full`.
     default: full
   arch:
     description: |
@@ -33,9 +34,9 @@ runs:
       cd ${{ runner.temp }}
       arch="`echo ${{ inputs.arch || runner.arch }} | tr '[A-Z]' '[a-z]'`"
       if [[ "$arch" == "arm64" ]]; then
-        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions-files/releases/latest/download/r-macos-sysreqs-arm64-${{ inputs.type }}.tar.xz";
+        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions-files/releases/latest/download/r-macos-sysreqs-darwin23-arm64-full.tar.xz";
       else
-        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions-files/releases/latest/download/r-macos-sysreqs-x86_64-${{ inputs.type }}.tar.xz";
+        curl -L -o sysreqs.tar.xz "https://github.com/r-lib/actions-files/releases/latest/download/r-macos-sysreqs-darwin20-x86_64-full.tar.xz";
       fi
       echo "::endgroup::"
 
@@ -43,16 +44,13 @@ runs:
       sudo tar xf sysreqs.tar.xz -C /
       echo "::endgroup::"
 
-      # minimal bundle does not have a package list
-      if [[ "${{inputs.type}}" != "minimal" ]]; then
-        echo "::group::List packages"
-        if [[ "$arch" == "arm64" ]]; then
-          ls /opt/R/arm64/pkg | sed 's/[.]list$//' | sort -f
-        else
-          ls /opt/R/x86_64/pkg | sed 's/[.]list$//' | sort -f
-        fi
-        echo "::endgroup::"
+      echo "::group::List packages"
+      if [[ "$arch" == "arm64" ]]; then
+        ls /opt/R/arm64/pkg | sed 's/[.]list$//' | sort -f
+      else
+        ls /opt/R/x86_64/pkg | sed 's/[.]list$//' | sort -f
       fi
+      echo "::endgroup::"
 
       echo "::group::Adding R tools to path"
       if [[ "$arch" == "arm64" ]]; then

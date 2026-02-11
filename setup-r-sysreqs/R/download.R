@@ -3,7 +3,7 @@ base_url <- "https://mac.r-project.org/bin"
 # We don't support darwin17, because it installs into /usr/local, which
 # is impossible to keep separate from the other stuff that goes there
 
-get_file_urls <- function(os = c("darwin20", "darwin17"),
+get_file_urls <- function(os = c("darwin23", "darwin20", "darwin17"),
                           arch = c("arm64", "x86_64")) {
   os <- match.arg(os)
   arch <- match.arg(arch)
@@ -49,8 +49,8 @@ strip <- function(path) {
   }
 }
 
-bundle <- function(path, arch) {
-  outfile <- paste0("r-macos-sysreqs-", arch, "-full.tar.xz")
+bundle <- function(path, os, arch) {
+  outfile <- paste0("r-macos-sysreqs-", os, "-", arch, "-full.tar.xz")
   opts <- '--options="xz:compression-level=9"'
   system2("tar", c("cJf", outfile, opts, path))
 }
@@ -62,13 +62,15 @@ add_system_pc <- function(path) {
   file.copy(pc, pcdir)
 }
 
-create_bundle <- function(os = c("darwin20", "darwin17"),
-                          arch = c("arm64", "x86_64")) {
+create_bundle <- function(
+  os = c("darwin23", "darwin20", "darwin17"),
+  arch = c("arm64", "x86_64")
+) {
   options(timeout = 6000)
   os <- match.arg(os)
   arch <- match.arg(arch)
   urls <- get_file_urls(os, arch)
-  root <- if (os == "darwin20") "/opt/R/" else "/usr/local/"
+  root <- if (os == "darwin17") "/usr/local/" else "/opt/R/"
   out <- paste0(root, arch)
   ack <- paste0(out, "/_ack")
   mkdirp(ack)
@@ -81,23 +83,27 @@ create_bundle <- function(os = c("darwin20", "darwin17"),
       next
     }
 
-    message("DL ", pkg)
-    download.file(url, basename(url), quiet = TRUE)
+    target <- basename(url)
+    if (!file.exists(target)) {
+        message("DL ", pkg)
+        download.file(url, target, quiet = TRUE)
+    }
     message("EX ", pkg)
-    untar(basename(url), exdir = "/")
+    untar(target, exdir = "/")
     message("OK ", pkg)
     file.create(ackfile)
   }
 
   strip(out)
   add_system_pc(out)
-  bundle(out, arch)
+  bundle(out, os, arch)
 }
 
 setup_r_sysreqs_main <- function() {
 #  create_bundle(os = "darwin17", arch = "x86_64")
-  create_bundle(arch = "arm64")
-  create_bundle(arch = "x86_64")
+  create_bundle(os = "darwin23", arch = "arm64")
+  create_bundle(os = "darwin20", arch = "arm64")
+  create_bundle(os = "darwin20", arch = "x86_64")
   invisible()
 }
 
