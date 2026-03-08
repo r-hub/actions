@@ -1,3 +1,7 @@
+# `main` (unreleased)
+
+* [setup-r-openbsd] Add OpenBSD 7.7 and 7.8, default is 7.8 now.
+
 # `v1.7.2` (2026-02-11)
 
 * [setup-r-freebsd] Fix R installation on FreeBSD 13.4 & 14.2.

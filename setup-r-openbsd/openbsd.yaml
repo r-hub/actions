@@ -9,10 +9,12 @@ on:
         required: true
         type: choice
         options:
+	- '7.8'
+	- '7.7'
         - '7.6'
         - '7.5'
         - '7.4'
-        default: '7.6'
+        default: '7.8'
 
 name: openbsd.yaml
 
@@ -23,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: r-hub/actions/setup-r-openbsd@v1
         with:
-          release: ${{ github.event.inputs.release || '7.6' }}
+          release: ${{ github.event.inputs.release || '7.8' }}
       - uses: r-hub/actions/platform-info@v1
 
       - uses: r-lib/actions/setup-r-dependencies@v2
