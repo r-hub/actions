@@ -3,6 +3,6 @@ name: Register a RHEL system
 description: 'Register and automatically unregister Redhat activation keys'
 
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'main.js'
   post: 'post.js'
