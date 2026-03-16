@@ -2,6 +2,10 @@
 
 * [setup-r-openbsd] Add OpenBSD 7.7 and 7.8, default is 7.8 now.
 
+* [register-redhat] uses node 24 now, node 20 is deprecated at GHA.
+
+* New containers: clang21, clang22, gcc16.
+
 # `v1.7.2` (2026-02-11)
 
 * [setup-r-freebsd] Fix R installation on FreeBSD 13.4 & 14.2.
