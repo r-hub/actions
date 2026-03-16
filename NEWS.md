@@ -1,4 +1,4 @@
-# `main` (unreleased)
+# `v1.7.3` (2026-03-16)
 
 * [setup-r-openbsd] Add OpenBSD 7.7 and 7.8, default is 7.8 now.
 
