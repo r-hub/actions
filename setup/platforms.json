@@ -117,6 +117,24 @@
     },
 
     {
+        "name": "clang21",
+        "cran-names": ["clang21"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/clang21:latest"
+    },
+
+    {
+        "name": "clang22",
+        "cran-names": ["clang22"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/clang22:latest"
+    },
+
+    {
         "name": "gcc13",
         "cran-names": ["gcc13"],
         "aliases": [],
@@ -141,6 +159,15 @@
         "type": "container",
         "os-type": "Linux",
         "container": "ghcr.io/r-hub/containers/gcc15:latest"
+    },
+
+    {
+        "name": "gcc16",
+        "cran-names": ["gcc16"],
+        "aliases": [],
+        "type": "container",
+        "os-type": "Linux",
+        "container": "ghcr.io/r-hub/containers/gcc16:latest"
     },
 
     {
