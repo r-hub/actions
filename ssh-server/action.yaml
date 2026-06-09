@@ -30,7 +30,7 @@ runs:
       echo "::endgroup::"
     shell: bash
 
-  - uses: actions/checkout@v4
+  - uses: actions/checkout@v6
   - name: Create a cf tunnel
     id: tunnel
     uses: gaborcsardi/cf-tunnel@main
