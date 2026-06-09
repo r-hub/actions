@@ -71,21 +71,26 @@ runs:
       # If input is set, we use that. Otherwise if env var is set, we use that.
       # Otherwise '"all"'.
       inp <- "${{ inputs.dependencies }}"
-      ev <- Sys.getenv("RHUB_ACTIONS_DEPS_DEPENDENCIES")
+      iev <- Sys.getenv("RHUB_ACTIONS_DEPS_DEPENDENCIES")
       if (inp != "") {
         dt <- inp
         ns <- "${{ inputs.needs }}"
-      } else if (ev != "") {
-        dt <- ev
+      } else if (iev != "") {
+        dt <- iev
         ns <- ""
       } else {
         dt <- '"all"'
         ns <- "${{ inputs.needs }}"
       }
+      if (Sys.getenv("RHUB_ACTIONS_INSTALL_LOCAL_PACKAGE") == "true") {
+        pkgs <- "local::.,any::sessioninfo"
+      } else {
+        pkgs <- "deps::.,any::sessioninfo"
+      }
       ev1 <- paste0("dep-types=", dt)
-      cat(ev1, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
       ev2 <- paste0("needs=", ns)
-      cat(ev2, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
+      ev3 <- paste0("packages=", pkgs)
+      cat(c(ev1, ev2, ev3), sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
     shell: Rscript {0}
 
   - uses: r-lib/actions/setup-r-dependencies@v2
@@ -93,6 +98,7 @@ runs:
       cache-version: ${{ steps.cache-version.outputs.cache-version }}
       extra-packages: ${{ inputs.extra-packages }}
       needs: ${{ steps.dep-types.outputs.needs }}
+      packages: ${{ steps.dep-types.outputs.packages }}
       pak-version: ${{ inputs.pak-version }}
       dependencies: ${{ steps.dep-types.outputs.dep-types }}
       install-pandoc: true
