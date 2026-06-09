@@ -1,3 +1,9 @@
+# `v1.7.4` (2026-06-09)
+
+* New `vnu` container.
+
+* Update action versions, to use node 24, node 20 is deprecated at GHA.
+
 # `v1.7.3` (2026-03-16)
 
 * [setup-r-openbsd] Add OpenBSD 7.7 and 7.8, default is 7.8 now.
