@@ -1,3 +1,8 @@
+# `v1.7.5` (2026-06-28)
+
+* The `macos` platform now uses the `macos-15-intel` runner,
+  as `macos-13` has closed down.
+
 # `v1.7.4` (2026-06-09)
 
 * New `vnu` container.
