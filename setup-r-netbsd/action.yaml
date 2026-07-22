@@ -36,9 +36,10 @@ runs:
       # Missing locales (?) cause crashes otherwise
       unset LANG
       # Install X11 libs (set URL must match the VM's NetBSD release)
+      /usr/sbin/pkg_add -u curl
       curl -s -L https://ftp.netbsd.org/pub/NetBSD/NetBSD-${{ inputs.release || '10.1' }}/amd64/binary/sets/xbase.tar.xz | tar xzf - -C /
       # Install some system packages, so we can install tidyverse, devtools
-      /usr/sbin/pkg_add -u R curl gmake libxml2 libgit2 qpdf
+      /usr/sbin/pkg_add -u R gmake libxml2 libgit2 qpdf
       echo "::endgroup::"
       echo "::group::Diagnose internet module"
       # "internet routines cannot be loaded" means R cannot dlopen its
