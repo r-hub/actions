@@ -8,7 +8,7 @@ inputs:
   release:
     description: 'The release version of NetBSD VM.'
     required: false
-    default: '11.0'
+    default: '10.1'
 
 runs:
   using: "composite"
@@ -17,7 +17,7 @@ runs:
   - name: Start NetBSD VM. This might take 2-3 minutes.
     uses: vmactions/netbsd-vm@v1
     with:
-      release: ${{ inputs.release || '11.0' }}
+      release: ${{ inputs.release || '10.1' }}
       envs: 'RUNNER_TEMP R_LIBS_USER NOT_CRAN'
       run: |
         uname -a
@@ -35,10 +35,10 @@ runs:
       echo "::group::Install R"
       # Missing locales (?) cause crashes otherwise
       unset LANG
+      # Install X11 libs (set URL must match the VM's NetBSD release)
+      curl -s -L https://ftp.netbsd.org/pub/NetBSD/NetBSD-${{ inputs.release || '10.1' }}/amd64/binary/sets/xbase.tar.xz | tar xzf - -C /
       # Install some system packages, so we can install tidyverse, devtools
       /usr/sbin/pkg_add -u R curl gmake libxml2 libgit2 qpdf
-      # Install X11 libs (set URL must match the VM's NetBSD release)
-      curl -s -L https://ftp.netbsd.org/pub/NetBSD/NetBSD-${{ inputs.release || '11.0' }}/amd64/binary/sets/xbase.tar.xz | tar xzf - -C /
       echo "::endgroup::"
       echo "::group::Diagnose internet module"
       # "internet routines cannot be loaded" means R cannot dlopen its

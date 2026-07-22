@@ -17,7 +17,7 @@ all the heavy lifting.
 ```yaml
 - uses: r-hub/actions/setup-r-netbsd@v1
   with:
-    release: '11.0'
+    release: '10.1'
 
 - name: Run R code on the NetBSD VM
   shell: Rscript {0}
@@ -32,7 +32,7 @@ all the heavy lifting.
 
 ## Inputs
 
-* `release`: NetBSD release to use. Default is '11.0'. See
+* `release`: NetBSD release to use. Default is '10.1'. See
   https://github.com/vmactions/netbsd-vm#5-select-release for the list
   of supported releases.
 
