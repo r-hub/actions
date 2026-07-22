@@ -1,3 +1,7 @@
+# `v1.7.7` (2026-07-22)
+
+* [setup-r-netbsd] Use NetBSD 10.1, since R is broken in NetBSD 10.0.
+
 # `v1.7.6` (2026-07-22)
 
 * [setup-r-*bsd] Install pak from CRAN if no pak binary is available
