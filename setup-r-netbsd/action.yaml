@@ -40,6 +40,17 @@ runs:
       # Install X11 libs
       curl -s -L https://ftp.netbsd.org/pub/NetBSD/NetBSD-10.0/amd64/binary/sets/xbase.tar.xz | tar xzf - -C /
       echo "::endgroup::"
+      echo "::group::Diagnose internet module"
+      # "internet routines cannot be loaded" means R cannot dlopen its
+      # internet module. ldd names the missing/incompatible library, and
+      # capabilities() shows whether R was built with libcurl at all.
+      RHOME=$(R RHOME); echo "RHOME=$RHOME"
+      ls -l "$RHOME/modules/"
+      ldd "$RHOME/modules/internet.so" || true
+      ls -l /usr/pkg/lib/libcurl* 2>/dev/null || true
+      pkg_info -e curl; pkg_info curl 2>/dev/null | head
+      R -q -e 'print(capabilities()[c("libcurl","http/ftp")]); print(extSoftVersion())'
+      echo "::endgroup::"
       echo "::group::Configure R"
       ncpu=`(grep -c ^processor /proc/cpuinfo) || echo 4`
       echo "options(Ncpus=${ncpu})" >> ~/.Rprofile
