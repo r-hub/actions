@@ -35,8 +35,13 @@ runs:
       echo "::group::Install R"
       # Missing locales (?) cause crashes otherwise
       unset LANG
+      # The VM image is stale relative to the pkgsrc repo, which can leave
+      # R's internet module linked against a mismatched libcurl/openssl
+      # ("internet routines cannot be loaded"). Update every installed
+      # package first, then make sure the ones we need are present.
+      pkg_add -u $(pkg_info -e '*')
       # Install some system packages, so we can install tidyverse, devtools
-      /usr/sbin/pkg_add -u R curl gmake libxml2 libgit2 qpdf
+      /usr/sbin/pkg_add -u R curl openssl gmake libxml2 libgit2 qpdf
       # Install X11 libs
       curl -s -L https://ftp.netbsd.org/pub/NetBSD/NetBSD-10.0/amd64/binary/sets/xbase.tar.xz | tar xzf - -C /
       echo "::endgroup::"
@@ -47,9 +52,14 @@ runs:
       RHOME=$(R RHOME); echo "RHOME=$RHOME"
       ls -l "$RHOME/modules/"
       ldd "$RHOME/modules/internet.so" || true
+      ldd /usr/pkg/lib/libcurl.so.4 || true
       ls -l /usr/pkg/lib/libcurl* 2>/dev/null || true
       pkg_info -e curl; pkg_info curl 2>/dev/null | head
       R -q -e 'print(capabilities()[c("libcurl","http/ftp")]); print(extSoftVersion())'
+      # R swallows the dlopen error and only prints "internet routines
+      # cannot be loaded". dyn.load() surfaces the real OS-level reason
+      # (missing library vs. unresolved symbol).
+      R -q -e 'tryCatch(dyn.load(file.path(R.home("modules"), paste0("internet", .Platform$dynlib.ext))), error = print)'
       echo "::endgroup::"
       echo "::group::Configure R"
       ncpu=`(grep -c ^processor /proc/cpuinfo) || echo 4`
