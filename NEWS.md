@@ -1,3 +1,9 @@
+# `v1.7.6` (2026-07-22)
+
+* [setup-r-*bsd] Install pak from CRAN if no pak binary is available
+  from github.com/r-lib. Also, these actions now fail if pak is not
+  available, i.e. if both the GitHub and CRAN installations fail.
+
 # `v1.7.5` (2026-06-28)
 
 * The `macos` platform now uses the `macos-15-intel` runner,
