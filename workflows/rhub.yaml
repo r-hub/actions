@@ -1,4 +1,4 @@
-# R-hub's generic GitHub Actions workflow file. It's canonical location is at
+# R-hub's generic GitHub Actions workflow file. Its canonical location is at
 # https://github.com/r-hub/actions/blob/v1/workflows/rhub.yaml
 # You can update this file to a newer version using the rhub2 package:
 #
@@ -17,7 +17,7 @@ on:
       config:
         description: >-
           Comma-separated list of R-hub platforms to use.
-          Full list: https://r-hub.github.io/containers/
+          Full list: summary(rhub::rhub_platforms())
         type: string
         default: 'linux,windows,macos'
       name:
