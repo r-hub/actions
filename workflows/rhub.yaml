@@ -66,6 +66,7 @@ jobs:
           job-config: ${{ matrix.config.job-config }}
       - uses: ms609/actions/rhub-quarto@main
         with:
+          token: ${{ secrets.RHUB_TOKEN }}
           linux: 'true'
       - uses: r-hub/actions/run-check@v1
         with:
@@ -98,6 +99,7 @@ jobs:
           token: ${{ secrets.RHUB_TOKEN }}
       - uses: ms609/actions/rhub-quarto@main
         with:
+          token: ${{ secrets.RHUB_TOKEN }}
           linux: 'false'
       - uses: r-hub/actions/run-check@v1
         with:
