@@ -1,5 +1,8 @@
 # Development version (@main)
 
+* [checkout] New `autocrlf` input parameter, to set git's `core.autocrlf`
+  option for the checkout (#19).
+
 * New container: clang23.
 
 * [setup-r-sysreqs] installs XQuartz 2.8.7 beta3 now (#38).

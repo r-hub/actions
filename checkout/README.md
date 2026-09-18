@@ -23,6 +23,12 @@ control over the R-hub workflow in general.
 * `submodules`: Whether to checkout submodules: `true` to checkout
   submodules or `recursive` to recursively checkout submodules.
   Forwarded to `actions/checkout`.
+* `autocrlf`: Git's `core.autocrlf` setting to use for the checkout. By
+  default this is left at the runner's default (`true` on Windows,
+  converting LF line endings to CRLF on checkout). Set to `false` to
+  check out files with their original line endings, e.g. to avoid
+  `R CMD check` warnings about CRLF line endings in files such as
+  `configure.ac`.
 
 See https://github.com/actions/checkout.
 

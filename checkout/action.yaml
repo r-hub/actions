@@ -19,10 +19,22 @@ inputs:
       `recursive` to recursively checkout submodules. Forwarded to
       `actions/checkout`.
     default: false
+  autocrlf:
+    description: >
+      Git's `core.autocrlf` setting to use for the checkout. By default this
+      is left at the runner's default (`true` on Windows, converting LF line
+      endings to CRLF on checkout). Set to `false` to check out files with
+      their original line endings, e.g. to avoid `R CMD check` warnings about
+      CRLF line endings in files such as `configure.ac`.
+    default: ''
 
 runs:
   using: "composite"
   steps:
+  - name: Configure git core.autocrlf
+    if: inputs.autocrlf != ''
+    run: git config --global core.autocrlf ${{ inputs.autocrlf }}
+    shell: bash
   - uses: actions/checkout@v6
     with:
       repository: ${{ inputs.repository }}
