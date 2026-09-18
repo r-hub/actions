@@ -1,3 +1,9 @@
+# Development version (@main)
+
+* New container: clang23.
+
+* [setup-r-sysreqs] installs XQuartz 2.8.7 beta3 now (#38).
+
 # `v1.7.7` (2026-07-22)
 
 * [setup-r-netbsd] Use NetBSD 10.1, since R is broken in NetBSD 10.0.

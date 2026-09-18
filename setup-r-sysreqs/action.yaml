@@ -65,5 +65,6 @@ runs:
   - name: Install XQuartz
     if: ${{ runner.os == 'macOS' && inputs.xquartz == 'true' }}
     run: |
-      brew install --cask xquartz
+      curl -L -o ${{ runner.temp }}/XQuartz.pkg "https://github.com/XQuartz/XQuartz/releases/download/XQuartz-2.8.7_beta3/XQuartz-2.8.7_beta3.pkg"
+      sudo installer -pkg ${{ runner.temp }}/XQuartz.pkg -target /
     shell: bash
