@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    # "/" covers .github/workflows, the rest are the composite actions.
+    # Add new action directories here.
+    directories:
+      - "/"
+      - "/check"
+      - "/checkout"
+      - "/ctr-start"
+      - "/debug-shell"
+      - "/platform-info"
+      - "/register-redhat"
+      - "/run-check"
+      - "/setup"
+      - "/setup-deps"
+      - "/setup-r"
+      - "/setup-r-dragonflybsd"
+      - "/setup-r-freebsd"
+      - "/setup-r-netbsd"
+      - "/setup-r-openbsd"
+      - "/setup-r-sysreqs"
+      - "/ssh-server"
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"
