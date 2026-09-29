@@ -17,7 +17,7 @@ all the heavy lifting.
 ```yaml
 - uses: r-hub/actions/setup-r-dragonflybsd@v1
   with:
-    release: '6.4.0'
+    release: '6.4.2'
 
 - name: Run R code on the DragonFlyBSD VM
   shell: Rscript {0}
@@ -32,7 +32,7 @@ all the heavy lifting.
 
 ## Inputs
 
-* `release`: DragonFlyBSD release to use. Default is '6.4.0'. See
+* `release`: DragonFlyBSD release to use. Default is '6.4.2'. See
   https://github.com/vmactions/dragonflybsd-vm#5-select-release for the list
   of supported releases.
 

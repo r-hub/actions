@@ -1,3 +1,9 @@
+# Development version
+
+* The BSD actions now default to the latest releases that vmactions
+  supports: FreeBSD 15.1, NetBSD 11.0, OpenBSD 7.9 and DragonFlyBSD 6.4.2.
+  The example workflows list the currently supported releases.
+
 # `v1.8.1` (2026-09-29)
 
 * All actions now pin the third-party actions they use to full commit

@@ -17,7 +17,7 @@ all the heavy lifting.
 ```yaml
 - uses: r-hub/actions/setup-r-openbsd@v1
   with:
-    release: '7.6'
+    release: '7.9'
 
 - name: Run R code on the OpenBSD VM
   shell: Rscript {0}
@@ -32,7 +32,7 @@ all the heavy lifting.
 
 ## Inputs
 
-* `release`: OpenBSD release to use. Default is '7.6'. See
+* `release`: OpenBSD release to use. Default is '7.9'. See
   https://github.com/vmactions/openbsd-vm#5-select-release for the list
   of supported releases.
 

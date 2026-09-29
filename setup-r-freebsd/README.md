@@ -17,7 +17,7 @@ all the heavy lifting.
 ```yaml
 - uses: r-hub/actions/setup-r-freebsd@v1
   with:
-    release: '14.1'
+    release: '15.1'
 
 - name: Run R code on the FreeBSD VM
   shell: Rscript {0}
@@ -32,7 +32,7 @@ all the heavy lifting.
 
 ## Inputs
 
-* `release`: FreeBSD release to use. Default is '14.1'. See
+* `release`: FreeBSD release to use. Default is '15.1'. See
   https://github.com/vmactions/freebsd-vm#5-select-release for the list
   of supported releases.
 
