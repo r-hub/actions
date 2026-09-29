@@ -1,0 +1,53 @@
+# Generated from setup-r-dragonflybsd/ by `make` in tests/. Do not edit by hand.
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'setup-r-dragonflybsd/**'
+      - 'platform-info/**'
+      - 'tests/**'
+      - '.github/workflows/test-setup-r-dragonflybsd.yaml'
+  pull_request:
+    paths:
+      - 'setup-r-dragonflybsd/**'
+      - 'platform-info/**'
+      - 'tests/**'
+      - '.github/workflows/test-setup-r-dragonflybsd.yaml'
+  workflow_dispatch:
+
+name: test-setup-r-dragonflybsd.yaml
+
+jobs:
+  dragonflybsd:
+    runs-on: ubuntu-latest
+    name: DragonFlyBSD ${{ matrix.release }}
+    strategy:
+      fail-fast: false
+      matrix:
+        release:
+        - '6.4.2'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: .actions
+      - name: Copy test package
+        run: cp -R .actions/tests/pkg/. .
+        shell: bash
+      - uses: ./.actions/setup-r-dragonflybsd
+        with:
+          release: ${{ matrix.release }}
+      - uses: ./.actions/platform-info
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          pak-version: none
+          install-pandoc: false
+          install-quarto: false
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+          upload-snapshots: true

@@ -1,0 +1,55 @@
+# Generated from setup-r-freebsd/ by `make` in tests/. Do not edit by hand.
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'setup-r-freebsd/**'
+      - 'platform-info/**'
+      - 'tests/**'
+      - '.github/workflows/test-setup-r-freebsd.yaml'
+  pull_request:
+    paths:
+      - 'setup-r-freebsd/**'
+      - 'platform-info/**'
+      - 'tests/**'
+      - '.github/workflows/test-setup-r-freebsd.yaml'
+  workflow_dispatch:
+
+name: test-setup-r-freebsd.yaml
+
+jobs:
+  freebsd:
+    runs-on: ubuntu-latest
+    name: FreeBSD ${{ matrix.release }}
+    strategy:
+      fail-fast: false
+      matrix:
+        release:
+        - '15.1'
+        - '14.5'
+        - '13.5'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: .actions
+      - name: Copy test package
+        run: cp -R .actions/tests/pkg/. .
+        shell: bash
+      - uses: ./.actions/setup-r-freebsd
+        with:
+          release: ${{ matrix.release }}
+      - uses: ./.actions/platform-info
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          pak-version: none
+          install-pandoc: false
+          install-quarto: false
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+          upload-snapshots: true
