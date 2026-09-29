@@ -1,4 +1,4 @@
-# Development version (@main)
+# `v1.8.1` (2026-09-29)
 
 * All actions now pin the third-party actions they use to full commit
   SHAs, so they work in repositories that require pinned actions.
