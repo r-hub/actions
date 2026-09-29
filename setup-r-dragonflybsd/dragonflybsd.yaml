@@ -3,27 +3,23 @@ on:
     branches: [main, master]
   pull_request:
   workflow_dispatch:
-    inputs:
-      release:
-        description: 'DragonFlyBSD release'
-        required: true
-        type: choice
-        options:
-        - '6.4.2'
-        - '6.4.1'
-        - '6.4.0'
-        default: '6.4.2'
 
 name: dragonflybsd.yaml
 
 jobs:
   dragonflybsd:
     runs-on: ubuntu-latest
+    name: DragonFlyBSD ${{ matrix.release }}
+    strategy:
+      fail-fast: false
+      matrix:
+        release:
+        - '6.4.2'
     steps:
       - uses: actions/checkout@v7
       - uses: r-hub/actions/setup-r-dragonflybsd@v1
         with:
-          release: ${{ github.event.inputs.release || '6.4.2' }}
+          release: ${{ matrix.release }}
       - uses: r-hub/actions/platform-info@v1
 
       - uses: r-lib/actions/setup-r-dependencies@v2

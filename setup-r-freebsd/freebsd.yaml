@@ -3,37 +3,25 @@ on:
     branches: [main, master]
   pull_request:
   workflow_dispatch:
-    inputs:
-      release:
-        description: 'FreeBSD release'
-        required: true
-        type: choice
-        options:
-        - '15.1'
-        - '15.0'
-        - '14.5'
-        - '14.4'
-        - '14.3'
-        - '14.2'
-        - '14.1'
-        - '14.0'
-        - '13.5'
-        - '13.4'
-        - '13.3'
-        - '13.2'
-        - '12.4'
-        default: '15.1'
 
 name: freebsd.yaml
 
 jobs:
   freebsd:
     runs-on: ubuntu-latest
+    name: FreeBSD ${{ matrix.release }}
+    strategy:
+      fail-fast: false
+      matrix:
+        release:
+        - '15.1'
+        - '14.5'
+        - '13.5'
     steps:
       - uses: actions/checkout@v7
       - uses: r-hub/actions/setup-r-freebsd@v1
         with:
-          release: ${{ github.event.inputs.release || '15.1' }}
+          release: ${{ matrix.release }}
       - uses: r-hub/actions/platform-info@v1
 
       - uses: r-lib/actions/setup-r-dependencies@v2
