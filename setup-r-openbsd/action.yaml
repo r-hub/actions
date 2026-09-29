@@ -15,7 +15,7 @@ runs:
   steps:
 
   - name: Start OpenBSD VM. This might take 2-3 minutes.
-    uses: vmactions/openbsd-vm@v1
+    uses: vmactions/openbsd-vm@5f7b2c933b8846a138361d6843c52af4bef5d945 # v1.4.8
     with:
       release: ${{ inputs.release || '7.8' }}
       envs: 'RUNNER_TEMP R_LIBS_USER NOT_CRAN'

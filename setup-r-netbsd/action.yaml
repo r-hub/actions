@@ -15,7 +15,7 @@ runs:
   steps:
 
   - name: Start NetBSD VM. This might take 2-3 minutes.
-    uses: vmactions/netbsd-vm@v1
+    uses: vmactions/netbsd-vm@c8a0d7ddb84619a7a8cc4e652efa7950b3fd9f92 # v1.5.2
     with:
       release: ${{ inputs.release || '10.1' }}
       envs: 'RUNNER_TEMP R_LIBS_USER NOT_CRAN'
