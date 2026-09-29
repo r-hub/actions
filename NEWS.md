@@ -1,4 +1,4 @@
-# Development version (@main)
+# `v1.8.0` (2026-09-29)
 
 * [checkout] New `autocrlf` input parameter, to set git's `core.autocrlf`
   option for the checkout (#19).
