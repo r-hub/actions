@@ -30,10 +30,10 @@ runs:
       echo "::endgroup::"
     shell: bash
 
-  - uses: actions/checkout@v6
+  - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
   - name: Create a cf tunnel
     id: tunnel
-    uses: gaborcsardi/cf-tunnel@main
+    uses: gaborcsardi/cf-tunnel@5b244b50934bdc3b2934b9f68df5a06f26c72676 # main
     with:
       protocol: tcp
       port: 2222

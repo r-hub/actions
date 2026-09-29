@@ -55,7 +55,7 @@ runs:
       }
     shell: Rscript {0}
 
-  - uses: r-lib/actions/check-r-package@v2
+  - uses: r-lib/actions/check-r-package@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
     if: ${{ ! steps.check-script.outputs.check-script }}
     with:
       args: "c('--no-manual', if (!grepl('(^| )[-][-]extra[-]arch( |$)', Sys.getenv('CHECK_ARGS'))) '--as-cran', '--install-args=--build', strsplit(Sys.getenv('CHECK_ARGS'), '[ ]+')[[1]])"
@@ -189,7 +189,7 @@ runs:
       cat("::endgroup::\n")
     shell: Rscript {0}
 
-  - uses: actions/upload-artifact@v7
+  - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
     if: ${{ always() }}
     with:
       name: ${{ matrix.config.label }}-${{ github.job }}-${{ matrix.config.id || strategy.job-index }}-results

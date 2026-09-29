@@ -1,3 +1,8 @@
+# Development version (@main)
+
+* All actions now pin the third-party actions they use to full commit
+  SHAs, so they work in repositories that require pinned actions.
+
 # `v1.8.0` (2026-09-29)
 
 * [checkout] New `autocrlf` input parameter, to set git's `core.autocrlf`

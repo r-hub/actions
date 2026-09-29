@@ -93,7 +93,7 @@ runs:
       cat(c(ev1, ev2, ev3), sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
     shell: Rscript {0}
 
-  - uses: r-lib/actions/setup-r-dependencies@v2
+  - uses: r-lib/actions/setup-r-dependencies@f9a764fea8d5c63df6ef9a5c7795bf7deb5d7e05 # v2.14.0
     with:
       cache-version: ${{ steps.cache-version.outputs.cache-version }}
       extra-packages: ${{ inputs.extra-packages }}

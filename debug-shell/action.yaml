@@ -17,18 +17,18 @@ runs:
 
   - name: Install MSYS2 on Windows
     if: ${{ always() && runner.debug == '1' && github.run_attempt != '1' && runner.os == 'Windows' }}
-    uses: msys2/setup-msys2@v2
+    uses: msys2/setup-msys2@ec48f7c5447b3140e2b088413ae3a55687bccb6e # v2.33.0
     id: setup-msys2
 
   - name: Start debug shell, if this is a debug re-run.
-    uses: mxschmitt/action-tmate@v3.24
+    uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113 # v3.24
     if: ${{ always() && runner.debug == '1' && github.run_attempt != '1' && runner.os != 'Windows' }}
     with:
       limit-access-to-actor: true
       detached: true
       connect-timeout-seconds: ${{ inputs.connect-timeout-seconds || '600' }}
 
-  - uses: mxschmitt/action-tmate@v3.24
+  - uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113 # v3.24
     if: ${{ always() && runner.debug == '1' && github.run_attempt != '1' && runner.os == 'Windows' }}
     with:
       msys2-location: ${{ steps.setup-msys2.outputs.msys2-location }}
