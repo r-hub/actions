@@ -17,7 +17,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-  - uses: r-hub/actions/debug-shell@4e7fc2c82cf1582f7a3982ceaaeb683e8bf54ede # main
+  - uses: r-hub/actions/debug-shell@c0666967bc4108580884ffc3ef9b1f7f72b75487 # main
   - name: R Options
     run: |
       #
