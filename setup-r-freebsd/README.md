@@ -34,7 +34,8 @@ all the heavy lifting.
 
 * `release`: FreeBSD release to use. Default is '15.1'. See
   https://github.com/vmactions/freebsd-vm#5-select-release for the list
-  of supported releases.
+  of supported releases. FreeBSD 13.x and older releases are end of life
+  and not supported.
 
 ## Example workflow for R packages
 

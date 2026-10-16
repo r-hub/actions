@@ -28,7 +28,6 @@ jobs:
         release:
         - '15.1'
         - '14.5'
-        - '13.5'
     steps:
       - uses: actions/checkout@v7
         with:

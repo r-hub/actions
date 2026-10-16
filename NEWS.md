@@ -4,6 +4,9 @@
   supports: FreeBSD 15.1, NetBSD 11.0, OpenBSD 7.9 and DragonFlyBSD 6.4.2.
   The example workflows list the currently supported releases.
 
+* [setup-r-freebsd] FreeBSD 13.x is end of life and not supported any
+  more. It is removed from the example and test workflows.
+
 # `v1.8.1` (2026-09-29)
 
 * All actions now pin the third-party actions they use to full commit
