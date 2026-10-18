@@ -7,6 +7,8 @@
 * [setup-r-freebsd] FreeBSD 13.x is end of life and not supported any
   more. It is removed from the example and test workflows.
 
+* Updated the GitHub Actions macOS image versions to macOS 26.
+
 # `v1.8.1` (2026-09-29)
 
 * All actions now pin the third-party actions they use to full commit

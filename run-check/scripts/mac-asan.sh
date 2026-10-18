@@ -1,30 +1,31 @@
 #! /bin/bash
 
-# Use XCode 16.3 ------------------------------------------------
+# Use XCode 26.6 ------------------------------------------------
 sudo rm -f /Applications/Xcode.app
-sudo ln -sfF /Applications/Xcode_16.3.app /Applications/Xcode.app
+sudo ln -sfF /Applications/Xcode_26.6.app /Applications/Xcode.app
 sudo xcode-select -s /Applications/Xcode.app
 
 # Compile with sanitizers ---------------------------------------
 mkdir -p ~/.R
 cat >> ~/.R/Makevars <<EOF
-CC+=-mmacos-version-min=15 -fsanitize=address,undefined
-CXX+=-mmacos-version-min=15 -fsanitize=address,undefined
-CXX11+=-mmacos-version-min=15 -fsanitize=address,undefined
-CXX14+=-mmacos-version-min=15 -fsanitize=address,undefined
-CXX17+=-mmacos-version-min=15 -fsanitize=address,undefined
-CXX20+=-mmacos-version-min=15 -fsanitize=address,undefined
-CXX23+=-mmacos-version-min=15 -fsanitize=address,undefined
+CC+=-mmacos-version-min=26 -fsanitize=address,undefined
+CXX+=-mmacos-version-min=26 -fsanitize=address,undefined
+CXX11+=-mmacos-version-min=26 -fsanitize=address,undefined
+CXX14+=-mmacos-version-min=26 -fsanitize=address,undefined
+CXX17+=-mmacos-version-min=26 -fsanitize=address,undefined
+CXX20+=-mmacos-version-min=26 -fsanitize=address,undefined
+CXX23+=-mmacos-version-min=26 -fsanitize=address,undefined
 REC_INSTALL_OPT=--dsym
 EOF
 
 # Need to patch the shell script, because these env vars --------
 # do not go through a shell because of Apple security.
 R=$(readlink `which R`)
+CLANG_RES=$(xcrun clang -print-resource-dir)
 head -1 ${R} >> /tmp/R
 cat >> /tmp/R <<EOF
 export DYLD_FORCE_FLAT_NAMESPACE=1
-export DYLD_INSERT_LIBRARIES=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/17/lib/darwin/libclang_rt.asan_osx_dynamic.dylib
+export DYLD_INSERT_LIBRARIES=${CLANG_RES}/lib/darwin/libclang_rt.asan_osx_dynamic.dylib
 EOF
 cat ${R} >> /tmp/R
 chmod +x /tmp/R
@@ -33,6 +34,7 @@ sudo mv /tmp/R ${R}
 # For debugging -------------------------------------------------
 echo '#' mac-asan setup -------------------------------------------
 echo which R: $(which R)
+echo ASAN runtime: ${CLANG_RES}/lib/darwin/libclang_rt.asan_osx_dynamic.dylib
 echo R CMD config CC: $(R CMD config CC)
 echo R CMD config CXX: $(R CMD config CXX)
 echo R CMD config CXX11: $(R CMD config CXX11)

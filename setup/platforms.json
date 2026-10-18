@@ -312,7 +312,7 @@
         ],
         "type": "os",
         "os-type": "macOS",
-        "os": "macos-15-intel",
+        "os": "macos-26-intel",
         "arch": "x86_64",
         "r-version": "*"
     },
@@ -349,7 +349,7 @@
         "aliases": [],
         "type": "os",
         "os-type": "macOS",
-        "os": "macos-15",
+        "os": "macos-26",
         "arch": "arm64",
         "r-version": "*",
         "pre-check": ["mac-asan.sh"]
