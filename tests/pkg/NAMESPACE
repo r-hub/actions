@@ -1,1 +1,2 @@
 export(hello)
+useDynLib(rhubactionstest, .registration = TRUE)

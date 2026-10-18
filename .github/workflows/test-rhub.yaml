@@ -1,0 +1,105 @@
+# Generated from workflows/rhub.yaml by `make` in tests/. Do not edit by hand.
+
+name: test-rhub.yaml
+run-name: >-
+  ${{ github.event.inputs.id || format('Manual run by @{0}', github.triggering_actor) }}:
+  ${{ github.event.inputs.name || github.event.inputs.config }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      config:
+        description: >-
+          Comma-separated list of R-hub platforms to use.
+          Full list: summary(rhub::rhub_platforms())
+        type: string
+        default: 'linux,windows,macos'
+      name:
+        description: 'Run name. You can leave this empty.'
+        type: string
+      id:
+        description: 'Unique ID. You can leave this empty.'
+        type: string
+
+jobs:
+
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      containers: ${{ steps.rhub-setup.outputs.containers }}
+      platforms: ${{ steps.rhub-setup.outputs.platforms }}
+
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        path: .actions
+    - uses: ./.actions/setup
+      with:
+        config: ${{ github.event.inputs.config }}
+      id: rhub-setup
+
+  linux-containers:
+    needs: setup
+    if: ${{ needs.setup.outputs.containers != '[]' }}
+    runs-on: ubuntu-latest
+    name: ${{ matrix.config.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJson(needs.setup.outputs.containers) }}
+    container:
+      image: ${{ matrix.config.container }}
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: .actions
+      - name: Copy test package
+        run: cp -R .actions/tests/pkg/. .
+        shell: bash
+      - uses: ./.actions/platform-info
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+          job-config: ${{ matrix.config.job-config }}
+      - uses: ./.actions/setup-deps
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+          job-config: ${{ matrix.config.job-config }}
+      - uses: ./.actions/run-check
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+          job-config: ${{ matrix.config.job-config }}
+
+  other-platforms:
+    needs: setup
+    if: ${{ needs.setup.outputs.platforms != '[]' }}
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.label }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config: ${{ fromJson(needs.setup.outputs.platforms) }}
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: .actions
+      - name: Copy test package
+        run: cp -R .actions/tests/pkg/. .
+        shell: bash
+      - uses: ./.actions/setup-r
+        with:
+          job-config: ${{ matrix.config.job-config }}
+          token: ${{ secrets.RHUB_TOKEN }}
+      - uses: ./.actions/platform-info
+        with:
+          token: ${{ secrets.RHUB_TOKEN }}
+          job-config: ${{ matrix.config.job-config }}
+      - uses: ./.actions/setup-deps
+        with:
+          job-config: ${{ matrix.config.job-config }}
+          token: ${{ secrets.RHUB_TOKEN }}
+      - uses: ./.actions/run-check
+        with:
+          job-config: ${{ matrix.config.job-config }}
+          token: ${{ secrets.RHUB_TOKEN }}
