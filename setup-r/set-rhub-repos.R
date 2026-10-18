@@ -44,24 +44,20 @@ set_repos_linux <- function() {
   id <- Sys.getenv("ID")
   ver <- Sys.getenv("VERSION_ID")
 
-  if (id != "ubuntu" || ver != "22.04") {
-    message("No extra repositories for ", id, " ", ver, " Linux systems.")
-    return()
+  if (id == "" || ver == "") {
+    return(no_repos_unknown_linux())
   }
 
   arch <- Sys.info()[["machine"]]
+  platform <- paste0(id, "-", ver)
   if (arch != "x86_64") {
-    return(no_repos())
+    platform <- paste0(platform, "-", arch)
   }
   rver <- getRversion()
-  # We have 4.4.x and 4.5.x currently
-  if (rver < "4.4.0" || rver >= "4.6.0") {
-    return(no_repos())
-  }
-
   rminor <- rver[,1:2]
   add_repo(c(RHUB = paste0(
-    "https://raw.githubusercontent.com/r-hub/repos/main/ubuntu-22.04/",
+    "https://raw.githubusercontent.com/r-hub/repos/main/",
+    platform, "/",
     rminor
   )))
 }
@@ -69,10 +65,7 @@ set_repos_linux <- function() {
 set_repos_macos <- function() {
   rver <- getRversion()
   rminor <- rver[,1:2]
-  # CRAN has 4.4, so no need for that, only add repos for 4.5.x
-  if (rminor != "4.5") {
-    return(no_repos())
-  }
+  set_cran_repo("https://mac.cran.dev/")
   arch <- Sys.info()[["machine"]]
   if (arch == "x86_64") {
     add_repo(c(RHUB = paste0(
@@ -85,6 +78,17 @@ set_repos_macos <- function() {
       rminor
     )))
   }
+}
+
+set_cran_repo <- function(url) {
+  message("Setting CRAN repository to ", url, ".")
+  cat(
+    append = TRUE, sep = "\n", file = "~/.Rprofile",
+    sprintf(
+      "local({ r <- getOption(\"repos\"); r[[\"CRAN\"]] <- \"%s\"; options(repos = r) })",
+      url
+    )
+  )
 }
 
 add_repo <- function(repo) {
