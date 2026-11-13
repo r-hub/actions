@@ -9,6 +9,9 @@
 
 * Updated the GitHub Actions macOS image versions to macOS 26.
 
+* [setup-deps] The package cache key now includes the platform name to
+  avoid cache collisions between incompatible (e.g. sanitizer) builds.
+
 # `v1.8.1` (2026-09-29)
 
 * All actions now pin the third-party actions they use to full commit

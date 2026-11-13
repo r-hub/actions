@@ -61,9 +61,19 @@ runs:
       } else {
         cv <- "1"
       }
+      # Add the platform name, so different platforms that run the same
+      # OS and R version (e.g. clang-asan and rchk) do not share caches.
+      # Packages built with sanitizers do not load on other platforms.
+      platform <- Sys.getenv("RHUB_PLATFORM_NAME")
+      platform <- gsub("[^A-Za-z0-9._-]", "_", platform)
+      if (nzchar(platform)) {
+        cv <- paste0(cv, "-", platform)
+      }
       ev <- paste0("cache-version=", cv)
       cat(ev, sep = "\n", append = TRUE, file = Sys.getenv("GITHUB_OUTPUT"))
     shell: Rscript {0}
+    env:
+      RHUB_PLATFORM_NAME: ${{ inputs.job-config && fromJSON(inputs.job-config).name || '' }}
 
   - name: Calculate dependency types
     id: dep-types
