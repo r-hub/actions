@@ -15,7 +15,7 @@ runs:
   steps:
 
   - name: Start DragonflyBSD VM. This might take 2-3 minutes.
-    uses: vmactions/dragonflybsd-vm@4ab776fa9f914fbea72f13715b451e77e7ef5c41 # v1.3.4
+    uses: vmactions/dragonflybsd-vm@84881684c8771163f1dd37820a358aa3cd8bc2f2 # v1.3.5
     with:
       release: ${{ inputs.release || '6.4.2' }}
       envs: 'RUNNER_TEMP R_LIBS_USER NOT_CRAN'
